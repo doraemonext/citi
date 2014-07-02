@@ -192,6 +192,9 @@ DJANGO_APPS = (
     # 'django.contrib.admindocs',
 
     'annoying',
+    'mptt',
+
+    'apps.location',
 )
 
 # Apps specific for this project go here.
