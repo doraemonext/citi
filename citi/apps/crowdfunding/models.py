@@ -108,8 +108,8 @@ class ProjectPackage(models.Model):
     TYPE_NORMAL = 'normal'
     TYPE_PARTNER = 'partner'
     TYPE = (
-        (TYPE_NORMAL, 'normal crowdfunding user'),
-        (TYPE_PARTNER, 'partner user'),
+        (TYPE_NORMAL, u'普通赞助者'),
+        (TYPE_PARTNER, u'合伙人'),
     )
 
     project = models.ForeignKey(Project, verbose_name=u'对应项目')
