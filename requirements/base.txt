@@ -9,3 +9,4 @@ django-annoying
 django-mptt
 django_mptt_admin
 django-xadmin
+PIL

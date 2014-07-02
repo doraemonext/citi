@@ -198,6 +198,7 @@ DJANGO_APPS = (
     'django_mptt_admin',
 
     'apps.location',
+    'apps.crowdfunding',
 )
 
 # Apps specific for this project go here.
@@ -257,3 +258,9 @@ INSTALLED_APPS += (
 # Don't need to use South when setting up a test database.
 SOUTH_TESTS_MIGRATE = False
 ########## END SOUTH CONFIGURATION
+
+
+########## FILE UPLOAD CONFIGURATION
+UPLOAD_CROWDFUNDING_PROJECT_COVER = 'crowdfunding/project/cover'
+UPLOAD_CROWDFUNDING_PROJECT_FEEDBACK = 'crowdfunding/project/feedback'
+########## END UPLOAD CONFIGURATION

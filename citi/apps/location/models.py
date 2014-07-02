@@ -5,8 +5,12 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 
 class Location(MPTTModel):
-    name = models.CharField(max_length=20)
-    parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
+    """
+    城市位置 model
+
+    """
+    name = models.CharField(u'城市名称', max_length=20)
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='children', verbose_name=u'父级城市')
 
     def __unicode__(self):
         return self.name
