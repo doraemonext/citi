@@ -7,3 +7,5 @@ South==0.8.4
 
 django-annoying
 django-mptt
+django_mptt_admin
+django-xadmin

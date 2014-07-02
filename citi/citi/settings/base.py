@@ -188,11 +188,14 @@ DJANGO_APPS = (
     # 'django.contrib.humanize',
 
     # Admin panel and documentation:
+    'xadmin',
+    'crispy_forms',
     'django.contrib.admin',
     # 'django.contrib.admindocs',
 
     'annoying',
     'mptt',
+    'django_mptt_admin',
 
     'apps.location',
 )
