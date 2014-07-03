@@ -196,6 +196,8 @@ DJANGO_APPS = (
     'annoying',
     'mptt',
     'django_mptt_admin',
+    'rest_framework',
+    'rest_framework.authtoken',
 
     'apps.location',
     'apps.crowdfunding',
@@ -264,3 +266,12 @@ SOUTH_TESTS_MIGRATE = False
 UPLOAD_CROWDFUNDING_PROJECT_COVER = 'crowdfunding/project/cover'
 UPLOAD_CROWDFUNDING_PROJECT_FEEDBACK = 'crowdfunding/project/feedback'
 ########## END UPLOAD CONFIGURATION
+
+
+########## REST FRAMEWORK CONFIGURATION
+REST_FRAMEWORK = {
+    # Use hyperlinked styles by default.
+    # Only used if the `serializer_class` attribute is not set on a view.
+    'DEFAULT_MODEL_SERIALIZER_CLASS': 'rest_framework.serializers.HyperlinkedModelSerializer',
+}
+########## END REST FRAMEWORK CONFIGURATION
