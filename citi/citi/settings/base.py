@@ -192,7 +192,6 @@ DJANGO_APPS = (
     'mptt',
     'django_mptt_admin',
     'rest_framework',
-    'rest_framework.authtoken',
 
     'apps.location',
     'apps.crowdfunding',
