@@ -183,15 +183,10 @@ DJANGO_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admin',
 
     # Useful template tags:
     # 'django.contrib.humanize',
-
-    # Admin panel and documentation:
-    'xadmin',
-    'crispy_forms',
-    'django.contrib.admin',
-    # 'django.contrib.admindocs',
 
     'annoying',
     'mptt',
