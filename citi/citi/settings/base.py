@@ -196,6 +196,7 @@ DJANGO_APPS = (
 
     'system.users',
 
+    'apps.log',
     'apps.location',
     'apps.crowdfunding',
     'apps.question',
