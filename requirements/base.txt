@@ -10,3 +10,4 @@ django-mptt
 django_mptt_admin
 PIL
 djangorestframework
+django-awesome-avatar

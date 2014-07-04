@@ -192,6 +192,9 @@ DJANGO_APPS = (
     'mptt',
     'django_mptt_admin',
     'rest_framework',
+    'awesome_avatar',
+
+    'system.users',
 
     'apps.location',
     'apps.crowdfunding',
