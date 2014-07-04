@@ -22,3 +22,17 @@ class Order(models.Model):
     money = models.FloatField(u'总金额')
     add_datetime = models.DateTimeField(u'订单生成时间', auto_now_add=True)
     pay_datetime = models.DateTimeField(u'订单支付时间')
+
+
+class Trade(models.Model):
+    """
+    交易记录表
+
+    """
+    order_id = models.IntegerField(u'所属订单ID')
+    sn = models.CharField(u'订单编号', max_length=25, unique=True)
+    user_id = models.IntegerField(u'用户ID')
+    user_email = models.EmailField(u'用户电子邮件', max_length=255)
+    money = models.FloatField(u'交易金额')
+    balance = models.FloatField(u'交易后余额')
+    datetime = models.DateTimeField(u'交易日期', auto_now_add=True)
