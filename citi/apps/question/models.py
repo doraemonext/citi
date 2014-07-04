@@ -18,3 +18,18 @@ class Question(models.Model):
     modify_datetime = models.DateTimeField(u'最后修改日期', auto_now=True)
 
 
+class QuestionAnswer(models.Model):
+    """
+    问题回答表
+
+    """
+    question = models.ForeignKey(Question, verbose_name=u'所属问题')
+    user = models.ForeignKey(User, verbose_name=u'所属用户')
+    content = models.TextField(u'回答内容')
+    vote_count = models.IntegerField(u'点赞数目', default=0)
+    comment_count = models.IntegerField(u'评论数目', default=0)
+    post_datetime = models.DateTimeField(u'发布日期', auto_now_add=True)
+    modify_datetime = models.DateTimeField(u'最后修改日期', auto_now=True)
+
+
+    
