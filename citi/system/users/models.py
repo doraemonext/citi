@@ -4,7 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Detail(models.Model):
+class DetailInfo(models.Model):
     """
     用户扩展信息表
 
@@ -37,7 +37,7 @@ class FundInfo(models.Model):
     account = models.CharField(u'开户账号', max_length=30, null=True, blank=True)
 
 
-class Balance(models.Model):
+class BalanceInfo(models.Model):
     """
     用户账户余额表
 
@@ -46,7 +46,7 @@ class Balance(models.Model):
     balance = models.FloatField(u'当前余额')
 
 
-class Project(models.Model):
+class ProjectInfo(models.Model):
     """
     用户项目信息表
 
@@ -57,7 +57,7 @@ class Project(models.Model):
     support = models.IntegerField(u'已支持项目数目', default=0)
 
 
-class Question(models.Model):
+class QuestionInfo(models.Model):
     """
     用户问答信息表
 

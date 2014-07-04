@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
+from django.contrib.auth.models import User
 from mptt.models import MPTTModel, TreeForeignKey
 from annoying.functions import get_config
 
@@ -34,22 +35,26 @@ class Project(models.Model):
     STATUS_UNDERWAY = 'underway'
     STATUS_SUCCEED = 'succeed'
     STATUS_ENDED = 'ended'
+    STATUS_RETENTION = 'retention'
     STATUS = (
         ('underway', u'进行中'),
         ('succeed', u'已成功'),
         ('ended', u'已结束'),
+        ('retention', u'滞留期'),
     )
 
+    user = models.ForeignKey(User, verbose_name=u'所属用户')
     name = models.CharField(u'项目名称', max_length=30)
-    location = models.ForeignKey(Location, verbose_name=u'城市位置')
+    location = models.ForeignKey(Location, verbose_name=u'地理位置')
     location_detail = models.CharField(u'详细地址', max_length=255, blank=True, null=True)
     category = models.ForeignKey(ProjectCategory, verbose_name=u'菜系分类')
     total_money = models.FloatField(u'筹款金额')
     total_days = models.IntegerField(u'筹款天数')
     summary = models.CharField(u'项目简介', max_length=255)
     content = models.TextField(u'项目内容')
-    now_money = models.FloatField(u'已筹集金额')
-    status = models.CharField(u'项目状态', choices=STATUS, default=STATUS_UNDERWAY, max_length=10)
+    now_money = models.FloatField(u'已筹集金额', default=0)
+    status = models.CharField(u'项目状态', choices=STATUS, default=STATUS_UNDERWAY, max_length=20)
+    attention_count = models.IntegerField(u'项目关注数目', default=0)
     post_datetime = models.DateTimeField(u'发布日期', auto_now_add=True)
     modify_datetime = models.DateTimeField(u'最后修改日期', auto_now=True)
 
@@ -66,7 +71,7 @@ class ProjectCover(models.Model):
     项目封面 model
 
     """
-    project = models.ForeignKey(Project, verbose_name=u'对应项目')
+    project = models.ForeignKey(Project, verbose_name=u'所属项目')
     image = models.ImageField(u'图片文件', upload_to=get_config(
         'UPLOAD_CROWDFUNDING_PROJECT_COVER', 'crowdfunding/project/cover'
     ))
@@ -85,7 +90,7 @@ class ProjectFeedback(models.Model):
     项目回馈描述 model
 
     """
-    project = models.ForeignKey(Project, verbose_name=u'对应项目')
+    project = models.ForeignKey(Project, verbose_name=u'所属项目')
     content = models.TextField(u'回报描述')
     image = models.ImageField(u'图片描述', upload_to=get_config(
         'UPLOAD_CROWDFUNDING_PROJECT_FEEDBACK', 'crowdfunding/project/feedback'
@@ -112,7 +117,7 @@ class ProjectPackage(models.Model):
         (TYPE_PARTNER, u'合伙人'),
     )
 
-    project = models.ForeignKey(Project, verbose_name=u'对应项目')
+    project = models.ForeignKey(Project, verbose_name=u'所属项目')
     name = models.CharField(u'套餐名称', max_length=30)
     money = models.FloatField(u'投资数额')
     type = models.CharField(u'投资类别', choices=TYPE, default=TYPE_NORMAL, max_length=10)
@@ -125,3 +130,15 @@ class ProjectPackage(models.Model):
     class Meta:
         verbose_name = u'项目回馈套餐方案'
         verbose_name_plural = u'项目回馈套餐方案'
+
+
+class ProjectAttention(models.Model):
+    """
+    项目关注表
+
+    """
+    project = models.ForeignKey(Project, verbose_name=u'所属项目')
+    user = models.ForeignKey(User, verbose_name=u'所属用户')
+    datetime = models.DateTimeField(u'关注日期', auto_now=True)
+
+
