@@ -2,11 +2,6 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-from awesome_avatar.fields import AvatarField
-
-# For South Migration
-from south.modelsinspector import add_introspection_rules
-add_introspection_rules([], ["^awesome_avatar\.fields\.AvatarField"])
 
 
 class Detail(models.Model):
