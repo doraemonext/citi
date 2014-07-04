@@ -142,6 +142,10 @@ class ProjectAttention(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
     datetime = models.DateTimeField(u'关注日期', auto_now=True)
 
+    class Meta:
+        verbose_name = u'项目关注表'
+        verbose_name_plural = u'项目关注表'
+
 
 class ProjectSupport(models.Model):
     """
@@ -155,6 +159,10 @@ class ProjectSupport(models.Model):
     status = models.IntegerField(u'当前状态', help_text=u'0: 支持中 1: 支持成功 2: 支持失败,已退回')
     datetime = models.DateTimeField(u'支持日期', auto_now=True)
 
+    class Meta:
+        verbose_name = u'项目支持表'
+        verbose_name_plural = u'项目支持表'
+
 
 class ProjectRetention(models.Model):
     """
@@ -165,3 +173,7 @@ class ProjectRetention(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
     apiration = models.IntegerField(u'继续投资意愿', default=0, help_text=u'0: 不确定 1: 继续投资 2: 放弃投资')
     datetime = models.DateTimeField(u'支持日期', auto_now=True)
+
+    class Meta:
+        verbose_name = u'项目滞留期意愿表'
+        verbose_name_plural = u'项目滞留期意愿表'

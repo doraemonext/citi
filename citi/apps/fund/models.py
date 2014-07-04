@@ -23,6 +23,10 @@ class Order(models.Model):
     add_datetime = models.DateTimeField(u'订单生成时间', auto_now_add=True)
     pay_datetime = models.DateTimeField(u'订单支付时间')
 
+    class Meta:
+        verbose_name = u'订单信息表'
+        verbose_name_plural = u'订单信息表'
+
 
 class Trade(models.Model):
     """
@@ -36,3 +40,7 @@ class Trade(models.Model):
     money = models.FloatField(u'交易金额')
     balance = models.FloatField(u'交易后余额')
     datetime = models.DateTimeField(u'交易日期', auto_now_add=True)
+
+    class Meta:
+        verbose_name = u'交易记录表'
+        verbose_name_plural = u'交易记录表'

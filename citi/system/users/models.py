@@ -74,6 +74,10 @@ class DetailInfo(models.Model):
     mobile = models.CharField(u'手机号', max_length=15, null=True, blank=True)
     qq = models.CharField(u'QQ号', max_length=15, null=True, blank=True)
 
+    class Meta:
+        verbose_name = u'用户扩展信息表'
+        verbose_name_plural = u'用户扩展信息表'
+
 
 class FundInfo(models.Model):
     """
@@ -87,6 +91,10 @@ class FundInfo(models.Model):
     name = models.CharField(u'开户姓名', max_length=20, null=True, blank=True)
     account = models.CharField(u'开户账号', max_length=30, null=True, blank=True)
 
+    class Meta:
+        verbose_name = u'用户资金信息表'
+        verbose_name_plural = u'用户资金信息表'
+
 
 class BalanceInfo(models.Model):
     """
@@ -95,6 +103,10 @@ class BalanceInfo(models.Model):
     """
     user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
     balance = models.FloatField(u'当前余额')
+
+    class Meta:
+        verbose_name = u'用户账户余额表'
+        verbose_name_plural = u'用户账户余额表'
 
 
 class ProjectInfo(models.Model):
@@ -107,6 +119,10 @@ class ProjectInfo(models.Model):
     attention = models.IntegerField(u'已关注项目数目', default=0)
     support = models.IntegerField(u'已支持项目数目', default=0)
 
+    class Meta:
+        verbose_name = u'用户项目信息表'
+        verbose_name_plural = u'用户项目信息表'
+
 
 class QuestionInfo(models.Model):
     """
@@ -118,3 +134,7 @@ class QuestionInfo(models.Model):
     answer = models.IntegerField(u'我回答的数目', default=0)
     comment = models.IntegerField(u'我评论的数目', default=0)
     vote = models.IntegerField(u'我点赞的数目', default=0)
+
+    class Meta:
+        verbose_name = u'用户问答信息表'
+        verbose_name_plural = u'用户问答信息表'
