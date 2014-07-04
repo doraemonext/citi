@@ -32,4 +32,14 @@ class QuestionAnswer(models.Model):
     modify_datetime = models.DateTimeField(u'最后修改日期', auto_now=True)
 
 
-    
+class QuestionComment(models.Model):
+    """
+    回答评论表
+
+    """
+    question = models.ForeignKey(Question, verbose_name=u'所属问题')
+    answer = models.ForeignKey(QuestionAnswer, verbose_name=u'所属回答')
+    user = models.ForeignKey(User, verbose_name=u'所属用户')
+    content = models.TextField(u'评论内容')
+    post_datetime = models.DateTimeField(u'发布日期', auto_now_add=True)
+    modify_datetime = models.DateTimeField(u'最后修改日期', auto_now=True)
