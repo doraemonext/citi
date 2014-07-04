@@ -21,3 +21,6 @@ class Location(MPTTModel):
     class Meta:
         verbose_name = u"地理位置"
         verbose_name_plural = u"地理位置"
+        permissions = (
+            ('view_location', u'Can view 地理位置'),
+        )

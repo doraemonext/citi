@@ -21,6 +21,9 @@ class Question(models.Model):
     class Meta:
         verbose_name = u'问题表'
         verbose_name_plural = u'问题表'
+        permissions = (
+            ('view_question', u'Can view 问题'),
+        )
 
 
 class QuestionAnswer(models.Model):
@@ -39,6 +42,9 @@ class QuestionAnswer(models.Model):
     class Meta:
         verbose_name = u'问题回答表'
         verbose_name_plural = u'问题回答表'
+        permissions = (
+            ('view_questionanswer', u'Can view 问题回答'),
+        )
 
 
 class QuestionComment(models.Model):
@@ -56,6 +62,9 @@ class QuestionComment(models.Model):
     class Meta:
         verbose_name = u'回答评论表'
         verbose_name_plural = u'回答评论表'
+        permissions = (
+            ('view_questioncomment', u'Can view 回答评论'),
+        )
 
 
 class QuestionAttention(models.Model):
@@ -70,6 +79,9 @@ class QuestionAttention(models.Model):
     class Meta:
         verbose_name = u'问题关注表'
         verbose_name_plural = u'问题关注表'
+        permissions = (
+            ('view_questionattention', u'Can view 问题关注'),
+        )
 
 
 class QuestionAnswerVote(models.Model):
@@ -85,3 +97,6 @@ class QuestionAnswerVote(models.Model):
     class Meta:
         verbose_name = u'答案点赞表'
         verbose_name_plural = u'答案点赞表'
+        permissions = (
+            ('view_questionanswervote', u'Can view 答案点赞'),
+        )

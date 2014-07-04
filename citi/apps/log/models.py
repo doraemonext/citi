@@ -16,3 +16,6 @@ class Log(models.Model):
     class Meta:
         verbose_name = u'系统日志表'
         verbose_name_plural = u'系统日志表'
+        permissions = (
+            ('view_log', u'Can view 系统日志'),
+        )
