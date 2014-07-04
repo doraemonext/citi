@@ -25,12 +25,6 @@ class ProjectCategory(MPTTModel):
     class Meta:
         verbose_name = u'菜系分类'
         verbose_name_plural = u'菜系分类'
-        default_permissions = ()
-        permissions = (
-            ('add_project_category', u'允许添加菜系分类'),
-            ('change_project_category', u'允许修改菜系分类'),
-            ('delete_project_category', u'允许删除菜系分类'),
-        )
 
 
 class Project(models.Model):
