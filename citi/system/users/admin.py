@@ -2,10 +2,8 @@
 
 from django import forms
 from django.contrib import admin
-from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from django.contrib.auth.models import User
 
 from .models import DetailInfo, FundInfo, BalanceInfo, ProjectInfo, QuestionInfo
 from .models import CustomUser
@@ -84,25 +82,25 @@ class CustomUserAdmin(UserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
 
-    list_display = ('email', 'nickname', 'is_staff')
-    list_filter = ('is_staff',)
+    list_display = ('email', 'nickname', 'is_active', 'is_staff', 'is_superuser')
+    list_filter = ('is_active', 'is_staff', 'is_superuser')
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Nickname', {'fields': ('nickname',)}),
-        ('Permissions', {'fields': ('is_staff',)}),
+        (u'昵称', {'fields': ('nickname',)}),
+        (u'是否激活', {'fields': ('is_active',)}),
+        (u'管理权限', {'fields': ('is_staff',)}),
     )
 
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'nickname', 'password1', 'password2')}
-        ),
+            'fields': ('email', 'nickname', 'password1', 'password2')
+        }),
     )
-    search_fields = ('email',)
-    ordering = ('email',)
+    search_fields = ('email', 'nickname')
+    ordering = ('email', 'nickname')
     filter_horizontal = ()
     inlines = (DetailInline, FundInfoInline, BalanceInline, ProjectInline, QuestionInline)
 
 
-admin.site.unregister(User)
 admin.site.register(CustomUser, CustomUserAdmin)

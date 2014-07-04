@@ -15,7 +15,7 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('The given email must be set')
         email = self.normalize_email(email)
         user = self.model(email=email, nickname=nickname,
-                          is_staff=is_staff, is_active=False,
+                          is_staff=is_staff, is_active=True,
                           is_superuser=is_superuser, last_login=now,
                           date_joined=now, **extra_fields)
         user.set_password(password)
@@ -32,8 +32,8 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(u'电子邮件地址', max_length=255, unique=True)
     nickname = models.CharField(u'昵称', max_length=30)
-    is_active = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(u'是否激活', default=False)
+    is_staff = models.BooleanField(u'是否为管理员', default=False)
     date_joined = models.DateTimeField(u'注册日期', default=timezone.now)
 
     objects = CustomUserManager()
@@ -61,8 +61,8 @@ class DetailInfo(models.Model):
 
     """
     SEX = (
-        ('m', 'Male'),
-        ('l', 'Lady'),
+        ('m', u'男'),
+        ('l', u'女'),
     )
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
