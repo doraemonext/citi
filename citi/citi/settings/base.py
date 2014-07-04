@@ -274,3 +274,5 @@ REST_FRAMEWORK = {
     'DEFAULT_MODEL_SERIALIZER_CLASS': 'rest_framework.serializers.HyperlinkedModelSerializer',
 }
 ########## END REST FRAMEWORK CONFIGURATION
+
+AUTH_USER_MODEL = 'users.CustomUser'
