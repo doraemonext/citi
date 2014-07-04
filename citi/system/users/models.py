@@ -15,6 +15,7 @@ class DetailInfo(models.Model):
     )
 
     user = models.OneToOneField(User, verbose_name=u'所属用户')
+    nickname = models.CharField(u'昵称', max_length=30)
     avatar = models.ImageField(u'头像路径', upload_to='avatars', null=True, blank=True)
     name = models.CharField(u'姓名', max_length=20, null=True, blank=True)
     sex = models.CharField(u'性别', choices=SEX, max_length=1, null=True, blank=True)
