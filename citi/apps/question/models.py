@@ -43,3 +43,24 @@ class QuestionComment(models.Model):
     content = models.TextField(u'评论内容')
     post_datetime = models.DateTimeField(u'发布日期', auto_now_add=True)
     modify_datetime = models.DateTimeField(u'最后修改日期', auto_now=True)
+
+
+class QuestionAttention(models.Model):
+    """
+    问题关注表
+
+    """
+    question = models.ForeignKey(Question, verbose_name=u'所述问题')
+    user = models.ForeignKey(User, verbose_name=u'所属用户')
+    datetime = models.DateTimeField(u'关注日期', auto_now=True)
+
+
+class QuestionAnswerVote(models.Model):
+    """
+    答案点赞表
+
+    """
+    question = models.ForeignKey(Question, verbose_name=u'所属问题')
+    answer = models.ForeignKey(QuestionAnswer, verbose_name=u'所属回答')
+    user = models.ForeignKey(User, verbose_name=u'所属用户')
+    datetime = models.DateTimeField(u'点赞日期', auto_now=True)
