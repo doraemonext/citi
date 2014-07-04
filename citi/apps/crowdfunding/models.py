@@ -50,8 +50,8 @@ class Project(models.Model):
     content = models.TextField(u'项目内容')
     now_money = models.FloatField(u'已筹集金额')
     status = models.CharField(u'项目状态', choices=STATUS, default=STATUS_UNDERWAY, max_length=10)
-    post_datetime = models.DateTimeField(u'发布日期')
-    modify_datetime = models.DateTimeField(u'最后修改日期')
+    post_datetime = models.DateTimeField(u'发布日期', auto_now_add=True)
+    modify_datetime = models.DateTimeField(u'最后修改日期', auto_now=True)
 
     def __unicode__(self):
         return self.name
@@ -70,7 +70,7 @@ class ProjectCover(models.Model):
     image = models.ImageField(u'图片文件', upload_to=get_config(
         'UPLOAD_CROWDFUNDING_PROJECT_COVER', 'crowdfunding/project/cover'
     ))
-    order = models.IntegerField(u'排列顺序')
+    order = models.IntegerField(u'排列顺序', default=0)
 
     def __unicode__(self):
         return self.image
@@ -90,7 +90,7 @@ class ProjectFeedback(models.Model):
     image = models.ImageField(u'图片描述', upload_to=get_config(
         'UPLOAD_CROWDFUNDING_PROJECT_FEEDBACK', 'crowdfunding/project/feedback'
     ), blank=True, null=True)
-    order = models.IntegerField(u'排列顺序')
+    order = models.IntegerField(u'排列顺序', default=0)
 
     def __unicode__(self):
         return self.content
@@ -116,7 +116,7 @@ class ProjectPackage(models.Model):
     name = models.CharField(u'套餐名称', max_length=30)
     money = models.FloatField(u'投资数额')
     type = models.CharField(u'投资类别', choices=TYPE, default=TYPE_NORMAL, max_length=10)
-    limit = models.IntegerField(u'名额限制', blank=True, null=True)
+    limit = models.IntegerField(u'名额限制', default=0)
     feedback = models.ManyToManyField(ProjectFeedback, verbose_name=u'项目回馈')
 
     def __unicode__(self):
