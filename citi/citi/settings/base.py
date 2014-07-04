@@ -198,6 +198,7 @@ DJANGO_APPS = (
 
     'apps.location',
     'apps.crowdfunding',
+    'apps.question',
 )
 
 # Apps specific for this project go here.
