@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 from mptt.models import MPTTModel, TreeForeignKey
 from annoying.functions import get_config
 
@@ -43,7 +43,7 @@ class Project(models.Model):
         ('retention', u'滞留期'),
     )
 
-    user = models.ForeignKey(User, verbose_name=u'所属用户')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
     name = models.CharField(u'项目名称', max_length=30)
     location = models.ForeignKey(Location, verbose_name=u'地理位置')
     location_detail = models.CharField(u'详细地址', max_length=255, blank=True, null=True)
@@ -138,8 +138,12 @@ class ProjectAttention(models.Model):
 
     """
     project = models.ForeignKey(Project, verbose_name=u'所属项目')
-    user = models.ForeignKey(User, verbose_name=u'所属用户')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
     datetime = models.DateTimeField(u'关注日期', auto_now=True)
+
+    class Meta:
+        verbose_name = u'项目关注表'
+        verbose_name_plural = u'项目关注表'
 
 
 class ProjectSupport(models.Model):
@@ -148,11 +152,15 @@ class ProjectSupport(models.Model):
 
     """
     project = models.ForeignKey(Project, verbose_name=u'所属项目')
-    user = models.ForeignKey(User, verbose_name=u'所属用户')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
     package = models.ForeignKey(ProjectPackage, verbose_name=u'所属回馈套餐')
     money = models.FloatField(u'支持金额')
     status = models.IntegerField(u'当前状态', help_text=u'0: 支持中 1: 支持成功 2: 支持失败,已退回')
     datetime = models.DateTimeField(u'支持日期', auto_now=True)
+
+    class Meta:
+        verbose_name = u'项目支持表'
+        verbose_name_plural = u'项目支持表'
 
 
 class ProjectRetention(models.Model):
@@ -161,6 +169,10 @@ class ProjectRetention(models.Model):
 
     """
     project = models.ForeignKey(Project, verbose_name=u'所属项目')
-    user = models.ForeignKey(User, verbose_name=u'所属用户')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
     apiration = models.IntegerField(u'继续投资意愿', default=0, help_text=u'0: 不确定 1: 继续投资 2: 放弃投资')
     datetime = models.DateTimeField(u'支持日期', auto_now=True)
+
+    class Meta:
+        verbose_name = u'项目滞留期意愿表'
+        verbose_name_plural = u'项目滞留期意愿表'
