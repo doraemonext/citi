@@ -26,6 +26,9 @@ class Order(models.Model):
     class Meta:
         verbose_name = u'订单信息表'
         verbose_name_plural = u'订单信息表'
+        permissions = (
+            ('view_order', u'Can view 订单信息'),
+        )
 
 
 class Trade(models.Model):
@@ -44,3 +47,6 @@ class Trade(models.Model):
     class Meta:
         verbose_name = u'交易记录表'
         verbose_name_plural = u'交易记录表'
+        permissions = (
+            ('view_trade', u'Can view 交易记录'),
+        )

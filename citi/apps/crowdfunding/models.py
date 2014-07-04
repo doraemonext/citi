@@ -25,6 +25,9 @@ class ProjectCategory(MPTTModel):
     class Meta:
         verbose_name = u'菜系分类'
         verbose_name_plural = u'菜系分类'
+        permissions = (
+            ('view_projectcategory', u'Can view 菜系分类'),
+        )
 
 
 class Project(models.Model):
@@ -64,6 +67,9 @@ class Project(models.Model):
     class Meta:
         verbose_name = u'项目'
         verbose_name_plural = u'项目'
+        permissions = (
+            ('view_project', u'Can view 项目'),
+        )
 
 
 class ProjectCover(models.Model):
@@ -83,6 +89,9 @@ class ProjectCover(models.Model):
     class Meta:
         verbose_name = u'项目封面'
         verbose_name_plural = u'项目封面'
+        permissions = (
+            ('view_projectcover', u'Can view 项目封面'),
+        )
 
 
 class ProjectFeedback(models.Model):
@@ -103,6 +112,9 @@ class ProjectFeedback(models.Model):
     class Meta:
         verbose_name = u'项目回馈描述'
         verbose_name_plural = u'项目回馈描述'
+        permissions = (
+            ('view_projectfeedback', u'Can view 项目回馈描述'),
+        )
 
 
 class ProjectPackage(models.Model):
@@ -130,6 +142,9 @@ class ProjectPackage(models.Model):
     class Meta:
         verbose_name = u'项目回馈套餐方案'
         verbose_name_plural = u'项目回馈套餐方案'
+        permissions = (
+            ('view_projectpackage', u'Can view 项目回馈套餐方案'),
+        )
 
 
 class ProjectAttention(models.Model):
@@ -144,6 +159,9 @@ class ProjectAttention(models.Model):
     class Meta:
         verbose_name = u'项目关注表'
         verbose_name_plural = u'项目关注表'
+        permissions = (
+            ('view_projectattention', u'Can view 项目关注'),
+        )
 
 
 class ProjectSupport(models.Model):
@@ -161,6 +179,9 @@ class ProjectSupport(models.Model):
     class Meta:
         verbose_name = u'项目支持表'
         verbose_name_plural = u'项目支持表'
+        permissions = (
+            ('view_projectsupport', u'Can view 项目支持'),
+        )
 
 
 class ProjectRetention(models.Model):
@@ -176,3 +197,6 @@ class ProjectRetention(models.Model):
     class Meta:
         verbose_name = u'项目滞留期意愿表'
         verbose_name_plural = u'项目滞留期意愿表'
+        permissions = (
+            ('view_projectretention', u'Can view 项目滞留期意愿'),
+        )

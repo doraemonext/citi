@@ -44,6 +44,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = u'用户'
         verbose_name_plural = u'用户'
+        permissions = (
+            ('view_customuser', u'Can view 用户'),
+        )
 
     def get_full_name(self):
         return self.email
@@ -77,6 +80,9 @@ class DetailInfo(models.Model):
     class Meta:
         verbose_name = u'用户扩展信息表'
         verbose_name_plural = u'用户扩展信息表'
+        permissions = (
+            ('view_detailinfo', u'Can view 用户扩展信息'),
+        )
 
 
 class FundInfo(models.Model):
@@ -94,6 +100,9 @@ class FundInfo(models.Model):
     class Meta:
         verbose_name = u'用户资金信息表'
         verbose_name_plural = u'用户资金信息表'
+        permissions = (
+            ('view_fundinfo', u'Can view 用户资金信息'),
+        )
 
 
 class BalanceInfo(models.Model):
@@ -107,6 +116,9 @@ class BalanceInfo(models.Model):
     class Meta:
         verbose_name = u'用户账户余额表'
         verbose_name_plural = u'用户账户余额表'
+        permissions = (
+            ('view_balanceinfo', u'Can view 用户账户余额'),
+        )
 
 
 class ProjectInfo(models.Model):
@@ -122,6 +134,9 @@ class ProjectInfo(models.Model):
     class Meta:
         verbose_name = u'用户项目信息表'
         verbose_name_plural = u'用户项目信息表'
+        permissions = (
+            ('view_projectinfo', u'Can view 用户项目信息'),
+        )
 
 
 class QuestionInfo(models.Model):
@@ -138,3 +153,6 @@ class QuestionInfo(models.Model):
     class Meta:
         verbose_name = u'用户问答信息表'
         verbose_name_plural = u'用户问答信息表'
+        permissions = (
+            ('view_questioninfo', u'Can view 用户问答信息'),
+        )
