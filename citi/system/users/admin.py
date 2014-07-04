@@ -4,11 +4,11 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from .models import Detail, FundInfo, Balance, Project, Question
+from .models import DetailInfo, FundInfo, BalanceInfo, ProjectInfo, QuestionInfo
 
 
 class DetailInline(admin.StackedInline):
-    model = Detail
+    model = DetailInfo
     can_delete = False
     verbose_name = u'用户扩展信息'
     verbose_name_plural = u'用户扩展信息'
@@ -22,21 +22,21 @@ class FundInfoInline(admin.StackedInline):
 
 
 class BalanceInline(admin.StackedInline):
-    model = Balance
+    model = BalanceInfo
     can_delete = False
     verbose_name = u'用户账户余额表'
     verbose_name_plural = u'用户账户余额表'
 
 
 class ProjectInline(admin.StackedInline):
-    model = Project
+    model = ProjectInfo
     can_delete = False
     verbose_name = u'用户项目信息表'
     verbose_name_plural = u'用户项目信息表'
 
 
 class QuestionInline(admin.StackedInline):
-    model = Question
+    model = QuestionInfo
     can_delete = False
     verbose_name = u'用户回答信息表'
     verbose_name_plural = u'用户回答信息表'
