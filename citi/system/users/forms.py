@@ -9,6 +9,7 @@ from django.utils.encoding import force_bytes
 from django.template import loader
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.core.mail import EmailMultiAlternatives
 from captcha.fields import CaptchaField
 
 
@@ -110,7 +111,9 @@ class PasswordResetForm(forms.Form):
         # Email subject *must not* contain newlines
         subject = ''.join(subject.splitlines())
         email = loader.render_to_string(email_template_name, c)
-        send_mail(subject, email, from_email, [self.user_cache.email])
+        msg = EmailMultiAlternatives(subject, email, from_email, [self.user_cache.email])
+        msg.attach_alternative(email, "text/html")
+        msg.send()
 
 
 class SetPasswordForm(forms.Form):
