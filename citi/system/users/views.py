@@ -3,13 +3,15 @@
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
-from django.utils.http import is_safe_url
+from django.utils.http import is_safe_url, urlsafe_base64_decode, urlsafe_base64_encode
 from django.shortcuts import resolve_url
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
-from django.contrib.auth import login as auth_login, logout as auth_logout
+from django.contrib.auth.tokens import default_token_generator
+from django.core.urlresolvers import reverse
+from django.contrib.auth import login as auth_login, logout as auth_logout, get_user_model
 
-from .forms import LoginForm
+from .forms import LoginForm, PasswordResetForm, SetPasswordForm
 
 
 @csrf_protect
@@ -64,3 +66,95 @@ def logout(request, template_name='logout.html'):
         # 显示登出页面，提示登出成功
         context = {}
         return TemplateResponse(request, template_name, context)
+
+
+@csrf_protect
+def password_reset(request, template_name='password_reset_form.html', email_template_name='password_reset_email.html',
+                   subject_template_name='password_reset_subject.txt', password_reset_form=PasswordResetForm,
+                   token_generator=default_token_generator, from_email=settings.EMAIL_FROM):
+    """
+    显示密码重置页面, 当提交后显示重置链接发送完成
+
+    """
+    post_reset_redirect = reverse('password_reset_done')
+    if request.method == "POST":
+        form = password_reset_form(request.POST)
+        if form.is_valid():
+            opts = {
+                'use_https': request.is_secure(),
+                'token_generator': token_generator,
+                'from_email': from_email,
+                'email_template_name': email_template_name,
+                'subject_template_name': subject_template_name,
+            }
+            form.save(request=request, **opts)
+            return HttpResponseRedirect(post_reset_redirect)
+    else:
+        form = password_reset_form()
+    context = {
+        'form': form,
+    }
+    return TemplateResponse(request, template_name, context)
+
+
+def password_reset_done(request, template_name='password_reset_done.html'):
+    """
+    显示密码重置链接发送完成页面
+
+    """
+    context = {}
+    return TemplateResponse(request, template_name, context)
+
+
+@never_cache
+def password_reset_confirm(request, template_name='password_reset_confirm.html',
+                           token_generator=default_token_generator,
+                           set_password_form=SetPasswordForm,
+                           post_reset_redirect=None):
+    """
+    密码重置确认，输入新的密码并提交
+
+    """
+    uidb64 = request.GET.get('uid', None)
+    token = request.GET.get('token', None)
+
+    UserModel = get_user_model()
+    assert uidb64 is not None and token is not None  # checked by URLconf
+    if post_reset_redirect is None:
+        post_reset_redirect = reverse('password_reset_complete')
+    else:
+        post_reset_redirect = resolve_url(post_reset_redirect)
+    try:
+        uid = urlsafe_base64_decode(uidb64)
+        user = UserModel.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
+        user = None
+
+    if user is not None and token_generator.check_token(user, token):
+        validlink = True
+        if request.method == 'POST':
+            form = set_password_form(user, request.POST)
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect(post_reset_redirect)
+        else:
+            form = set_password_form(None)
+    else:
+        validlink = False
+        form = None
+    context = {
+        'form': form,
+        'validlink': validlink,
+    }
+    return TemplateResponse(request, template_name, context)
+
+
+def password_reset_complete(request, template_name='password_reset_complete.html'):
+    """
+    密码重置完成页面
+
+    """
+    context = {
+        'login_url': resolve_url(settings.LOGIN_URL)
+    }
+    return TemplateResponse(request, template_name, context)
