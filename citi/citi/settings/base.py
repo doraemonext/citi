@@ -192,7 +192,6 @@ DJANGO_APPS = (
     'mptt',
     'django_mptt_admin',
     'rest_framework',
-    'guardian',
 
     'system.users',
 
@@ -277,11 +276,3 @@ REST_FRAMEWORK = {
 ########## END REST FRAMEWORK CONFIGURATION
 
 AUTH_USER_MODEL = 'users.CustomUser'
-
-########## DJANGO GRARDIAN CONFIGURATION
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend', # this is default
-    'guardian.backends.ObjectPermissionBackend',
-)
-ANONYMOUS_USER_ID = None
-########## END DJANGO GRARDIAN CONFIGURATION

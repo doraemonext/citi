@@ -9,7 +9,7 @@ from django.conf import settings
 
 
 class CustomUserManager(BaseUserManager):
-    def _create_user(self, email, nickname, password, is_staff, is_superuser, **extra_fields):
+    def _create_user(self, email, nickname, password, is_staff=False, is_superuser=False, **extra_fields):
         now = timezone.now()
         if not email:
             raise ValueError('The given email must be set')
@@ -23,7 +23,7 @@ class CustomUserManager(BaseUserManager):
         return user
 
     def create_user(self, email, nickname, password, **extra_fields):
-        return self._create_user(email, nickname, password, False, False, **extra_fields)
+        return self._create_user(email, nickname, password, **extra_fields)
 
     def create_superuser(self, email, nickname, password, **extra_fields):
         return self._create_user(email, nickname, password, True, True, **extra_fields)
