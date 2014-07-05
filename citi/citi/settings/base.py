@@ -276,3 +276,7 @@ REST_FRAMEWORK = {
 ########## END REST FRAMEWORK CONFIGURATION
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
+LOGIN_URL = '/accounts/login/'
+LOGOUT_URL = '/accounts/logout/'
+LOGIN_REDIRECT_URL = '/accounts/profile/'
