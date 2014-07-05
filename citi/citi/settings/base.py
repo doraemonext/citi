@@ -192,6 +192,7 @@ DJANGO_APPS = (
     'mptt',
     'django_mptt_admin',
     'rest_framework',
+    'captcha',
 
     'system.users',
 
@@ -276,3 +277,7 @@ REST_FRAMEWORK = {
 ########## END REST FRAMEWORK CONFIGURATION
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
+LOGIN_URL = '/accounts/login/'
+LOGOUT_URL = '/accounts/logout/'
+LOGIN_REDIRECT_URL = '/accounts/profile/'
