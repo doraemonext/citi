@@ -43,3 +43,4 @@ citi/citi/settings/test.py
 citi/citi/settings/production.py
 
 .idea
+citi/assets
