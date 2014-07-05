@@ -2,6 +2,7 @@
 
 from django import forms
 from django.contrib.auth import authenticate
+from captcha.fields import CaptchaField
 
 
 class LoginForm(forms.Form):
@@ -11,6 +12,7 @@ class LoginForm(forms.Form):
     """
     email = forms.EmailField(label=u'电子邮件', max_length=255, widget=forms.TextInput)
     password = forms.CharField(label=u'密码', widget=forms.PasswordInput)
+    captcha = CaptchaField(label=u'验证码')
 
     error_messages = {
         'invalid_login': u'您输入的用户名或密码不正确',

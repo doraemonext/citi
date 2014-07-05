@@ -192,6 +192,7 @@ DJANGO_APPS = (
     'mptt',
     'django_mptt_admin',
     'rest_framework',
+    'captcha',
 
     'system.users',
 

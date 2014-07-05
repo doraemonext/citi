@@ -12,6 +12,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^accounts/', include('system.users.urls')),
+    url(r'^captcha/', include('captcha.urls')),
 
     # Examples:
     # url(r'^$', 'citi.views.home', name='home'),
