@@ -281,3 +281,5 @@ AUTH_USER_MODEL = 'users.CustomUser'
 LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = '/accounts/logout/'
 LOGIN_REDIRECT_URL = '/accounts/profile/'
+
+EMAIL_FROM = 'doraemonext@gmail.com'

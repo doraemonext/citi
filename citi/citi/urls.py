@@ -14,10 +14,6 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('system.users.urls')),
     url(r'^captcha/', include('captcha.urls')),
 
-    # Examples:
-    # url(r'^$', 'citi.views.home', name='home'),
-    # url(r'^citi/', include('citi.foo.urls')),
-
     url(r'^api/location/$', location_views.LocationList.as_view()),
 
     url(r'^admin/', include(admin.site.urls)),
