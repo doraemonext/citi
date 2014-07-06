@@ -1,0 +1,3 @@
+{% url 'registration_activate' activation_key as activation_key_url %}
+<p>亲爱的用户您好：</p>
+<p>请在 {{ expiration_days }} 天内点击下面的链接激活您的账户: <a href="http://{{ site.domain }}{{ activation_key_url }}">http://{{ site.domain }}{{ activation_key_url }}</a></p>
