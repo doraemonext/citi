@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from django.conf import settings
+from django.shortcuts import redirect
 from django.contrib.sites.models import RequestSite
+from django.views.generic.base import TemplateView
 from registration import signals
 from registration.views import RegistrationView as BaseRegistrationView
 from registration.views import ActivationView as BaseActivationView
@@ -47,20 +49,34 @@ class RegistrationView(BaseRegistrationView):
         return ('registration_complete', (), {})
 
 
-class ActivationView(BaseActivationView):
-    template_name = 'registration_activate.html'
+class ActivationView(TemplateView):
+    """
+    激活页面显示
+
+    """
+    http_method_names = ['get']
+    template_name = 'registration_activation.html'
+
+    def __init__(self):
+        self.is_activate = False
+        super(ActivationView, self).__init__()
+
+    def get(self, request, *args, **kwargs):
+        activated_user = self.activate(request, *args, **kwargs)
+        if activated_user:
+            signals.user_activated.send(sender=self.__class__, user=activated_user, request=request)
+            self.is_activate = True
+        else:
+            self.is_activate = False
+        return super(ActivationView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(ActivationView, self).get_context_data(**kwargs)
+        context['is_activate'] = self.is_activate
+        return context
 
     def activate(self, request, activation_key):
-        """
-        激活账户页面
-
-        """
         activated_user = CustomRegistrationProfile.objects.activate_user(activation_key)
         if activated_user:
-            signals.user_activated.send(sender=self.__class__,
-                                        user=activated_user,
-                                        request=request)
+            signals.user_activated.send(sender=self.__class__, user=activated_user, request=request)
         return activated_user
-
-    def get_success_url(self, request, user):
-        return ('registration_activation_complete', (), {})
