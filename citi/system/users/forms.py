@@ -24,7 +24,7 @@ class LoginForm(forms.Form):
 
     error_messages = {
         'invalid_login': u'您输入的用户名或密码不正确',
-        'inactive': u'您的账户已被禁用',
+        'inactive': u'您的账户尚未激活, 请到邮箱中检查激活链接',
     }
 
     def __init__(self, request=None, *args, **kwargs):
