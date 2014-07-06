@@ -118,7 +118,7 @@ def password_reset_confirm(request, template_name='password_reset_confirm.html',
     uidb64 = request.GET.get('uid', None)
     token = request.GET.get('token', None)
 
-    UserModel = get_user_model()
+    user_model = get_user_model()
     assert uidb64 is not None and token is not None  # checked by URLconf
     if post_reset_redirect is None:
         post_reset_redirect = reverse('password_reset_complete')
@@ -126,8 +126,8 @@ def password_reset_confirm(request, template_name='password_reset_confirm.html',
         post_reset_redirect = resolve_url(post_reset_redirect)
     try:
         uid = urlsafe_base64_decode(uidb64)
-        user = UserModel.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
+        user = user_model.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, user_model.DoesNotExist):
         user = None
 
     if user is not None and token_generator.check_token(user, token):

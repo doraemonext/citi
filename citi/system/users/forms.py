@@ -121,11 +121,12 @@ class SetPasswordForm(forms.Form):
     直接设置密码表单
 
     """
+    new_password1 = forms.CharField(label=u'新密码', widget=forms.PasswordInput)
+    new_password2 = forms.CharField(label=u'确认新密码', widget=forms.PasswordInput)
+
     error_messages = {
         'password_mismatch': u'两次密码输入不匹配',
     }
-    new_password1 = forms.CharField(label=u'新密码', widget=forms.PasswordInput)
-    new_password2 = forms.CharField(label=u'确认新密码', widget=forms.PasswordInput)
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
