@@ -24,7 +24,7 @@ class LoginForm(forms.Form):
 
     error_messages = {
         'invalid_login': u'您输入的用户名或密码不正确',
-        'inactive': u'您的账户已被禁用',
+        'inactive': u'您的账户尚未激活, 请到邮箱中检查激活链接',
     }
 
     def __init__(self, request=None, *args, **kwargs):
@@ -94,8 +94,6 @@ class PasswordResetForm(forms.Form):
         表单保存时对该用户发送密码重置邮件
 
         """
-        from django.core.mail import send_mail
-
         uid = urlsafe_base64_encode(force_bytes(self.user_cache.pk))
         token = token_generator.make_token(self.user_cache)
         protocol = 'https' if use_https else 'http'

@@ -193,8 +193,10 @@ DJANGO_APPS = (
     'django_mptt_admin',
     'rest_framework',
     'captcha',
+    'registration',
 
     'system.users',
+    'system.register',
 
     'apps.log',
     'apps.location',
@@ -283,3 +285,5 @@ LOGOUT_URL = '/accounts/logout/'
 LOGIN_REDIRECT_URL = '/accounts/profile/'
 
 EMAIL_FROM = 'doraemonext@gmail.com'
+
+ACCOUNT_ACTIVATION_DAYS = 7
