@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.sites.models import RequestSite
 from registration import signals
 from registration.views import RegistrationView as BaseRegistrationView
+from registration.views import ActivationView as BaseActivationView
 
 from .models import CustomRegistrationProfile
 from .forms import RegistrationForm
@@ -44,3 +45,22 @@ class RegistrationView(BaseRegistrationView):
 
         """
         return ('registration_complete', (), {})
+
+
+class ActivationView(BaseActivationView):
+    template_name = 'registration_activate.html'
+
+    def activate(self, request, activation_key):
+        """
+        激活账户页面
+
+        """
+        activated_user = CustomRegistrationProfile.objects.activate_user(activation_key)
+        if activated_user:
+            signals.user_activated.send(sender=self.__class__,
+                                        user=activated_user,
+                                        request=request)
+        return activated_user
+
+    def get_success_url(self, request, user):
+        return ('registration_activation_complete', (), {})

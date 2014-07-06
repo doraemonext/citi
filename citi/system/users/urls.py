@@ -2,15 +2,15 @@
 
 from django.conf.urls import patterns, url, include
 from django.views.generic.base import TemplateView
-from registration.backends.default.views import ActivationView
 
-from system.register.views import RegistrationView
+from system.register.views import RegistrationView, ActivationView
 from .views import login, logout, password_reset, password_reset_done, password_reset_confirm, password_reset_complete
 
 
 urlpatterns = patterns('',
     url(r'^login/$', login, name='login'),
     url(r'^register/$', RegistrationView.as_view(), name='registration_register'),
+    url(r'^register/activate/complete/$', TemplateView.as_view(template_name='registration_activation_complete.html'), name='registration_activation_complete'),
     url(r'^register/activate/(?P<activation_key>\w+)/$', ActivationView.as_view(), name='registration_activate'),
     url(r'^register/complete/$', TemplateView.as_view(template_name='registration_complete.html'), name='registration_complete'),
     url(r'^logout/$', logout, name='logout'),
