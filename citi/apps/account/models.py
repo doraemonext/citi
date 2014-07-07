@@ -63,10 +63,10 @@ class CustomRegistrationProfile(RegistrationProfile):
             'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
             'site': site,
         }
-        subject = loader.render_to_string('registration_activation_email_subject.txt', c)
+        subject = loader.render_to_string('email/registration_activation_email_subject.txt', c)
         # Email标题中不允许存在换行
         subject = ''.join(subject.splitlines())
-        email = loader.render_to_string('registration_activation_email.html', c)
+        email = loader.render_to_string('email/registration_activation_email.html', c)
         msg = EmailMultiAlternatives(subject, email, settings.EMAIL_FROM, [self.user.email])
         msg.attach_alternative(email, "text/html")
         msg.send()
