@@ -146,9 +146,12 @@ def logout(request, template_name='logout.html'):
 
 @anonymous_required
 @csrf_protect
-def password_reset(request, template_name='password_reset_form.html', email_template_name='password_reset_email.html',
-                   subject_template_name='password_reset_subject.txt', password_reset_form=PasswordResetForm,
-                   token_generator=default_token_generator, from_email=settings.EMAIL_FROM):
+def password_reset(request, template_name='password_reset_form.html',
+                   email_template_name='email/password_reset_email.html',
+                   subject_template_name='email/password_reset_subject.txt',
+                   password_reset_form=PasswordResetForm,
+                   token_generator=default_token_generator,
+                   from_email=settings.EMAIL_FROM):
     """
     显示密码重置页面, 当提交后显示重置链接发送完成
 

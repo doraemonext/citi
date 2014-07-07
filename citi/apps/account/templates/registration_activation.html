@@ -1,5 +1,18 @@
-{% if is_activate %}
-激活成功
-{% else %}
-激活链接无效
-{% endif %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>用户激活</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div>
+            {% if is_activate %}
+                <p>激活成功</p>
+            {% else %}
+                <p>激活链接无效</p>
+            {% endif %}
+        </div>
+    </body>
+</html>
+
