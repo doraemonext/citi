@@ -155,9 +155,10 @@ def logout(request, template_name='logout.html'):
     显示登出页面, 当存在跳转链接时直接登出并跳转
 
     """
-    email = request.user.email
-    auth_logout(request)
-    logger.info('The user %(user)s has successfully signed out', {'user': email})
+    if request.user.is_authenticated():
+        email = request.user.email
+        auth_logout(request)
+        logger.info('The user %(user)s has successfully signed out', {'user': email})
 
     redirect_to = None
     if 'next' in request.REQUEST:
