@@ -17,7 +17,6 @@ from registration import signals
 from registration.views import RegistrationView as BaseRegistrationView
 
 from libs.utils.decorators import anonymous_required
-from apps.location.models import Location
 from .forms import RegistrationForm, LoginForm, PasswordResetForm, SetPasswordForm
 from .models import CustomRegistrationProfile, DetailInfo, FundInfo, BalanceInfo, ProjectInfo, QuestionInfo
 

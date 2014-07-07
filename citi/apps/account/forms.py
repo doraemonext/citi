@@ -64,7 +64,7 @@ class RegistrationForm(forms.Form):
 
     def get_and_set_cleaned_data(self, name):
         """
-        获得验证后的数据, 当数据为空时，返回None
+        获得验证后的数据, 当数据为空时，设置该值为None并返回None
 
         """
         data = self.cleaned_data.get(name, None)
