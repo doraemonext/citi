@@ -17,8 +17,9 @@ from registration import signals
 from registration.views import RegistrationView as BaseRegistrationView
 
 from libs.utils.decorators import anonymous_required
+from apps.location.models import Location
 from .forms import RegistrationForm, LoginForm, PasswordResetForm, SetPasswordForm
-from .models import CustomRegistrationProfile
+from .models import CustomRegistrationProfile, DetailInfo, FundInfo, BalanceInfo, ProjectInfo, QuestionInfo
 
 
 class RegistrationView(BaseRegistrationView):
@@ -46,6 +47,22 @@ class RegistrationView(BaseRegistrationView):
         email, nickname, password = cleaned_data['email'], cleaned_data['nickname'], cleaned_data['password1']
         site = RequestSite(request)
         new_user = CustomRegistrationProfile.objects.create_inactive_user(email, nickname, password, site)
+
+        # 建立用户的其他相关信息
+        DetailInfo.objects.create(user=new_user,
+                                  name=cleaned_data.get('name', None),
+                                  sex=cleaned_data.get('sex', 'u'),  # 默认为性别保密
+                                  age=cleaned_data.get('age', None),
+                                  native=cleaned_data.get('native', None),
+                                  profession=cleaned_data.get('profession', None),
+                                  idcard=cleaned_data.get('idcard', None),
+                                  mobile=cleaned_data.get('mobile', None),
+                                  qq=cleaned_data.get('qq', None))
+        FundInfo.objects.create(user=new_user)
+        BalanceInfo.objects.create(user=new_user)
+        ProjectInfo.objects.create(user=new_user)
+        QuestionInfo.objects.create(user=new_user)
+
         signals.user_registered.send(sender=self.__class__, user=new_user, request=request)
         return new_user
 

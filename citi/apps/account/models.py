@@ -11,6 +11,8 @@ from django.contrib.auth import get_user_model
 from django.conf import settings
 from registration.models import RegistrationManager, RegistrationProfile
 
+from apps.location.models import Location
+
 
 class CustomRegistrationManager(RegistrationManager):
     """
@@ -78,6 +80,7 @@ class DetailInfo(models.Model):
 
     """
     SEX = (
+        ('u', u'保密'),
         ('m', u'男'),
         ('l', u'女'),
     )
@@ -87,6 +90,8 @@ class DetailInfo(models.Model):
     name = models.CharField(u'姓名', max_length=20, null=True, blank=True)
     sex = models.CharField(u'性别', choices=SEX, max_length=1, null=True, blank=True)
     age = models.IntegerField(u'年龄', null=True, blank=True)
+    native = models.ForeignKey(Location, verbose_name=u'籍贯', null=True, blank=True)
+    profession = models.CharField(u'职业', max_length=100, null=True, blank=True)
     idcard = models.CharField(u'身份证号', max_length=20, null=True, blank=True)
     mobile = models.CharField(u'手机号', max_length=15, null=True, blank=True)
     qq = models.CharField(u'QQ号', max_length=15, null=True, blank=True)
@@ -125,7 +130,7 @@ class BalanceInfo(models.Model):
 
     """
     user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
-    balance = models.FloatField(u'当前余额')
+    balance = models.FloatField(u'当前余额', default=0.0)
 
     class Meta:
         verbose_name = u'用户账户余额表'
