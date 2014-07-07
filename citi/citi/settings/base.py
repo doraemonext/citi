@@ -196,8 +196,8 @@ DJANGO_APPS = (
     'registration',
 
     'system.users',
-    'system.register',
 
+    'apps.account',
     'apps.log',
     'apps.location',
     'apps.fund',
