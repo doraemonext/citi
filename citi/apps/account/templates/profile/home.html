@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>个人中心主页</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div>
+            <p>个人中心主页</p>
+        </div>
+        <div>
+            <p><a href="{% url 'logout' %}">注销登录</a></p>
+        </div>
+        <div>
+            <p>用户: {{ user.email }}</p>
+            <p>昵称: {{ user.nickname }}</p>
+        </div>
+    </body>
+</html>

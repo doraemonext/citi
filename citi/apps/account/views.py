@@ -3,6 +3,8 @@
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from django.utils.http import is_safe_url, urlsafe_base64_decode
 from django.shortcuts import resolve_url
 from django.views.decorators.cache import never_cache
@@ -26,6 +28,15 @@ class RegistrationView(BaseRegistrationView):
     """
     template_name = 'registration_form.html'
     form_class = RegistrationForm
+
+    def get(self, request, *args, **kwargs):
+        # 当用户已经登录时, 直接跳转到个人中心
+        if request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('account.profile'))
+
+        form_class = self.get_form_class(request)
+        form = self.get_form(form_class)
+        return self.render_to_response(self.get_context_data(form=form))
 
     def register(self, request, **cleaned_data):
         """
@@ -59,6 +70,10 @@ class ActivationView(TemplateView):
         super(ActivationView, self).__init__()
 
     def get(self, request, *args, **kwargs):
+        # 当用户已经登录时, 直接跳转到个人中心
+        if request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('account.profile'))
+
         activated_user = self.activate(request, *args, **kwargs)
         if activated_user:
             signals.user_activated.send(sender=self.__class__, user=activated_user, request=request)
@@ -89,7 +104,7 @@ def login(request, template_name='login.html', authentication_form=LoginForm):
     redirect_to = request.REQUEST.get('next', '')
     # 确保重定向链接安全, 无next参数时跳转到用户中心
     if not is_safe_url(url=redirect_to, host=request.get_host()):
-        redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
+        redirect_to = reverse('account.profile')
 
     if request.method == "POST":
         form = authentication_form(request, data=request.POST)
@@ -99,7 +114,7 @@ def login(request, template_name='login.html', authentication_form=LoginForm):
 
             return HttpResponseRedirect(redirect_to)
     else:
-        if request.user.is_authenticated() and request.user.is_active:
+        if request.user.is_authenticated():
             return HttpResponseRedirect(redirect_to)
         form = authentication_form(request)
 
@@ -141,6 +156,10 @@ def password_reset(request, template_name='password_reset_form.html', email_temp
     显示密码重置页面, 当提交后显示重置链接发送完成
 
     """
+    # 当用户已经登录时, 直接跳转到个人中心
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('account.profile'))
+
     post_reset_redirect = reverse('password_reset_done')
     if request.method == "POST":
         form = password_reset_form(request.POST)
@@ -167,6 +186,10 @@ def password_reset_done(request, template_name='password_reset_done.html'):
     显示密码重置链接发送完成页面
 
     """
+    # 当用户已经登录时, 直接跳转到个人中心
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('account.profile'))
+
     context = {}
     return TemplateResponse(request, template_name, context)
 
@@ -180,6 +203,10 @@ def password_reset_confirm(request, template_name='password_reset_confirm.html',
     密码重置确认，输入新的密码并提交
 
     """
+    # 当用户已经登录时, 直接跳转到个人中心
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('account.profile'))
+
     uidb64 = request.GET.get('uid', None)
     token = request.GET.get('token', None)
 
@@ -219,7 +246,32 @@ def password_reset_complete(request, template_name='password_reset_complete.html
     密码重置完成页面
 
     """
-    context = {
-        'login_url': resolve_url(settings.LOGIN_URL)
-    }
+    # 当用户已经登录时, 直接跳转到个人中心
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('account.profile'))
+
+    context = {}
     return TemplateResponse(request, template_name, context)
+
+
+class ProfileView(TemplateView):
+    """
+    个人中心页面显示
+
+    """
+    http_method_names = ['get']
+    template_name = 'profile/home.html'
+
+    def __init__(self):
+        super(ProfileView, self).__init__()
+
+    def get(self, request, *args, **kwargs):
+        return super(ProfileView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileView, self).get_context_data(**kwargs)
+        return context
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(ProfileView, self).dispatch(*args, **kwargs)
