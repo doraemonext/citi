@@ -11,7 +11,7 @@ from apps.location import views as location_views
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^accounts/', include('system.users.urls')),
+    url(r'^accounts/', include('apps.account.urls')),
     url(r'^captcha/', include('captcha.urls')),
 
     url(r'^api/location/$', location_views.LocationList.as_view()),

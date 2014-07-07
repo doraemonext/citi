@@ -196,8 +196,8 @@ DJANGO_APPS = (
     'registration',
 
     'system.users',
-    'system.register',
 
+    'apps.account',
     'apps.log',
     'apps.location',
     'apps.fund',
@@ -287,3 +287,5 @@ LOGIN_REDIRECT_URL = '/accounts/profile/'
 EMAIL_FROM = 'doraemonext@gmail.com'
 
 ACCOUNT_ACTIVATION_DAYS = 7
+
+ATOMIC_REQUESTS = True

@@ -6,8 +6,9 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.models import Group
 
+from system.users.models import CustomUser
 from .models import DetailInfo, FundInfo, BalanceInfo, ProjectInfo, QuestionInfo
-from .models import CustomUser
+
 
 
 class DetailInline(admin.StackedInline):

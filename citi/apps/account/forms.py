@@ -12,6 +12,99 @@ from django.core.urlresolvers import reverse
 from django.core.mail import EmailMultiAlternatives
 from captcha.fields import CaptchaField
 
+from apps.location.models import Location
+
+
+class RegistrationForm(forms.Form):
+    """
+    注册页面表单
+
+    """
+    SEX = (
+        ('u', u'保密'),
+        ('m', u'男'),
+        ('l', u'女'),
+    )
+
+    required_css_class = 'required'
+
+    email = forms.EmailField(label=u'电子邮件')
+    nickname = forms.CharField(label=u'昵称')
+    password1 = forms.CharField(widget=forms.PasswordInput, label=u'密码')
+    password2 = forms.CharField(widget=forms.PasswordInput, label=u'确认密码')
+    name = forms.CharField(label=u'姓名', required=False)
+    sex = forms.ChoiceField(label=u'性别', choices=SEX, required=False)
+    age = forms.IntegerField(label=u'年龄', required=False)
+    native = forms.ModelChoiceField(label=u'籍贯', queryset=Location.objects.all(), empty_label='', required=False)
+    profession = forms.CharField(label=u'职业', required=False)
+    idcard = forms.CharField(label=u'身份证号', required=False)
+    mobile = forms.CharField(label=u'手机号', required=False)
+    qq = forms.CharField(label=u'QQ号', required=False)
+    captcha = CaptchaField(label=u'验证码')
+
+    error_messages = {
+        'exist_email': u'电子邮件已被注册',
+        'password_mismatch': u'两次密码输入不匹配',
+        'detail_incomplete': u'详细信息不完整',
+    }
+
+    def clean_email(self):
+        """
+        验证电子邮件是否被使用
+
+        """
+        existing = get_user_model().objects.filter(email__iexact=self.cleaned_data['email'])
+        if existing.exists():
+            raise forms.ValidationError(
+                self.error_messages['exist_email'],
+                code='exist_email',
+            )
+        else:
+            return self.cleaned_data['email']
+
+    def get_and_set_cleaned_data(self, name):
+        """
+        获得验证后的数据, 当数据为空时，设置该值为None并返回None
+
+        """
+        data = self.cleaned_data.get(name, None)
+        if not data:
+            self.cleaned_data[name] = None
+            return None
+        else:
+            return data
+
+    def clean(self):
+        """
+        对表单合法性进行最终验证
+
+        """
+        # 验证两次密码输入是否相等
+        if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data:
+            if self.cleaned_data['password1'] != self.cleaned_data['password2']:
+                raise forms.ValidationError(
+                    self.error_messages['password_mismatch'],
+                    code='password_mismatch',
+                )
+        # 如果输入详细信息中的任意一种, 则其他详细信息必须填写
+        name = self.get_and_set_cleaned_data('name')
+        sex = self.get_and_set_cleaned_data('sex')
+        age = self.get_and_set_cleaned_data('age')
+        native = self.get_and_set_cleaned_data('native')
+        profession = self.get_and_set_cleaned_data('profession')
+        idcard = self.get_and_set_cleaned_data('idcard')
+        mobile = self.get_and_set_cleaned_data('mobile')
+        qq = self.get_and_set_cleaned_data('qq')
+        if name or (sex == 'm' or sex == 'l') or age or native or profession or idcard or mobile or qq:
+            if name and (sex == 'm' or sex == 'l') and age and native and profession and idcard and mobile and qq:
+                pass
+            else:
+                raise forms.ValidationError(
+                    self.error_messages['detail_incomplete'],
+                    code='detail_incomplete'
+                )
+        return self.cleaned_data
+
 
 class LoginForm(forms.Form):
     """
@@ -86,8 +179,8 @@ class PasswordResetForm(forms.Form):
 
         return email
 
-    def save(self, request, subject_template_name='password_reset_subject.txt',
-             email_template_name='password_reset_email.html',
+    def save(self, request, subject_template_name='email/password_reset_subject.txt',
+             email_template_name='email/password_reset_email.html',
              use_https=False, token_generator=default_token_generator,
              from_email=settings.EMAIL_FROM):
         """

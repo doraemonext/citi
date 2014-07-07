@@ -11,6 +11,8 @@
             {{ form.as_p }}
             <input type="submit" value="登陆"/>
         </form>
+        <p><a href="{% url 'registration_register' %}">点此注册</a></p>
+        <p><a href="{% url 'password_reset' %}">点此找回密码</a></p>
         <script type="text/javascript">
             $(function () {
                 $('img.captcha').after(
