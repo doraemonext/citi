@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import logging
+
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
@@ -19,6 +21,9 @@ from registration.views import RegistrationView as BaseRegistrationView
 from libs.utils.decorators import anonymous_required
 from .forms import RegistrationForm, LoginForm, PasswordResetForm, SetPasswordForm
 from .models import CustomRegistrationProfile, DetailInfo, FundInfo, BalanceInfo, ProjectInfo, QuestionInfo
+
+
+logger = logging.getLogger(__name__)
 
 
 class RegistrationView(BaseRegistrationView):
@@ -61,6 +66,8 @@ class RegistrationView(BaseRegistrationView):
         BalanceInfo.objects.create(user=new_user)
         ProjectInfo.objects.create(user=new_user)
         QuestionInfo.objects.create(user=new_user)
+
+        logger.info('The user %(user)s has successfully registered. ' % {'user': new_user.email})
 
         signals.user_registered.send(sender=self.__class__, user=new_user, request=request)
         return new_user
