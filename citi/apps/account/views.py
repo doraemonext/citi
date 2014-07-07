@@ -52,6 +52,8 @@ class RegistrationView(BaseRegistrationView):
         site = RequestSite(request)
         new_user = CustomRegistrationProfile.objects.create_inactive_user(email, nickname, password, site)
 
+        logger.info('Start the user %(user)s registration' % {'user': new_user.email})
+
         # 建立用户的其他相关信息
         DetailInfo.objects.create(user=new_user,
                                   name=cleaned_data.get('name', None),
@@ -95,7 +97,6 @@ class ActivationView(TemplateView):
     def get(self, request, *args, **kwargs):
         activated_user = self.activate(request, *args, **kwargs)
         if activated_user:
-            signals.user_activated.send(sender=self.__class__, user=activated_user, request=request)
             self.is_activate = True
         else:
             self.is_activate = False
@@ -109,6 +110,10 @@ class ActivationView(TemplateView):
     def activate(self, request, activation_key):
         activated_user = CustomRegistrationProfile.objects.activate_user(activation_key)
         if activated_user:
+            logger.info('The user %(user)s has successfully activated. activation code = %(code)s', {
+                'user': activated_user.email,
+                'code': activation_key,
+            })
             signals.user_activated.send(sender=self.__class__, user=activated_user, request=request)
         return activated_user
 
@@ -130,6 +135,7 @@ def login(request, template_name='login.html', authentication_form=LoginForm):
         if form.is_valid():
             # 用户登陆
             auth_login(request, form.get_user())
+            logger.info('The user %(user)s has successfully signed in', {'user': form.get_user().email})
 
             return HttpResponseRedirect(redirect_to)
     else:
@@ -149,7 +155,9 @@ def logout(request, template_name='logout.html'):
     显示登出页面, 当存在跳转链接时直接登出并跳转
 
     """
+    email = request.user.email
     auth_logout(request)
+    logger.info('The user %(user)s has successfully signed out', {'user': email})
 
     redirect_to = None
     if 'next' in request.REQUEST:
@@ -190,7 +198,9 @@ def password_reset(request, template_name='password_reset_form.html',
                 'email_template_name': email_template_name,
                 'subject_template_name': subject_template_name,
             }
+            logger.info('The password reset email of the user %(user)s starts sending.', {'user': form.get_user().email})
             form.save(request=request, **opts)
+            logger.info('The password reset email of the user %(user)s has been sent.', {'user': form.get_user().email})
             return HttpResponseRedirect(post_reset_redirect)
     else:
         form = password_reset_form()
@@ -240,8 +250,10 @@ def password_reset_confirm(request, template_name='password_reset_confirm.html',
             form = set_password_form(user, request.POST)
             if form.is_valid():
                 form.save()
+                logger.info('The process of password reset of user %(user)s has been done.', {'user': user.email})
                 return HttpResponseRedirect(post_reset_redirect)
         else:
+            logger.info('The password reset link of user %(user)s is clicked.', {'user': user.email})
             form = set_password_form(None)
     else:
         validlink = False
