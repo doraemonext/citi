@@ -179,6 +179,9 @@ class PasswordResetForm(forms.Form):
 
         return email
 
+    def get_user(self):
+        return self.user_cache
+
     def save(self, request, subject_template_name='email/password_reset_subject.txt',
              email_template_name='email/password_reset_email.html',
              use_https=False, token_generator=default_token_generator,

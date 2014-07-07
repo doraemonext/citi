@@ -1,8 +1,10 @@
 """Common settings and globals."""
 
 
+import os
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
+from logging.handlers import SysLogHandler
 
 
 ########## PATH CONFIGURATION
@@ -33,7 +35,7 @@ TEMPLATE_DEBUG = DEBUG
 ########## MANAGER CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = (
-    ('Your Name', 'your_email@example.com'),
+    ('Doraemonext', 'doraemonext@gmail.com'),
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
@@ -224,23 +226,97 @@ INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
+    'formatters': {
+        'verbose': {
+            'format': '%(asctime)s [%(pathname)s:%(funcName)s:%(lineno)d] [%(threadName)s:%(thread)d] [%(name)s] [%(levelname)s] - %(message)s'
+        },
     },
     'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
+        "apps_account_handles": {
+            'level': 'DEBUG',
+            "class": "logging.handlers.RotatingFileHandler",
+            "formatter": "verbose",
+            'filename': os.path.join(SITE_ROOT, 'logs/apps_account.log'),
+            'maxBytes': 1024 * 1024 * 10,
+            'backupCount': 5,
+        },
+        "apps_crowdfunding_handles": {
+            'level': 'DEBUG',
+            "class": "logging.handlers.RotatingFileHandler",
+            "formatter": "verbose",
+            'filename': os.path.join(SITE_ROOT, 'logs/apps_crowdfunding.log'),
+            'maxBytes': 1024 * 1024 * 10,
+            'backupCount': 5,
+        },
+        "apps_fund_handles": {
+            'level': 'DEBUG',
+            "class": "logging.handlers.RotatingFileHandler",
+            "formatter": "verbose",
+            'filename': os.path.join(SITE_ROOT, 'logs/apps_fund.log'),
+            'maxBytes': 1024 * 1024 * 10,
+            'backupCount': 5,
+        },
+        "apps_location_handles": {
+            'level': 'DEBUG',
+            "class": "logging.handlers.RotatingFileHandler",
+            "formatter": "verbose",
+            'filename': os.path.join(SITE_ROOT, 'logs/apps_location.log'),
+            'maxBytes': 1024 * 1024 * 10,
+            'backupCount': 5,
+        },
+        "apps_log_handles": {
+            'level': 'DEBUG',
+            "class": "logging.handlers.RotatingFileHandler",
+            "formatter": "verbose",
+            'filename': os.path.join(SITE_ROOT, 'logs/apps_log.log'),
+            'maxBytes': 1024 * 1024 * 10,
+            'backupCount': 5,
+        },
+        "apps_question_handles": {
+            'level': 'DEBUG',
+            "class": "logging.handlers.RotatingFileHandler",
+            "formatter": "verbose",
+            'filename': os.path.join(SITE_ROOT, 'logs/apps_question.log'),
+            'maxBytes': 1024 * 1024 * 10,
+            'backupCount': 5,
+        },
+        "system_users_handles": {
+            'level': 'DEBUG',
+            "class": "logging.handlers.RotatingFileHandler",
+            "formatter": "verbose",
+            'filename': os.path.join(SITE_ROOT, 'logs/system_users.log'),
+            'maxBytes': 1024 * 1024 * 10,
+            'backupCount': 5,
+        },
     },
     'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
+        "apps.account": {
+            "handlers": ["apps_account_handles"],
+            "level": "DEBUG",
+        },
+        "apps.crowdfunding": {
+            "handlers": ["apps_crowdfunding_handles"],
+            "level": "DEBUG",
+        },
+        "apps.fund": {
+            "handlers": ["apps_fund_handles"],
+            "level": "DEBUG",
+        },
+        "apps.location": {
+            "handlers": ["apps_location_handles"],
+            "level": "DEBUG",
+        },
+        "apps.log": {
+            "handlers": ["apps_log_handles"],
+            "level": "DEBUG",
+        },
+        "apps.question": {
+            "handlers": ["apps_question_handles"],
+            "level": "DEBUG",
+        },
+        "system.users": {
+            "handlers": ["system_users_handles"],
+            "level": "DEBUG",
         },
     }
 }
