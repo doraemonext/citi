@@ -194,6 +194,7 @@ DJANGO_APPS = (
     'mptt',
     'django_mptt_admin',
     'rest_framework',
+    'rest_framework.authtoken',
     'captcha',
     'registration',
 
@@ -351,6 +352,10 @@ REST_FRAMEWORK = {
     # Use hyperlinked styles by default.
     # Only used if the `serializer_class` attribute is not set on a view.
     'DEFAULT_MODEL_SERIALIZER_CLASS': 'rest_framework.serializers.HyperlinkedModelSerializer',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    )
 }
 ########## END REST FRAMEWORK CONFIGURATION
 
