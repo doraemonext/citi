@@ -194,11 +194,11 @@ DJANGO_APPS = (
     'mptt',
     'django_mptt_admin',
     'rest_framework',
-    'rest_framework.authtoken',
     'captcha',
     'registration',
 
     'system.users',
+    'system.authtoken',
 
     'apps.account',
     'apps.log',
@@ -289,6 +289,14 @@ LOGGING = {
             'maxBytes': 1024 * 1024 * 10,
             'backupCount': 5,
         },
+        "system_authtoken_handles": {
+            'level': 'DEBUG',
+            "class": "logging.handlers.RotatingFileHandler",
+            "formatter": "verbose",
+            'filename': os.path.join(SITE_ROOT, 'logs/system_authtoken.log'),
+            'maxBytes': 1024 * 1024 * 10,
+            'backupCount': 5,
+        },
     },
     'loggers': {
         "apps.account": {
@@ -319,6 +327,10 @@ LOGGING = {
             "handlers": ["system_users_handles"],
             "level": "DEBUG",
         },
+        "system.authtoken": {
+            "handlers": ["system_authtoken_handles"],
+            "level": "DEBUG",
+        }
     }
 }
 ########## END LOGGING CONFIGURATION
@@ -354,9 +366,10 @@ REST_FRAMEWORK = {
     'DEFAULT_MODEL_SERIALIZER_CLASS': 'rest_framework.serializers.HyperlinkedModelSerializer',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
+        'system.authtoken.authentication.ExpiringTokenAuthentication',
     )
 }
+AUTHTOKEN_EXPIRE_SECOND = 7
 ########## END REST FRAMEWORK CONFIGURATION
 
 AUTH_USER_MODEL = 'users.CustomUser'
