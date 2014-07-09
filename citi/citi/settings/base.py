@@ -4,7 +4,6 @@
 import os
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
-from logging.handlers import SysLogHandler
 
 
 ########## PATH CONFIGURATION
@@ -76,6 +75,8 @@ USE_L10N = True
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
 USE_TZ = True
+
+APPEND_SLASH = True
 ########## END GENERAL CONFIGURATION
 
 
@@ -388,6 +389,8 @@ API_ERROR_CODE = {
     'Required data': 10002,
     'Inactive user': 10003,
     'Incorrect email or password': 10004,
+    'Invalid token': 10005,
+    'Invalid refresh token': 10006,
 
     # System Error Code
     'System error': 12000,

@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     url(r'^captcha/', include('captcha.urls')),
 
     url(r'^api/', include([
-        url(r'^token/', 'system.authtoken.views.obtain_expiring_auth_token'),
+        url(r'^token/', include('system.authtoken.urls')),
         url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
         url(r'^location/', include('apps.location.urls')),
     ])),

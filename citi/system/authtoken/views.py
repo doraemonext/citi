@@ -11,14 +11,14 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework import status
 
 from .models import Token
-from .serializers import AuthTokenSerializer
+from .serializers import GetAuthTokenSerializer, RefreshAuthTokenSerializer
 
 
 logger = logging.getLogger(__name__)
 
 
-class ObtainExpiringAuthToken(ObtainAuthToken):
-    serializer_class = AuthTokenSerializer
+class GetObtainAuthToken(ObtainAuthToken):
+    serializer_class = GetAuthTokenSerializer
     model = Token
 
     def post(self, request):
@@ -41,4 +41,22 @@ class ObtainExpiringAuthToken(ObtainAuthToken):
         else:
             return HttpResponse(json.dumps(serializer.process_errors()), content_type="application/json", status=status.HTTP_400_BAD_REQUEST)
 
-obtain_expiring_auth_token = ObtainExpiringAuthToken.as_view()
+
+class RefreshObtainAuthToken(ObtainAuthToken):
+    serializer_class = RefreshAuthTokenSerializer
+    model = Token
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.DATA)
+        if serializer.is_valid():
+            token = serializer.object['token']
+            user = token.user
+
+            token.delete()
+            token = Token.objects.create(user=user)
+            token.save()
+
+            response_data = {'token': token.key, 'refresh_token': token.rkey}
+            return HttpResponse(json.dumps(response_data), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps(serializer.process_errors()), content_type="application/json", status=status.HTTP_400_BAD_REQUEST)
