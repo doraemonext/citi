@@ -39,6 +39,6 @@ class ObtainExpiringAuthToken(ObtainAuthToken):
             response_data = {'token': token.key, 'refresh_token': token.rkey}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
         else:
-            return HttpResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return HttpResponse(json.dumps(serializer.process_errors()), content_type="application/json", status=status.HTTP_400_BAD_REQUEST)
 
 obtain_expiring_auth_token = ObtainExpiringAuthToken.as_view()

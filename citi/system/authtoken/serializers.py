@@ -1,12 +1,20 @@
-from django.contrib.auth import authenticate
-from django.utils.translation import ugettext_lazy as _
+# -*- coding: utf-8 -*-
 
+from django.contrib.auth import authenticate
 from rest_framework import serializers
 
+from libs.api.serializers import CustomSerializer
 
-class AuthTokenSerializer(serializers.Serializer):
-    email = serializers.CharField()
-    password = serializers.CharField()
+
+class AuthTokenSerializer(CustomSerializer):
+    email = serializers.EmailField(error_messages={
+        'required': 'Required data',
+        'invalid': 'Invalid data',
+    })
+    password = serializers.CharField(error_messages={
+        'required': 'Required data',
+        'invalid': 'Invalid data',
+    })
 
     def validate(self, attrs):
         email = attrs.get('email')
@@ -17,13 +25,10 @@ class AuthTokenSerializer(serializers.Serializer):
 
             if user:
                 if not user.is_active:
-                    msg = _('User account is disabled.')
-                    raise serializers.ValidationError(msg)
+                    raise serializers.ValidationError('Inactive user')
                 attrs['user'] = user
                 return attrs
             else:
-                msg = _('Unable to login with provided credentials.')
-                raise serializers.ValidationError(msg)
+                raise serializers.ValidationError('Incorrect email or password')
         else:
-            msg = _('Must include "username" and "password"')
-            raise serializers.ValidationError(msg)
+            raise serializers.ValidationError('Required data')

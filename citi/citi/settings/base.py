@@ -281,6 +281,14 @@ LOGGING = {
             'maxBytes': 1024 * 1024 * 10,
             'backupCount': 5,
         },
+        "libs_api_handles": {
+            'level': 'DEBUG',
+            "class": "logging.handlers.RotatingFileHandler",
+            "formatter": "verbose",
+            'filename': os.path.join(SITE_ROOT, 'logs/libs_api.log'),
+            'maxBytes': 1024 * 1024 * 10,
+            'backupCount': 5,
+        },
         "system_users_handles": {
             'level': 'DEBUG',
             "class": "logging.handlers.RotatingFileHandler",
@@ -321,6 +329,10 @@ LOGGING = {
         },
         "apps.question": {
             "handlers": ["apps_question_handles"],
+            "level": "DEBUG",
+        },
+        "libs.api": {
+            "handlers": ["libs_api_handles"],
             "level": "DEBUG",
         },
         "system.users": {
@@ -370,6 +382,16 @@ REST_FRAMEWORK = {
     )
 }
 AUTHTOKEN_EXPIRE_SECOND = 7
+API_ERROR_CODE = {
+    'Invalid data': 10000,
+    'Incomplete data': 10001,
+    'Required data': 10002,
+    'Inactive user': 10003,
+    'Incorrect email or password': 10004,
+
+    # System Error Code
+    'System error': 12000,
+}
 ########## END REST FRAMEWORK CONFIGURATION
 
 AUTH_USER_MODEL = 'users.CustomUser'
