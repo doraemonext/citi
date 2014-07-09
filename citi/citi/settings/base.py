@@ -391,6 +391,7 @@ API_ERROR_CODE = {
     'Incorrect email or password': 10004,
     'Invalid token': 10005,
     'Invalid refresh token': 10006,
+    'Validation Failed': 10007,
 
     # System Error Code
     'System error': 12000,
