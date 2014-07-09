@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """Common settings and globals."""
 
 
@@ -380,17 +382,35 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'system.authtoken.authentication.ExpiringTokenAuthentication',
-    )
+    ),
+    'EXCEPTION_HANDLER': 'libs.api.views.exception_handler',
 }
 AUTHTOKEN_EXPIRE_SECOND = 7200
 API_ERROR_CODE = {
-    'Invalid data': 10000,
-    'Required data': 10001,
-    'Inactive user': 10002,
-    'Incorrect email or password': 10003,
-    'Invalid token': 10004,
-    'Invalid refresh token': 10005,
-    'Validation Failed': 10006,
+    'Invalid data': 10000,  # 不合法的数据
+    'Required data': 10001,  # 该字段为必须的
+    'Inactive user': 10002,  # 该用户尚未激活
+    'Incorrect email or password': 10003,  # 不正确的电子邮箱地址或密码
+    'Invalid token': 10004,  # 无效的Token
+    'Invalid refresh token': 10005,  # 无效的Refresh Token
+    'Validation Failed': 10006,  # 验证自定义数据失败
+    'Invalid token header. No credentials provided.': 10007,  # 不合法的token header, 没有任何验证信息被提供
+    'Invalid token header. Token string should not contain spaces.': 10008,  # 不合法的token header, token不能包含空格
+    'User inactive or deleted': 10009,  # 用户未激活或已删除
+    'Token has expired': 10010,  # Token已经过期
+    'Malformed request.': 10011,  # 错误的请求
+    'Incorrect authentication credentials.': 10012,  # 不正确的身份验证信息
+    'Authentication credentials were not provided.': 10013,  # 身份验证信息没有提供
+    'You do not have permission to perform this action.': 10014,  # 没有权限去执行当前操作
+    'Not found': 10015,  # 找不到页面
+    "Method 'GET' not allowed.": 10016,  # GET方法不允许
+    "Method 'POST' not allowed.": 10017,  # POST方法不允许
+    "Method 'PUT' not allowed.": 10018,  # PUT方法不允许
+    "Method 'DELETE' not allowed.": 10019,  # DELETE方法不允许
+    "Method 'HEAD' not allowed.": 10020,  # HEAD方法不允许
+    "Method 'PATCH' not allowed.": 10021,  # PATCH方法不允许
+    "Could not satisfy the request's Accept header": 10022,  # 不能满足请求的头信息
+    'Permission denied': 10023,  # 权限不足
 
     # System Error Code
     'System error': 12000,
