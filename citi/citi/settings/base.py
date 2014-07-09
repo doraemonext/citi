@@ -382,16 +382,15 @@ REST_FRAMEWORK = {
         'system.authtoken.authentication.ExpiringTokenAuthentication',
     )
 }
-AUTHTOKEN_EXPIRE_SECOND = 7
+AUTHTOKEN_EXPIRE_SECOND = 7200
 API_ERROR_CODE = {
     'Invalid data': 10000,
-    'Incomplete data': 10001,
-    'Required data': 10002,
-    'Inactive user': 10003,
-    'Incorrect email or password': 10004,
-    'Invalid token': 10005,
-    'Invalid refresh token': 10006,
-    'Validation Failed': 10007,
+    'Required data': 10001,
+    'Inactive user': 10002,
+    'Incorrect email or password': 10003,
+    'Invalid token': 10004,
+    'Invalid refresh token': 10005,
+    'Validation Failed': 10006,
 
     # System Error Code
     'System error': 12000,
