@@ -3,7 +3,7 @@
 """
 该文件用于在第一次 syncdb 时新建用户组及用户组权限。
 
-有三个用户组，分别为管理员, 认证用户, 未认证用户
+有三个用户组，分别为admin, nocertification, certification
 
 该表需手工维护，其中管理员权限表为所有权限, 可直接复制并修改
 
@@ -25,7 +25,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         group_perms = {
-            u'管理员': {
+            u'admin': {
                 'perms': (
                     u'add_location',
                     u'change_location',
@@ -93,7 +93,7 @@ class Command(BaseCommand):
                     u'view_questionanswervote',
                 )
             },
-            u'认证用户': {
+            u'certification': {
                 'perms': (
                     u'add_project',
                     u'change_project',
@@ -145,7 +145,7 @@ class Command(BaseCommand):
                     u'view_questionanswervote',
                 )
             },
-            u'未认证用户': {
+            u'nocertification': {
                 'perms': (
                     u'view_project',
                     u'view_projectcover',

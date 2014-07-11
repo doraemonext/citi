@@ -118,10 +118,10 @@ class ActivationView(TemplateView):
             })
 
             try:
-                group = Group.objects.get(name=u'未认证用户')
+                group = Group.objects.get(name=u'nocertification')
                 group.user_set.add(activated_user)
             except ObjectDoesNotExist:
-                logger.error(u'The group "未认证用户" is not exist. The user %(user)s is not added to any group. '
+                logger.error(u'The group "nocertification" is not exist. The user %(user)s is not added to any group. '
                              u'You may not execute "./manage.py create_group" '
                              u'after syncdb.' % {'user': activated_user.email})
 
