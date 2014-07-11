@@ -7,6 +7,8 @@ from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
+from django.core.exceptions import ObjectDoesNotExist
 from django.utils.http import is_safe_url, urlsafe_base64_decode
 from django.shortcuts import resolve_url
 from django.views.decorators.csrf import csrf_protect
@@ -114,6 +116,15 @@ class ActivationView(TemplateView):
                 'user': activated_user.email,
                 'code': activation_key,
             })
+
+            try:
+                group = Group.objects.get(name=u'nocertification')
+                group.user_set.add(activated_user)
+            except ObjectDoesNotExist:
+                logger.error(u'The group "nocertification" is not exist. The user %(user)s is not added to any group. '
+                             u'You may not execute "./manage.py create_group" '
+                             u'after syncdb.' % {'user': activated_user.email})
+
             signals.user_activated.send(sender=self.__class__, user=activated_user, request=request)
         return activated_user
 
