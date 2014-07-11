@@ -56,20 +56,17 @@ class RegistrationView(BaseRegistrationView):
 
         logger.info('Start the user %(user)s registration' % {'user': new_user.email})
 
-        # 建立用户的其他相关信息
-        DetailInfo.objects.create(user=new_user,
-                                  name=cleaned_data.get('name', None),
-                                  sex=cleaned_data.get('sex', 'u'),  # 默认为性别保密
-                                  age=cleaned_data.get('age', None),
-                                  native=cleaned_data.get('native', None),
-                                  profession=cleaned_data.get('profession', None),
-                                  idcard=cleaned_data.get('idcard', None),
-                                  mobile=cleaned_data.get('mobile', None),
-                                  qq=cleaned_data.get('qq', None))
-        FundInfo.objects.create(user=new_user)
-        BalanceInfo.objects.create(user=new_user)
-        ProjectInfo.objects.create(user=new_user)
-        QuestionInfo.objects.create(user=new_user)
+        # 建立用户的详细信息
+        detail_info = DetailInfo.objects.get(user=new_user)
+        detail_info.name = cleaned_data.get('name', None)
+        detail_info.sex = cleaned_data.get('sex', 'u')  # 默认为性别保密
+        detail_info.age = cleaned_data.get('age', None)
+        detail_info.native = cleaned_data.get('native', None)
+        detail_info.profession = cleaned_data.get('profession', None)
+        detail_info.idcard = cleaned_data.get('idcard', None)
+        detail_info.mobile = cleaned_data.get('mobile', None)
+        detail_info.qq = cleaned_data.get('qq', None)
+        detail_info.save()
 
         logger.info('The user %(user)s has successfully registered. ' % {'user': new_user.email})
 
