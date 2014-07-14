@@ -5,7 +5,11 @@ from rest_framework import serializers
 from .models import Location
 
 
-class LocationSerializer(serializers.Serializer):
-    pk = serializers.Field()
-    name = serializers.CharField(max_length=30)
-    level = serializers.IntegerField()
+class LocationSerializer(serializers.ModelSerializer):
+    """
+    地理位置序列化
+
+    """
+    class Meta:
+        model = Location
+        fields = ('id', 'name')
