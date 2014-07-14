@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^$', TemplateView.as_view(template_name='base.html')),
     url(r'^accounts/', include('apps.account.urls')),
     url(r'^captcha/', include('captcha.urls')),
+    url(r'^crowdfunding/', include('apps.crowdfunding.urls')),
 
     url(r'^api/', include([
         url(r'^token/', include('system.authtoken.urls')),
