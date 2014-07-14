@@ -8,7 +8,7 @@ from .models import Location
 
 
 class LocationAdmin(MPTTModelAdmin, SortableModelAdmin):
-    mptt_level_indent = 20
+    mptt_level_indent = 40
     list_display = ('name', )
 
     sortable = 'order'
