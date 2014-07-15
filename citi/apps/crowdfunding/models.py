@@ -15,12 +15,13 @@ class ProjectCategory(MPTTModel):
     """
     name = models.CharField(u'菜系分类名称', max_length=30)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', verbose_name=u'分类父亲')
+    order = models.PositiveIntegerField()
 
     def __unicode__(self):
         return self.name
 
     class MPTTMeta:
-        order_insertion_by = ['name']
+        order_insertion_by = ['order']
 
     class Meta:
         verbose_name = u'菜系分类'
@@ -29,17 +30,26 @@ class ProjectCategory(MPTTModel):
             ('view_projectcategory', u'Can view 菜系分类'),
         )
 
+    def save(self, *args, **kwargs):
+        super(ProjectCategory, self).save(*args, **kwargs)
+        ProjectCategory.objects.rebuild()
+
+    def __unicode__(self):
+        return self.name
+
 
 class Project(models.Model):
     """
     项目 model
 
     """
+    STATUS_PENDING = 'pending'
     STATUS_UNDERWAY = 'underway'
     STATUS_SUCCEED = 'succeed'
     STATUS_ENDED = 'ended'
     STATUS_RETENTION = 'retention'
     STATUS = (
+        ('pending', u'等待审核'),
         ('underway', u'进行中'),
         ('succeed', u'已成功'),
         ('ended', u'已结束'),
@@ -56,7 +66,7 @@ class Project(models.Model):
     summary = models.CharField(u'项目简介', max_length=255)
     content = models.TextField(u'项目内容')
     now_money = models.FloatField(u'已筹集金额', default=0)
-    status = models.CharField(u'项目状态', choices=STATUS, default=STATUS_UNDERWAY, max_length=20)
+    status = models.CharField(u'项目状态', choices=STATUS, default=STATUS_PENDING, max_length=20)
     attention_count = models.IntegerField(u'项目关注数目', default=0)
     post_datetime = models.DateTimeField(u'发布日期', auto_now_add=True)
     modify_datetime = models.DateTimeField(u'最后修改日期', auto_now=True)

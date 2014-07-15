@@ -2,9 +2,13 @@
 
 import logging
 
-from django.views.generic import TemplateView, CreateView
+#from django.contrib.auth import get_user_model
+from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views.generic import TemplateView, FormView
 
-from .models import Project
+from .forms import ProjectForm
 
 
 logger = logging.getLogger(__name__)
@@ -19,9 +23,19 @@ class PublishView(TemplateView):
         return context
 
 
-class PublishContentView(CreateView):
-    model = Project
-    template_name_suffix = '_create_form'
-    fields = ['name', 'location', 'location_detail', 'category', 'total_money', 'total_days',
-              'summary', 'content']
+class PublishContentView(FormView):
+    template_name = 'crowdfunding/publish_content.html'
+    form_class = ProjectForm
 
+    def form_valid(self, form):
+        project = form.save(commit=False)
+        project.user = self.request.user
+        project.save()
+        return HttpResponseRedirect(self.get_success_url(project.pk))
+
+    def get_success_url(self, project_id=None):
+        return '/' + str(project_id) + '/'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(PublishContentView, self).dispatch(request, *args, **kwargs)
