@@ -2,7 +2,6 @@
 
 import logging
 
-#from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -22,6 +21,10 @@ class PublishView(TemplateView):
         context['agreement'] = u'发布项目协议'
         return context
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(PublishView, self).dispatch(request, *args, **kwargs)
+
 
 class PublishContentView(FormView):
     template_name = 'crowdfunding/publish_content.html'
@@ -39,3 +42,5 @@ class PublishContentView(FormView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super(PublishContentView, self).dispatch(request, *args, **kwargs)
+
+
