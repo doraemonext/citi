@@ -10,6 +10,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, FormView
 
+from system.settings.views import get_setting_dict
 from libs.ajax.views import AjaxResponseMixin
 from .forms import ProjectForm
 from .models import Project
@@ -23,7 +24,7 @@ class PublishView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(PublishView, self).get_context_data(**kwargs)
-        context['agreement'] = u'发布项目协议'
+        context['agreement'] = get_setting_dict('publish_agreement')
         return context
 
     @method_decorator(login_required)
