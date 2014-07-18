@@ -2,14 +2,17 @@
 
 import logging
 
-from django.http import HttpResponseRedirect
+from django.http import Http404
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, FormView
 
 from libs.ajax.views import AjaxResponseMixin
 from .forms import ProjectForm
+from .models import Project
 
 
 logger = logging.getLogger(__name__)
@@ -30,6 +33,7 @@ class PublishView(TemplateView):
 
 class PublishContentView(AjaxResponseMixin, FormView):
     template_name = 'crowdfunding/publish_content.html'
+    http_method_names = ['get', 'post']
     form_class = ProjectForm
 
     def __init__(self):
@@ -43,10 +47,28 @@ class PublishContentView(AjaxResponseMixin, FormView):
         return super(PublishContentView, self).form_valid(form)
 
     def get_success_url(self):
-        url = '/crowdfunding/publish/payoff/' + str(self.object.pk) + '/'  # DEBUG用, 需修改
-        return url
+        return reverse('crowdfunding.publish.payoff', kwargs={'project_id': self.object.pk})
 
     @method_decorator(login_required)
     @csrf_exempt
     def dispatch(self, request, *args, **kwargs):
         return super(PublishContentView, self).dispatch(request, *args, **kwargs)
+
+
+class PublishPayoffView(TemplateView):
+    template_name = 'crowdfunding/publish_payoff.html'
+    http_method_names = ['get']
+
+    def __init__(self):
+        self.project = None
+        super(PublishPayoffView, self).__init__()
+
+    def get(self, request, *args, **kwargs):
+        try:
+            id = kwargs['project_id']
+            self.project = Project.objects.get(pk=id)
+        except KeyError:
+            raise Http404
+        except ObjectDoesNotExist:
+            raise Http404
+        return super(PublishPayoffView, self).get(request, *args, **kwargs)
