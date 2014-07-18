@@ -15,6 +15,7 @@ class Question(models.Model):
     content = models.TextField(u'问题内容')
     answer_count = models.IntegerField(u'回答数目', default=0)
     comment_count = models.IntegerField(u'评论数目', default=0)
+    attention_count = models.IntegerField(u'关注数目', default=0)
     post_datetime = models.DateTimeField(u'发布日期', auto_now_add=True)
     modify_datetime = models.DateTimeField(u'最后修改日期', auto_now=True)
 

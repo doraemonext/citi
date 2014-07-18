@@ -203,6 +203,7 @@ DJANGO_APPS = (
 
     'system.users',
     'system.authtoken',
+    'system.settings',
 
     'apps.account',
     'apps.log',
