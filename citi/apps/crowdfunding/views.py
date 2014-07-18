@@ -72,6 +72,10 @@ class PublishPayoffView(TemplateView):
             raise Http404
         return super(PublishPayoffView, self).get(request, *args, **kwargs)
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(PublishPayoffView, self).dispatch(request, *args, **kwargs)
+
 
 class PublishVerifyView(TemplateView):
     template_name = 'crowdfunding/publish_payoff.html'
@@ -89,3 +93,7 @@ class PublishVerifyView(TemplateView):
         except ObjectDoesNotExist:
             raise Http404
         return super(PublishVerifyView, self).get(request, *args, **kwargs)
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(PublishVerifyView, self).dispatch(request, *args, **kwargs)
