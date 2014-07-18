@@ -5,8 +5,10 @@ import logging
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, FormView
 
+from libs.ajax.views import AjaxResponseMixin
 from .forms import ProjectForm
 
 
@@ -26,21 +28,25 @@ class PublishView(TemplateView):
         return super(PublishView, self).dispatch(request, *args, **kwargs)
 
 
-class PublishContentView(FormView):
+class PublishContentView(AjaxResponseMixin, FormView):
     template_name = 'crowdfunding/publish_content.html'
     form_class = ProjectForm
 
-    def form_valid(self, form):
-        project = form.save(commit=False)
-        project.user = self.request.user
-        project.save()
-        return HttpResponseRedirect(self.get_success_url(project.pk))
+    def __init__(self):
+        self.object = None
+        super(PublishContentView, self).__init__()
 
-    def get_success_url(self, project_id=None):
-        return '/' + str(project_id) + '/'
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return super(PublishContentView, self).form_valid(form)
+
+    def get_success_url(self):
+        url = '/crowdfunding/publish/payoff/' + str(self.object.pk) + '/'  # DEBUG用, 需修改
+        return url
 
     @method_decorator(login_required)
+    @csrf_exempt
     def dispatch(self, request, *args, **kwargs):
         return super(PublishContentView, self).dispatch(request, *args, **kwargs)
-
-
