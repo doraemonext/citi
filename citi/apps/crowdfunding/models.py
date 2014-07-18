@@ -61,9 +61,9 @@ class Project(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
     name = models.CharField(u'项目名称', max_length=30)
-    location = models.ForeignKey(Location, verbose_name=u'地理位置')
+    location = TreeForeignKey(Location, verbose_name=u'地理位置')
     location_detail = models.CharField(u'详细地址', max_length=255, blank=True, null=True)
-    category = models.ForeignKey(ProjectCategory, verbose_name=u'菜系分类')
+    category = TreeForeignKey(ProjectCategory, verbose_name=u'菜系分类')
     total_money = models.FloatField(u'筹款金额')
     total_days = models.IntegerField(u'筹款天数')
     summary = models.CharField(u'项目简介', max_length=255)
