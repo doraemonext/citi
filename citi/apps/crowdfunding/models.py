@@ -65,8 +65,8 @@ class Project(models.Model):
     total_money = models.FloatField(u'筹款金额')
     total_days = models.IntegerField(u'筹款天数')
     summary = models.CharField(u'项目简介', max_length=255)
-    content = UEditorField(u'项目内容', width=600, height=300, toolbars='full', imagePath='project/images/',
-                           filePath='project/files/', settings={})
+    content = UEditorField(u'项目内容', width=600, height=300, toolbars='full', imagePath='crowdfunding/images/',
+                           filePath='crowdfunding/files/', settings={})
     now_money = models.FloatField(u'已筹集金额', default=0)
     status = models.CharField(u'项目状态', choices=STATUS, default=STATUS_PENDING, max_length=20)
     attention_count = models.IntegerField(u'项目关注数目', default=0)
