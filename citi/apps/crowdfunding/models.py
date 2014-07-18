@@ -65,8 +65,10 @@ class Project(models.Model):
     total_money = models.FloatField(u'筹款金额')
     total_days = models.IntegerField(u'筹款天数')
     summary = models.CharField(u'项目简介', max_length=255)
-    content = UEditorField(u'项目内容', width=600, height=300, toolbars='full', imagePath='crowdfunding/images/',
-                           filePath='crowdfunding/files/', settings={})
+    content = UEditorField(u'项目内容', width=600, height=300, toolbars='full',
+                           imagePath=get_config('UPLOAD_CROWDFUNDING_PROJECT_IMAGES', 'crowdfunding/project/images/'),
+                           filePath=get_config('UPLOAD_CROWDFUNDING_PROJECT_FILES', 'crowdfunding/project/files/'),
+                           settings={})
     now_money = models.FloatField(u'已筹集金额', default=0)
     status = models.CharField(u'项目状态', choices=STATUS, default=STATUS_PENDING, max_length=20)
     attention_count = models.IntegerField(u'项目关注数目', default=0)
@@ -91,7 +93,7 @@ class ProjectCover(models.Model):
     """
     project = models.ForeignKey(Project, verbose_name=u'所属项目')
     image = models.ImageField(u'图片文件', upload_to=get_config(
-        'UPLOAD_CROWDFUNDING_PROJECT_COVER', 'crowdfunding/project/cover'
+        'UPLOAD_CROWDFUNDING_PROJECT_COVER', 'crowdfunding/project/cover/'
     ))
     order = models.IntegerField(u'排列顺序', default=0)
 
@@ -114,7 +116,7 @@ class ProjectFeedback(models.Model):
     project = models.ForeignKey(Project, verbose_name=u'所属项目')
     content = models.TextField(u'回报描述')
     image = models.ImageField(u'图片描述', upload_to=get_config(
-        'UPLOAD_CROWDFUNDING_PROJECT_FEEDBACK', 'crowdfunding/project/feedback'
+        'UPLOAD_CROWDFUNDING_PROJECT_FEEDBACK', 'crowdfunding/project/feedback/'
     ), blank=True, null=True)
     order = models.IntegerField(u'排列顺序', default=0)
 
