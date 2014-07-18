@@ -200,6 +200,7 @@ DJANGO_APPS = (
     'rest_framework',
     'captcha',
     'registration',
+    'DjangoUeditor',
 
     'system.users',
     'system.authtoken',
