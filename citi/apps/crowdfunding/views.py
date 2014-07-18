@@ -65,10 +65,27 @@ class PublishPayoffView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         try:
-            id = kwargs['project_id']
-            self.project = Project.objects.get(pk=id)
+            self.project = Project.objects.get(pk=kwargs['project_id'])
         except KeyError:
             raise Http404
         except ObjectDoesNotExist:
             raise Http404
         return super(PublishPayoffView, self).get(request, *args, **kwargs)
+
+
+class PublishVerifyView(TemplateView):
+    template_name = 'crowdfunding/publish_payoff.html'
+    http_method_names = ['get']
+
+    def __init__(self):
+        self.project = None
+        super(PublishVerifyView, self).__init__()
+
+    def get(self, request, *args, **kwargs):
+        try:
+            self.project = Project.objects.get(pk=kwargs['project_id'])
+        except KeyError:
+            raise Http404
+        except ObjectDoesNotExist:
+            raise Http404
+        return super(PublishVerifyView, self).get(request, *args, **kwargs)
