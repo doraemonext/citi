@@ -4,6 +4,7 @@ from django.db import models
 from django.conf import settings
 from mptt.models import MPTTModel, TreeForeignKey
 from annoying.functions import get_config
+from DjangoUeditor.models import UEditorField
 
 from apps.location.models import Location
 
@@ -15,12 +16,13 @@ class ProjectCategory(MPTTModel):
     """
     name = models.CharField(u'菜系分类名称', max_length=30)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', verbose_name=u'分类父亲')
+    order = models.PositiveIntegerField()
 
     def __unicode__(self):
         return self.name
 
     class MPTTMeta:
-        order_insertion_by = ['name']
+        order_insertion_by = ['order']
 
     class Meta:
         verbose_name = u'菜系分类'
@@ -29,17 +31,28 @@ class ProjectCategory(MPTTModel):
             ('view_projectcategory', u'Can view 菜系分类'),
         )
 
+    def save(self, *args, **kwargs):
+        super(ProjectCategory, self).save(*args, **kwargs)
+        ProjectCategory.objects.rebuild()
+
+    def __unicode__(self):
+        return self.name
+
 
 class Project(models.Model):
     """
     项目 model
 
     """
+    STATUS_DRAFT = 'draft'
+    STATUS_PENDING = 'pending'
     STATUS_UNDERWAY = 'underway'
     STATUS_SUCCEED = 'succeed'
     STATUS_ENDED = 'ended'
     STATUS_RETENTION = 'retention'
     STATUS = (
+        ('draft', u'草稿'),
+        ('pending', u'等待审核'),
         ('underway', u'进行中'),
         ('succeed', u'已成功'),
         ('ended', u'已结束'),
@@ -48,15 +61,18 @@ class Project(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
     name = models.CharField(u'项目名称', max_length=30)
-    location = models.ForeignKey(Location, verbose_name=u'地理位置')
+    location = TreeForeignKey(Location, verbose_name=u'地理位置')
     location_detail = models.CharField(u'详细地址', max_length=255, blank=True, null=True)
-    category = models.ForeignKey(ProjectCategory, verbose_name=u'菜系分类')
+    category = TreeForeignKey(ProjectCategory, verbose_name=u'菜系分类')
     total_money = models.FloatField(u'筹款金额')
     total_days = models.IntegerField(u'筹款天数')
     summary = models.CharField(u'项目简介', max_length=255)
-    content = models.TextField(u'项目内容')
+    content = UEditorField(u'项目内容', width=600, height=300, toolbars='full',
+                           imagePath=get_config('UPLOAD_CROWDFUNDING_PROJECT_IMAGES', 'crowdfunding/project/images/'),
+                           filePath=get_config('UPLOAD_CROWDFUNDING_PROJECT_FILES', 'crowdfunding/project/files/'),
+                           settings={})
     now_money = models.FloatField(u'已筹集金额', default=0)
-    status = models.CharField(u'项目状态', choices=STATUS, default=STATUS_UNDERWAY, max_length=20)
+    status = models.CharField(u'项目状态', choices=STATUS, default=STATUS_DRAFT, max_length=20)
     attention_count = models.IntegerField(u'项目关注数目', default=0)
     post_datetime = models.DateTimeField(u'发布日期', auto_now_add=True)
     modify_datetime = models.DateTimeField(u'最后修改日期', auto_now=True)
@@ -79,7 +95,7 @@ class ProjectCover(models.Model):
     """
     project = models.ForeignKey(Project, verbose_name=u'所属项目')
     image = models.ImageField(u'图片文件', upload_to=get_config(
-        'UPLOAD_CROWDFUNDING_PROJECT_COVER', 'crowdfunding/project/cover'
+        'UPLOAD_CROWDFUNDING_PROJECT_COVER', 'crowdfunding/project/cover/'
     ))
     order = models.IntegerField(u'排列顺序', default=0)
 
@@ -102,7 +118,7 @@ class ProjectFeedback(models.Model):
     project = models.ForeignKey(Project, verbose_name=u'所属项目')
     content = models.TextField(u'回报描述')
     image = models.ImageField(u'图片描述', upload_to=get_config(
-        'UPLOAD_CROWDFUNDING_PROJECT_FEEDBACK', 'crowdfunding/project/feedback'
+        'UPLOAD_CROWDFUNDING_PROJECT_FEEDBACK', 'crowdfunding/project/feedback/'
     ), blank=True, null=True)
     order = models.IntegerField(u'排列顺序', default=0)
 

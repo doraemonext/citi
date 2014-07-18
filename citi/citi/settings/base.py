@@ -200,6 +200,7 @@ DJANGO_APPS = (
     'rest_framework',
     'captcha',
     'registration',
+    'DjangoUeditor',
 
     'system.users',
     'system.authtoken',
@@ -371,8 +372,10 @@ SOUTH_TESTS_MIGRATE = False
 
 
 ########## FILE UPLOAD CONFIGURATION
-UPLOAD_CROWDFUNDING_PROJECT_COVER = 'crowdfunding/project/cover'
-UPLOAD_CROWDFUNDING_PROJECT_FEEDBACK = 'crowdfunding/project/feedback'
+UPLOAD_CROWDFUNDING_PROJECT_COVER = 'crowdfunding/project/cover/'
+UPLOAD_CROWDFUNDING_PROJECT_FEEDBACK = 'crowdfunding/project/feedback/'
+UPLOAD_CROWDFUNDING_PROJECT_IMAGES = 'crowdfunding/project/images/'
+UPLOAD_CROWDFUNDING_PROJECT_FILES = 'crowdfunding/project/files/'
 ########## END UPLOAD CONFIGURATION
 
 

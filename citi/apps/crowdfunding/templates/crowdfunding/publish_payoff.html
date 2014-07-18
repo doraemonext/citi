@@ -1,0 +1,18 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>套餐设置</title>
+        <meta charset="utf-8">
+        <script src="{% static 'js/jquery-latest.js' %}"></script>
+    </head>
+    <body>
+        <form action="" method="post">
+            {% csrf_token %}
+
+            <hr>
+            <button type="submit">下一步</button>
+        </form>
+    </body>
+</html>
