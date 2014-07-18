@@ -44,12 +44,14 @@ class Project(models.Model):
     项目 model
 
     """
+    STATUS_DRAFT = 'draft'
     STATUS_PENDING = 'pending'
     STATUS_UNDERWAY = 'underway'
     STATUS_SUCCEED = 'succeed'
     STATUS_ENDED = 'ended'
     STATUS_RETENTION = 'retention'
     STATUS = (
+        ('draft', u'草稿'),
         ('pending', u'等待审核'),
         ('underway', u'进行中'),
         ('succeed', u'已成功'),
@@ -70,7 +72,7 @@ class Project(models.Model):
                            filePath=get_config('UPLOAD_CROWDFUNDING_PROJECT_FILES', 'crowdfunding/project/files/'),
                            settings={})
     now_money = models.FloatField(u'已筹集金额', default=0)
-    status = models.CharField(u'项目状态', choices=STATUS, default=STATUS_PENDING, max_length=20)
+    status = models.CharField(u'项目状态', choices=STATUS, default=STATUS_DRAFT, max_length=20)
     attention_count = models.IntegerField(u'项目关注数目', default=0)
     post_datetime = models.DateTimeField(u'发布日期', auto_now_add=True)
     modify_datetime = models.DateTimeField(u'最后修改日期', auto_now=True)
