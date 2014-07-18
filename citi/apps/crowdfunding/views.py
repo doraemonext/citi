@@ -20,6 +20,10 @@ logger = logging.getLogger(__name__)
 
 
 class PublishView(TemplateView):
+    """
+    发布项目 - 显示协议页面
+
+    """
     template_name = 'crowdfunding/publish.html'
 
     def get_context_data(self, **kwargs):
@@ -33,6 +37,10 @@ class PublishView(TemplateView):
 
 
 class PublishContentView(AjaxResponseMixin, FormView):
+    """
+    发布项目 - 填写项目基本信息
+
+    """
     template_name = 'crowdfunding/publish_content.html'
     http_method_names = ['get', 'post']
     form_class = ProjectForm
@@ -57,6 +65,10 @@ class PublishContentView(AjaxResponseMixin, FormView):
 
 
 class PublishPayoffView(TemplateView):
+    """
+    发布项目 - 填写项目相关报酬回馈信息
+
+    """
     template_name = 'crowdfunding/publish_payoff.html'
     http_method_names = ['get']
 
@@ -79,6 +91,10 @@ class PublishPayoffView(TemplateView):
 
 
 class PublishVerifyView(TemplateView):
+    """
+    发布项目 - 最后预览界面
+
+    """
     template_name = 'crowdfunding/publish_payoff.html'
     http_method_names = ['get']
 

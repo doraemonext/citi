@@ -24,10 +24,10 @@ urlpatterns = patterns('',
 )
 urlpatterns = format_suffix_patterns(urlpatterns)
 
-# Uncomment the next line to serve media files in dev.
-# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
     import debug_toolbar
     urlpatterns += patterns('',
                             url(r'^__debug__/', include(debug_toolbar.urls)),
