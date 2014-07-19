@@ -3,7 +3,7 @@
 from django.conf.urls import patterns, url, include
 from django.views.generic.base import TemplateView
 
-from .views import PublishView, PublishContentView, PublishPayoffView, PublishVerifyView
+from ..views import PublishView, PublishContentView, PublishPayoffView, PublishVerifyView
 
 
 urlpatterns = patterns('',
