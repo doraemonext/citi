@@ -37,6 +37,53 @@ class CustomCharField(fields.CharField):
     }
 
 
+class CustomIntegerField(fields.IntegerField):
+    default_error_messages = {
+        'required': 'Required data',
+        'invalid': 'Invalid data',
+    }
+
+    def __init__(self, *args, **kwargs):
+        super(CustomIntegerField, self).__init__(*args, **kwargs)
+
+    def from_native(self, value):
+        try:
+            value = int(str(value))
+        except (ValueError, TypeError):
+            raise ValidationError(self.error_messages['invalid'])
+        return value
+
+
+class CustomFloatField(fields.FloatField):
+    default_error_messages = {
+        'required': 'Required data',
+        'invalid': 'Invalid data',
+    }
+
+    def from_native(self, value):
+        if value in validators.EMPTY_VALUES:
+            return None
+
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            msg = self.error_messages['invalid']
+            raise ValidationError(msg)
+
+
+class CustomChoiceField(fields.ChoiceField):
+    default_error_messages = {
+        'required': 'Required data',
+        'invalid': 'Invalid data',
+        'invalid_choice': 'Invalid data',
+    }
+
+    def validate(self, value):
+        super(CustomChoiceField, self).validate(value)
+        if value and not self.valid_value(value):
+            raise ValidationError(self.error_messages['invalid_choice'])
+
+
 class CustomImageField(fields.ImageField):
     default_error_messages = {
         'required': 'Required data',
