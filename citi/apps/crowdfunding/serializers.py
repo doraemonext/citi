@@ -17,4 +17,4 @@ class ProjectFeedbackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProjectFeedback
-        fields = ('id', 'project', 'content', 'image', 'order')
+        fields = ('id', 'project', 'content', 'image')
