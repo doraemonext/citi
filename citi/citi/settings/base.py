@@ -417,6 +417,7 @@ API_ERROR_CODE = {
     "Could not satisfy the request's Accept header": 10022,  # 不能满足请求的头信息
     'Permission denied': 10023,  # 权限不足
     'Invalid ID': 10024,  # 错误的ID
+    'Invalid type': 10025,  # 错误的类型
 
     # System Error Code
     'System error': 12000,

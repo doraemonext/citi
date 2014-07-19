@@ -12,12 +12,13 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('apps.account.urls')),
     url(r'^captcha/', include('captcha.urls')),
     url(r'^ueditor/', include('DjangoUeditor.urls')),
-    url(r'^crowdfunding/', include('apps.crowdfunding.urls')),
+    url(r'^crowdfunding/', include('apps.crowdfunding.urls.web')),
 
     url(r'^api/', include([
         url(r'^token/', include('system.authtoken.urls')),
         url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
         url(r'^location/', include('apps.location.urls')),
+        url(r'^crowdfunding/', include('apps.crowdfunding.urls.api')),
     ])),
 
     url(r'^admin/', include(admin.site.urls)),
