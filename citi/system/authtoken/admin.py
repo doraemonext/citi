@@ -7,7 +7,11 @@ from .models import Token
 
 class TokenAdmin(admin.ModelAdmin):
     list_display = ('key', 'rkey', 'user', 'created')
-    fields = ('user',)
+    fieldsets = (
+        (None, {
+            'fields': ('user', 'created')
+        }),
+    )
     ordering = ('-created',)
 
 

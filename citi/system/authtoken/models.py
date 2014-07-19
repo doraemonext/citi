@@ -2,6 +2,7 @@
 
 import binascii
 import os
+import datetime
 from hashlib import sha1
 from datetime import datetime
 from django.conf import settings
@@ -18,7 +19,7 @@ class Token(models.Model):
     key = models.CharField(max_length=40, primary_key=True)
     rkey = models.CharField(max_length=40)
     user = models.OneToOneField(AUTH_USER_MODEL, related_name='auth_token')
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(default=datetime.now)
 
     def save(self, *args, **kwargs):
         if not self.key:
