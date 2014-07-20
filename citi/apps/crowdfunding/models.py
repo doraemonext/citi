@@ -326,7 +326,7 @@ class ProjectSection(models.Model):
         verbose_name = u'项目资金去向阶段'
         verbose_name_plural = u'项目资金去向阶段'
         permissions = (
-            'view_projectsection', u'Can view 项目资金去向阶段',
+            ('view_projectsection', u'Can view 项目资金去向阶段'),
         )
 
 
@@ -356,5 +356,5 @@ class ProjectTask(models.Model):
         verbose_name = u'项目资金去向任务'
         verbose_name_plural = u'项目资金去向任务'
         permissions = (
-            'view_projecttask', u'Can view 项目资金去向任务',
+            ('view_projecttask', u'Can view 项目资金去向任务'),
         )
