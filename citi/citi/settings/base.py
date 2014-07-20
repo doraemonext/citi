@@ -206,6 +206,7 @@ DJANGO_APPS = (
     'system.authtoken',
     'system.settings',
 
+    'apps.notification',
     'apps.account',
     'apps.location',
     'apps.fund',
