@@ -11,7 +11,7 @@ class NotificationManager(models.Manager):
 
         """
         return super(NotificationManager, self).create(user=user, type=type, content=content,
-                                                       status=Notificationn.STATUS_UNREAD)
+                                                       status=Notification.STATUS_UNREAD)
 
     def read(self, pk):
         """
@@ -19,7 +19,7 @@ class NotificationManager(models.Manager):
 
         """
         notification = super(NotificationManager, self).get_queryset().get(pk=pk)
-        notification.status = Notificationn.STATUS_READ
+        notification.status = Notification.STATUS_READ
         notification.save()
 
     def unread(self, pk):
@@ -28,7 +28,7 @@ class NotificationManager(models.Manager):
 
         """
         notification = super(NotificationManager, self).get_queryset().get(pk=pk)
-        notification.status = Notificationn.STATUS_UNREAD
+        notification.status = Notification.STATUS_UNREAD
         notification.save()
 
     def delete(self, pk):
@@ -54,7 +54,7 @@ class NotificationManager(models.Manager):
         return notification
 
 
-class Notificationn(models.Model):
+class Notification(models.Model):
     """
     用户通知消息表
 
