@@ -11,6 +11,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.mail import EmailMultiAlternatives
 from captcha.fields import CaptchaField
+from mptt.forms import TreeNodeChoiceField
 
 from apps.location.models import Location
 
@@ -35,11 +36,14 @@ class RegistrationForm(forms.Form):
     name = forms.CharField(label=u'姓名', required=False)
     sex = forms.ChoiceField(label=u'性别', choices=SEX, required=False)
     age = forms.IntegerField(label=u'年龄', required=False)
-    native = forms.ModelChoiceField(label=u'籍贯', queryset=Location.objects.all(), empty_label='', required=False)
+    native = TreeNodeChoiceField(label=u'籍贯', queryset=Location.objects.all(), empty_label='', required=False)
     profession = forms.CharField(label=u'职业', required=False)
     idcard = forms.CharField(label=u'身份证号', required=False)
+    idcard_image = forms.ImageField(label=u'身份证照片', required=False)
     mobile = forms.CharField(label=u'手机号', required=False)
     qq = forms.CharField(label=u'QQ号', required=False)
+    weibo = forms.CharField(label=u'微博', required=False)
+    blog = forms.CharField(label=u'博客', required=False)
     captcha = CaptchaField(label=u'验证码')
 
     error_messages = {
@@ -93,10 +97,15 @@ class RegistrationForm(forms.Form):
         native = self.get_and_set_cleaned_data('native')
         profession = self.get_and_set_cleaned_data('profession')
         idcard = self.get_and_set_cleaned_data('idcard')
+        idcard_image = self.get_and_set_cleaned_data('idcard_image')
         mobile = self.get_and_set_cleaned_data('mobile')
         qq = self.get_and_set_cleaned_data('qq')
-        if name or (sex == 'm' or sex == 'l') or age or native or profession or idcard or mobile or qq:
-            if name and (sex == 'm' or sex == 'l') and age and native and profession and idcard and mobile and qq:
+        weibo = self.get_and_set_cleaned_data('weibo')
+        blog = self.get_and_set_cleaned_data('blog')
+        if name or (sex == 'm' or sex == 'l') or age or native or profession or idcard or idcard_image or mobile or qq\
+                or weibo or blog:
+            if name and (sex == 'm' or sex == 'l') and age and native and profession and idcard and mobile and qq\
+                    and weibo and blog:
                 pass
             else:
                 raise forms.ValidationError(

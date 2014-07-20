@@ -53,6 +53,7 @@ class PublishContentView(AjaxResponseMixin, FormView):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
+        form.save_m2m()
         return super(PublishContentView, self).form_valid(form)
 
     def get_success_url(self):

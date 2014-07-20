@@ -64,8 +64,11 @@ class RegistrationView(BaseRegistrationView):
         detail_info.native = cleaned_data.get('native', None)
         detail_info.profession = cleaned_data.get('profession', None)
         detail_info.idcard = cleaned_data.get('idcard', None)
+        detail_info.idcard_image = cleaned_data.get('idcard_image', None)
         detail_info.mobile = cleaned_data.get('mobile', None)
         detail_info.qq = cleaned_data.get('qq', None)
+        detail_info.weibo = cleaned_data.get('weibo', None)
+        detail_info.blog = cleaned_data.get('blog', None)
         detail_info.save()
 
         logger.info('The user %(user)s has successfully registered. ' % {'user': new_user.email})

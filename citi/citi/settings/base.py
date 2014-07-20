@@ -201,13 +201,14 @@ DJANGO_APPS = (
     'captcha',
     'registration',
     'DjangoUeditor',
+    'taggit',
 
     'system.users',
     'system.authtoken',
     'system.settings',
 
+    'apps.notification',
     'apps.account',
-    'apps.log',
     'apps.location',
     'apps.fund',
     'apps.crowdfunding',

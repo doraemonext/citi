@@ -13,3 +13,4 @@ django-simple-captcha==0.4.2
 django-registration==1.0
 django-suit==0.2.9
 DjangoUeditor
+django-taggit
