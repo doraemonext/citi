@@ -201,6 +201,7 @@ DJANGO_APPS = (
     'captcha',
     'registration',
     'DjangoUeditor',
+    'taggit',
 
     'system.users',
     'system.authtoken',

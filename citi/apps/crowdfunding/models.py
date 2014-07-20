@@ -5,6 +5,7 @@ from django.conf import settings
 from mptt.models import MPTTModel, TreeForeignKey
 from annoying.functions import get_config
 from DjangoUeditor.models import UEditorField
+from taggit.managers import TaggableManager
 
 from apps.location.models import Location
 
@@ -65,7 +66,7 @@ class Project(models.Model):
     ))
     location = TreeForeignKey(Location, verbose_name=u'地理位置')
     location_detail = models.CharField(u'详细地址', max_length=255, blank=True, null=True)
-    category = TreeForeignKey(ProjectCategory, verbose_name=u'菜系分类')
+    category = TreeForeignKey(ProjectCategory, verbose_name=u'项目分类')
     total_money = models.FloatField(u'筹款金额')
     total_days = models.IntegerField(u'筹款天数')
     summary = models.CharField(u'项目简介', max_length=255)
@@ -76,6 +77,7 @@ class Project(models.Model):
     now_money = models.FloatField(u'已筹集金额', default=0)
     status = models.CharField(u'项目状态', choices=STATUS, default=STATUS_DRAFT, max_length=20)
     attention_count = models.IntegerField(u'项目关注数目', default=0)
+    tags = TaggableManager(u'标签', help_text='')
     post_datetime = models.DateTimeField(u'发布日期', auto_now_add=True)
     modify_datetime = models.DateTimeField(u'最后修改日期', auto_now=True)
 
