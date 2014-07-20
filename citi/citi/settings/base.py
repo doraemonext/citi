@@ -207,7 +207,6 @@ DJANGO_APPS = (
     'system.settings',
 
     'apps.account',
-    'apps.log',
     'apps.location',
     'apps.fund',
     'apps.crowdfunding',

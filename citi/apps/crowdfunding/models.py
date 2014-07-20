@@ -11,10 +11,10 @@ from apps.location.models import Location
 
 class ProjectCategory(MPTTModel):
     """
-    菜系分类 model
+    项目分类 model
 
     """
-    name = models.CharField(u'菜系分类名称', max_length=30)
+    name = models.CharField(u'项目分类名称', max_length=30)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', verbose_name=u'分类父亲')
     order = models.PositiveIntegerField()
 
@@ -25,18 +25,15 @@ class ProjectCategory(MPTTModel):
         order_insertion_by = ['order']
 
     class Meta:
-        verbose_name = u'菜系分类'
-        verbose_name_plural = u'菜系分类'
+        verbose_name = u'项目分类'
+        verbose_name_plural = u'项目分类'
         permissions = (
-            ('view_projectcategory', u'Can view 菜系分类'),
+            ('view_projectcategory', u'Can view 项目分类'),
         )
 
     def save(self, *args, **kwargs):
         super(ProjectCategory, self).save(*args, **kwargs)
         ProjectCategory.objects.rebuild()
-
-    def __unicode__(self):
-        return self.name
 
 
 class Project(models.Model):
@@ -46,21 +43,26 @@ class Project(models.Model):
     """
     STATUS_DRAFT = 'draft'
     STATUS_PENDING = 'pending'
+    STATUS_VERIFY_FAILED = 'verify_failed'
     STATUS_UNDERWAY = 'underway'
     STATUS_SUCCEED = 'succeed'
     STATUS_ENDED = 'ended'
     STATUS_RETENTION = 'retention'
     STATUS = (
-        ('draft', u'草稿'),
-        ('pending', u'等待审核'),
-        ('underway', u'进行中'),
-        ('succeed', u'已成功'),
-        ('ended', u'已结束'),
-        ('retention', u'滞留期'),
+        (STATUS_DRAFT, u'草稿'),
+        (STATUS_PENDING, u'等待审核'),
+        (STATUS_VERIFY_FAILED, u'审核失败'),
+        (STATUS_UNDERWAY, u'进行中'),
+        (STATUS_SUCCEED, u'已成功'),
+        (STATUS_ENDED, u'已结束'),
+        (STATUS_RETENTION, u'停滞中'),
     )
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
     name = models.CharField(u'项目名称', max_length=30)
+    cover = models.ImageField(u'项目图片', upload_to=get_config(
+        'UPLOAD_CROWDFUNDING_PROJECT_COVER', 'crowdfunding/project/cover/'
+    ))
     location = TreeForeignKey(Location, verbose_name=u'地理位置')
     location_detail = models.CharField(u'详细地址', max_length=255, blank=True, null=True)
     category = TreeForeignKey(ProjectCategory, verbose_name=u'菜系分类')
@@ -85,28 +87,6 @@ class Project(models.Model):
         verbose_name_plural = u'项目'
         permissions = (
             ('view_project', u'Can view 项目'),
-        )
-
-
-class ProjectCover(models.Model):
-    """
-    项目封面 model
-
-    """
-    project = models.ForeignKey(Project, verbose_name=u'所属项目')
-    image = models.ImageField(u'图片文件', upload_to=get_config(
-        'UPLOAD_CROWDFUNDING_PROJECT_COVER', 'crowdfunding/project/cover/'
-    ))
-    order = models.IntegerField(u'排列顺序', default=0)
-
-    def __unicode__(self):
-        return self.image
-
-    class Meta:
-        verbose_name = u'项目封面'
-        verbose_name_plural = u'项目封面'
-        permissions = (
-            ('view_projectcover', u'Can view 项目封面'),
         )
 
 
@@ -185,11 +165,20 @@ class ProjectSupport(models.Model):
     项目支持表
 
     """
+    STATUS_UNDERWAY = 'underway'
+    STATUS_SUCCEED = 'succeed'
+    STATUS_FAILED = 'failed'
+    STATUS = (
+        (STATUS_UNDERWAY, u'支持中'),
+        (STATUS_SUCCEED, u'支持成功'),
+        (STATUS_FAILED, u'支持失败'),
+    )
+
     project = models.ForeignKey(Project, verbose_name=u'所属项目')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
     package = models.ForeignKey(ProjectPackage, verbose_name=u'所属回馈套餐')
     money = models.FloatField(u'支持金额')
-    status = models.IntegerField(u'当前状态', help_text=u'0: 支持中 1: 支持成功 2: 支持失败,已退回')
+    status = models.CharField(u'支持状态', choices=STATUS, default=STATUS_UNDERWAY, max_length=30)
     datetime = models.DateTimeField(u'支持日期', auto_now=True)
 
     class Meta:
@@ -205,9 +194,18 @@ class ProjectRetention(models.Model):
     项目滞留期意愿表
 
     """
+    APIRATION_UNKNOWN = 'unknown'
+    APIRATION_CONTINUE = 'continue'
+    APIRATION_QUIT = 'quit'
+    APIRATION = (
+        (APIRATION_UNKNOWN, u'不确定'),
+        (APIRATION_CONTINUE, u'继续投资'),
+        (APIRATION_QUIT, u'放弃投资'),
+    )
+
     project = models.ForeignKey(Project, verbose_name=u'所属项目')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
-    apiration = models.IntegerField(u'继续投资意愿', default=0, help_text=u'0: 不确定 1: 继续投资 2: 放弃投资')
+    apiration = models.IntegerField(u'继续投资意愿', choices=APIRATION, default=APIRATION_UNKNOWN, max_length=30)
     datetime = models.DateTimeField(u'支持日期', auto_now=True)
 
     class Meta:
@@ -215,4 +213,148 @@ class ProjectRetention(models.Model):
         verbose_name_plural = u'项目滞留期意愿表'
         permissions = (
             ('view_projectretention', u'Can view 项目滞留期意愿'),
+        )
+
+
+class ProjectComment(MPTTModel):
+    """
+    项目评论表
+
+    """
+    project = models.ForeignKey(Project, verbose_name=u'所属项目')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'所属用户', blank=True, null=True)
+    content = models.TextField(u'评论内容')
+    datetime = models.DateTimeField(u'评论日期', auto_now=True)
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='children', verbose_name=u'评论父亲')
+    order = models.PositiveIntegerField(u'排序')
+
+    def __unicode__(self):
+        return self.content
+
+    class MPTTMeta:
+        order_insertion_by = ['order']
+
+    class Meta:
+        verbose_name = u'项目评论'
+        verbose_name_plural = u'项目评论'
+        permissions = (
+            ('view_projectcomment', u'Can view 项目评论'),
+        )
+
+    def save(self, *args, **kwargs):
+        super(ProjectComment, self).save(*args, **kwargs)
+        ProjectComment.objects.rebuild()
+
+
+class ProjectTopic(models.Model):
+    """
+    项目讨论主题表
+
+    """
+    project = models.ForeignKey(Project, verbose_name=u'所属项目')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
+    title = models.CharField(u'主题标题', max_length=255)
+    content = models.TextField(u'主题内容')
+    post_datetime = models.DateTimeField(u'发布日期', auto_now_add=True)
+    modify_datetime = models.DateTimeField(u'最后修改日期', auto_now=True)
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = u'项目讨论主题'
+        verbose_name_plural = u'项目讨论主题'
+        permissions = (
+            ('view_projecttopic', u'Can view 项目讨论主题'),
+        )
+
+
+class ProjectTopicComment(MPTTModel):
+    """
+    项目讨论主题评论表
+
+    """
+    project = models.ForeignKey(Project, verbose_name=u'所属项目')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
+    content = models.TextField(u'评论内容')
+    datetime = models.DateTimeField(u'评论日期', auto_now_add=True)
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='children', verbose_name=u'评论父亲')
+    order = models.PositiveIntegerField(u'排序')
+
+    def __unicode__(self):
+        return self.content
+
+    class MPTTMeta:
+        order_insertion_by = ['order']
+
+    class Meta:
+        verbose_name = u'项目讨论主题评论'
+        verbose_name_plural = u'项目讨论主题评论'
+        permissions = (
+            ('view_projecttopiccomment', u'Can view 项目讨论主题评论'),
+        )
+
+    def save(self, *args, **kwargs):
+        super(ProjectTopicComment, self).save(*args, **kwargs)
+        ProjectTopicComment.objects.rebuild()
+
+
+class ProjectSection(models.Model):
+    """
+    项目资金去向阶段表
+
+    """
+    STATUS_NOT_DONE = 'not_done'
+    STATUS_UNDERWAY = 'underway'
+    STATUS_DONE = 'done'
+    STATUS = (
+        (STATUS_NOT_DONE, u'尚未开始'),
+        (STATUS_UNDERWAY, u'正在进行中'),
+        (STATUS_DONE, u'已完成'),
+    )
+
+    project = models.ForeignKey(Project, verbose_name=u'所属项目')
+    title = models.CharField(u'阶段名称', max_length=50)
+    description = models.TextField(u'阶段需求描述')
+    status = models.CharField(choices=STATUS, default=STATUS_NOT_DONE, max_length=30)
+    order = models.PositiveIntegerField(u'项目阶段顺序')
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = u'项目资金去向阶段'
+        verbose_name_plural = u'项目资金去向阶段'
+        permissions = (
+            'view_projectsection', u'Can view 项目资金去向阶段',
+        )
+
+
+class ProjectTask(models.Model):
+    """
+    项目资金去向任务表
+
+    """
+    STATUS_NOT_DONE = 'not_done'
+    STATUS_UNDERWAY = 'underway'
+    STATUS_DONE = 'done'
+    STATUS = (
+        (STATUS_NOT_DONE, u'尚未开始'),
+        (STATUS_UNDERWAY, u'正在进行中'),
+        (STATUS_DONE, u'已完成'),
+    )
+
+    project = models.ForeignKey(Project, verbose_name=u'所属项目')
+    content = models.TextField(u'任务描述')
+    status = models.CharField(choices=STATUS, default=STATUS_NOT_DONE, max_length=30)
+    order = models.PositiveIntegerField(u'项目任务顺序')
+
+    def __unicode__(self):
+        return self.content
+
+    class Meta:
+        verbose_name = u'项目资金去向任务'
+        verbose_name_plural = u'项目资金去向任务'
+        permissions = (
+            'view_projecttask', u'Can view 项目资金去向任务',
         )
