@@ -42,13 +42,13 @@ class Project(models.Model):
     项目 model
 
     """
-    STATUS_DRAFT = 'draft'
-    STATUS_PENDING = 'pending'
-    STATUS_VERIFY_FAILED = 'verify_failed'
-    STATUS_UNDERWAY = 'underway'
-    STATUS_SUCCEED = 'succeed'
-    STATUS_ENDED = 'ended'
-    STATUS_RETENTION = 'retention'
+    STATUS_DRAFT = 0
+    STATUS_PENDING = 1
+    STATUS_VERIFY_FAILED = 2
+    STATUS_UNDERWAY = 3
+    STATUS_SUCCEED = 4
+    STATUS_ENDED = 5
+    STATUS_RETENTION = 6
     STATUS = (
         (STATUS_DRAFT, u'草稿'),
         (STATUS_PENDING, u'等待审核'),
@@ -75,7 +75,7 @@ class Project(models.Model):
                            filePath=get_config('UPLOAD_CROWDFUNDING_PROJECT_FILES', 'crowdfunding/project/files/'),
                            settings={})
     now_money = models.FloatField(u'已筹集金额', default=0)
-    status = models.CharField(u'项目状态', choices=STATUS, default=STATUS_DRAFT, max_length=20)
+    status = models.IntegerField(u'项目状态', choices=STATUS, default=STATUS_DRAFT)
     attention_count = models.IntegerField(u'项目关注数目', default=0)
     tags = TaggableManager(u'标签', help_text='')
     post_datetime = models.DateTimeField(u'发布日期', auto_now_add=True)
@@ -120,8 +120,8 @@ class ProjectPackage(models.Model):
     项目回馈套餐方案 model
 
     """
-    TYPE_NORMAL = 'normal'
-    TYPE_PARTNER = 'partner'
+    TYPE_NORMAL = 0
+    TYPE_PARTNER = 1
     TYPE = (
         (TYPE_NORMAL, u'普通赞助者'),
         (TYPE_PARTNER, u'合伙人'),
@@ -130,7 +130,7 @@ class ProjectPackage(models.Model):
     project = models.ForeignKey(Project, verbose_name=u'所属项目')
     name = models.CharField(u'套餐名称', max_length=30)
     money = models.FloatField(u'投资数额')
-    type = models.CharField(u'投资类别', choices=TYPE, default=TYPE_NORMAL, max_length=10)
+    type = models.IntegerField(u'投资类别', choices=TYPE, default=TYPE_NORMAL)
     limit = models.IntegerField(u'名额限制', default=0)
     feedback = models.ManyToManyField(ProjectFeedback, verbose_name=u'项目回馈')
 
@@ -167,9 +167,9 @@ class ProjectSupport(models.Model):
     项目支持表
 
     """
-    STATUS_UNDERWAY = 'underway'
-    STATUS_SUCCEED = 'succeed'
-    STATUS_FAILED = 'failed'
+    STATUS_UNDERWAY = 0
+    STATUS_SUCCEED = 1
+    STATUS_FAILED = 2
     STATUS = (
         (STATUS_UNDERWAY, u'支持中'),
         (STATUS_SUCCEED, u'支持成功'),
@@ -180,7 +180,7 @@ class ProjectSupport(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
     package = models.ForeignKey(ProjectPackage, verbose_name=u'所属回馈套餐')
     money = models.FloatField(u'支持金额')
-    status = models.CharField(u'支持状态', choices=STATUS, default=STATUS_UNDERWAY, max_length=30)
+    status = models.IntegerField(u'支持状态', choices=STATUS, default=STATUS_UNDERWAY)
     datetime = models.DateTimeField(u'支持日期', auto_now=True)
 
     class Meta:
@@ -196,9 +196,9 @@ class ProjectRetention(models.Model):
     项目滞留期意愿表
 
     """
-    APIRATION_UNKNOWN = 'unknown'
-    APIRATION_CONTINUE = 'continue'
-    APIRATION_QUIT = 'quit'
+    APIRATION_UNKNOWN = 0
+    APIRATION_CONTINUE = 1
+    APIRATION_QUIT = 2
     APIRATION = (
         (APIRATION_UNKNOWN, u'不确定'),
         (APIRATION_CONTINUE, u'继续投资'),
@@ -207,7 +207,7 @@ class ProjectRetention(models.Model):
 
     project = models.ForeignKey(Project, verbose_name=u'所属项目')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
-    apiration = models.IntegerField(u'继续投资意愿', choices=APIRATION, default=APIRATION_UNKNOWN, max_length=30)
+    apiration = models.IntegerField(u'继续投资意愿', choices=APIRATION, default=APIRATION_UNKNOWN)
     datetime = models.DateTimeField(u'支持日期', auto_now=True)
 
     class Meta:
@@ -306,9 +306,9 @@ class ProjectSection(models.Model):
     项目资金去向阶段表
 
     """
-    STATUS_NOT_DONE = 'not_done'
-    STATUS_UNDERWAY = 'underway'
-    STATUS_DONE = 'done'
+    STATUS_NOT_DONE = 0
+    STATUS_UNDERWAY = 1
+    STATUS_DONE = 2
     STATUS = (
         (STATUS_NOT_DONE, u'尚未开始'),
         (STATUS_UNDERWAY, u'正在进行中'),
@@ -318,7 +318,7 @@ class ProjectSection(models.Model):
     project = models.ForeignKey(Project, verbose_name=u'所属项目')
     title = models.CharField(u'阶段名称', max_length=50)
     description = models.TextField(u'阶段需求描述')
-    status = models.CharField(choices=STATUS, default=STATUS_NOT_DONE, max_length=30)
+    status = models.IntegerField(u'阶段状态', choices=STATUS, default=STATUS_NOT_DONE)
     order = models.PositiveIntegerField(u'项目阶段顺序')
 
     def __unicode__(self):
@@ -337,9 +337,9 @@ class ProjectTask(models.Model):
     项目资金去向任务表
 
     """
-    STATUS_NOT_DONE = 'not_done'
-    STATUS_UNDERWAY = 'underway'
-    STATUS_DONE = 'done'
+    STATUS_NOT_DONE = 0
+    STATUS_UNDERWAY = 1
+    STATUS_DONE = 2
     STATUS = (
         (STATUS_NOT_DONE, u'尚未开始'),
         (STATUS_UNDERWAY, u'正在进行中'),
@@ -348,7 +348,7 @@ class ProjectTask(models.Model):
 
     project = models.ForeignKey(Project, verbose_name=u'所属项目')
     content = models.TextField(u'任务描述')
-    status = models.CharField(choices=STATUS, default=STATUS_NOT_DONE, max_length=30)
+    status = models.IntegerField(u'任务状态', choices=STATUS, default=STATUS_NOT_DONE)
     order = models.PositiveIntegerField(u'项目任务顺序')
 
     def __unicode__(self):

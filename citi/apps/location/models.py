@@ -6,7 +6,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 class Location(MPTTModel):
     """
-    城市位置 model
+    地理位置 model
 
     """
     name = models.CharField(u'城市名称', max_length=20)
