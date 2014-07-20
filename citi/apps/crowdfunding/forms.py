@@ -3,7 +3,7 @@
 from django import forms
 from django.forms import ModelForm
 
-from .models import Project, ProjectCover, ProjectCategory
+from .models import Project, ProjectCategory
 
 
 class ProjectForm(forms.ModelForm):
