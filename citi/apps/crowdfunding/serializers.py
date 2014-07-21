@@ -47,3 +47,11 @@ class ProjectPackageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectPackage
         fields = ('id', 'project', 'name', 'money', 'type', 'limit', 'feedback')
+
+    def validate(self, attrs):
+        proj = attrs.get('project')
+        view = self.context['view']
+        # 防止越权修改项目ID为他人名下, 注意需要检测proj是否为空, PATCH时不需要此项
+        if proj and proj.user != view.request.user:
+            raise serializers.ValidationError('Permission denied when checking project id')
+        return attrs
