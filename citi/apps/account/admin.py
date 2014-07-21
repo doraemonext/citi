@@ -5,6 +5,8 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.models import Group
+from django.contrib.auth import get_user_model
+from django.contrib.admin.widgets import FilteredSelectMultiple
 
 from system.users.models import CustomUser
 from .models import DetailInfo, FundInfo, BalanceInfo, ProjectInfo, QuestionInfo
@@ -105,5 +107,41 @@ class CustomUserAdmin(UserAdmin):
     inlines = (DetailInline, FundInfoInline, BalanceInline, ProjectInline, QuestionInline)
 
 
+class GroupAdminForm(forms.ModelForm):
+    users = forms.ModelMultipleChoiceField(
+        queryset=get_user_model().objects.all(),
+        required=False,
+        widget=FilteredSelectMultiple(
+            verbose_name='Users',
+            is_stacked=False
+        )
+    )
+
+    class Meta:
+        model = Group
+
+    def __init__(self, *args, **kwargs):
+        super(GroupAdminForm, self).__init__(*args, **kwargs)
+
+        if self.instance and self.instance.pk:
+            self.fields['users'].initial = self.instance.user_set.all()
+
+    def save(self, commit=True):
+        group = super(GroupAdminForm, self).save(commit=False)
+
+        if commit:
+            group.save()
+
+        if group.pk:
+            group.user_set = self.cleaned_data['users']
+            self.save_m2m()
+
+        return group
+
+
+class GroupAdmin(admin.ModelAdmin):
+    form = GroupAdminForm
+
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.unregister(Group)
+admin.site.register(Group, GroupAdmin)

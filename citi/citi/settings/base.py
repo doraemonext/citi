@@ -419,6 +419,7 @@ API_ERROR_CODE = {
     'Permission denied': 10023,  # 权限不足
     'Invalid ID': 10024,  # 错误的ID
     'Invalid type': 10025,  # 错误的类型
+    'Permission denied when checking project id': 10026,  # 越权修改项目ID为他人名下
 
     # System Error Code
     'System error': 12000,
