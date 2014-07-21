@@ -2,10 +2,8 @@
 
 import logging
 
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 from rest_framework import permissions
-from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
 
 from libs.api import mixins
@@ -21,11 +19,6 @@ class ProjectFeedbackList(mixins.CustomCreateModelMixin,
     queryset = ProjectFeedback.objects.all()
     serializer_class = ProjectFeedbackSerializer
     permission_classes = (permissions.IsAuthenticated, )
-
-    def pre_save(self, obj):
-        if self.request.user != obj.project.user:
-            raise PermissionDenied()
-        super(ProjectFeedbackList, self).pre_save(obj)
 
     def post(self, request, *args, **kwargs):
         if not request.user.has_perm('crowdfunding.add_projectfeedback'):
