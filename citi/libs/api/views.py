@@ -38,8 +38,8 @@ def exception_handler(exc):
                         status=status.HTTP_404_NOT_FOUND)
 
     elif isinstance(exc, PermissionDenied):
-        return Response({'error_code': CustomSerializer.get_api_code('Permission denied'),
-                         'error_message': 'Permission denied',
+        return Response({'error_code': CustomSerializer.get_api_code('You do not have permission to perform this action.'),
+                         'error_message': 'You do not have permission to perform this action.',
                          'errors': []},
                         status=status.HTTP_403_FORBIDDEN)
 

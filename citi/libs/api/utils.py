@@ -3,6 +3,8 @@
 import logging
 
 from django.conf import settings
+from rest_framework.response import Response
+from rest_framework import status
 
 
 logger = logging.getLogger(__name__)
@@ -80,3 +82,19 @@ def process_errors(errors):
         new_errors['error_message'] = message
 
     return new_errors
+
+
+class CommonResponse(object):
+    """
+    公共响应类, 包含通用的固定API响应
+
+    """
+    @staticmethod
+    def forbidden():
+        """
+        没有权限
+
+        """
+        return Response(api_error_message('You do not have permission to perform this action.'),
+                        status=status.HTTP_403_FORBIDDEN,
+                        content_type='application/json')
