@@ -25,6 +25,13 @@ class ImageSerializer(serializers.ModelSerializer):
     def get_absolute_url(self, obj):
         return obj.image.url
 
+    def validate_type(self, attrs, source):
+        data = attrs[source]
+        for iter in Image.TYPE:
+            if data == iter[0]:
+                return attrs
+        raise serializers.ValidationError('Invalid type')
+
     class Meta:
         model = Image
         fields = ('id', 'user', 'type', 'image', 'url')
