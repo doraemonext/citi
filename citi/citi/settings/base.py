@@ -202,12 +202,14 @@ DJANGO_APPS = (
     'registration',
     'DjangoUeditor',
     'taggit',
+    'imagekit',
 
     'system.users',
     'system.authtoken',
     'system.settings',
 
     'apps.notification',
+    'apps.image',
     'apps.account',
     'apps.location',
     'apps.fund',

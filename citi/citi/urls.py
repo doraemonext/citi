@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^api/', include([
         url(r'^token/', include('system.authtoken.urls')),
         url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
+        url(r'^image/', include('apps.image.urls.api')),
         url(r'^location/', include('apps.location.urls')),
         url(r'^crowdfunding/', include('apps.crowdfunding.urls.api')),
     ])),

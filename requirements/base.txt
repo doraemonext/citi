@@ -14,3 +14,4 @@ django-registration==1.0
 django-suit==0.2.9
 DjangoUeditor
 django-taggit
+django-imagekit
