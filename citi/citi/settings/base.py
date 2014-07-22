@@ -448,7 +448,6 @@ SUIT_CONFIG = {
     'ADMIN_NAME': u'好味道众筹 管理后台',
     'SHOW_REQUIRED_ASTERISK': True,
     'CONFIRM_UNSAVED_CHANGES': True,
-    'MENU_OPEN_FIRST_CHILD': False,
     'MENU_ICONS': {
         'sites': 'icon-leaf',
         'auth': 'icon-lock',

@@ -15,5 +15,3 @@ urlpatterns = patterns('',
     url(r'^package/$', ProjectPackageList.as_view()),
     url(r'^package/(?P<pk>[0-9]+)/$', ProjectPackageDetail.as_view()),
 )
-
-# urlpatterns = format_suffix_patterns(urlpatterns)
