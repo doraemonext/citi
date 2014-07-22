@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from annoying.functions import get_config
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework import status
+from rest_framework import authentication
 
 from .models import Token
 from .serializers import GetAuthTokenSerializer, RefreshAuthTokenSerializer
@@ -19,6 +20,8 @@ logger = logging.getLogger(__name__)
 
 class GetObtainAuthToken(ObtainAuthToken):
     serializer_class = GetAuthTokenSerializer
+    authentication_classes = ()
+
     model = Token
 
     def post(self, request):
@@ -44,6 +47,8 @@ class GetObtainAuthToken(ObtainAuthToken):
 
 class RefreshObtainAuthToken(ObtainAuthToken):
     serializer_class = RefreshAuthTokenSerializer
+    authentication_classes = ()
+
     model = Token
 
     def post(self, request):
