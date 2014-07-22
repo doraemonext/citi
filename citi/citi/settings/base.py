@@ -274,19 +274,19 @@ LOGGING = {
             'maxBytes': 1024 * 1024 * 10,
             'backupCount': 5,
         },
-        "apps_log_handles": {
-            'level': 'DEBUG',
-            "class": "logging.handlers.RotatingFileHandler",
-            "formatter": "verbose",
-            'filename': os.path.join(SITE_ROOT, 'logs/apps_log.log'),
-            'maxBytes': 1024 * 1024 * 10,
-            'backupCount': 5,
-        },
         "apps_question_handles": {
             'level': 'DEBUG',
             "class": "logging.handlers.RotatingFileHandler",
             "formatter": "verbose",
             'filename': os.path.join(SITE_ROOT, 'logs/apps_question.log'),
+            'maxBytes': 1024 * 1024 * 10,
+            'backupCount': 5,
+        },
+        "apps_image_handles": {
+            'level': 'DEBUG',
+            "class": "logging.handlers.RotatingFileHandler",
+            "formatter": "verbose",
+            'filename': os.path.join(SITE_ROOT, 'logs/apps_image.log'),
             'maxBytes': 1024 * 1024 * 10,
             'backupCount': 5,
         },
@@ -332,12 +332,12 @@ LOGGING = {
             "handlers": ["apps_location_handles"],
             "level": "DEBUG",
         },
-        "apps.log": {
-            "handlers": ["apps_log_handles"],
-            "level": "DEBUG",
-        },
         "apps.question": {
             "handlers": ["apps_question_handles"],
+            "level": "DEBUG",
+        },
+        "apps.image": {
+            "handlers": ["apps_image_handles"],
             "level": "DEBUG",
         },
         "libs.api": {
