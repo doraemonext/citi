@@ -30,7 +30,7 @@ class ImageSerializer(serializers.ModelSerializer):
         for iter in Image.TYPE:
             if data == iter[0]:
                 return attrs
-        raise serializers.ValidationError('Invalid type')
+        raise serializers.ValidationError('Invalid data')
 
     class Meta:
         model = Image
