@@ -13,6 +13,7 @@ from registration.models import RegistrationManager, RegistrationProfile
 from mptt.models import TreeForeignKey
 
 from apps.location.models import Location
+from apps.image.models import Image
 
 
 class CustomRegistrationManager(RegistrationManager):
@@ -87,14 +88,14 @@ class DetailInfo(models.Model):
     )
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
-    avatar = models.ImageField(u'头像路径', upload_to='avatars', null=True, blank=True)
+    avatar = models.ForeignKey(Image, verbose_name=u'用户头像', null=True, blank=True)
     name = models.CharField(u'姓名', max_length=20, null=True, blank=True)
     sex = models.CharField(u'性别', choices=SEX, max_length=1, null=True, blank=True)
     age = models.IntegerField(u'年龄', null=True, blank=True)
     native = TreeForeignKey(Location, verbose_name=u'籍贯', null=True, blank=True)
     profession = models.CharField(u'职业', max_length=100, null=True, blank=True)
     idcard = models.CharField(u'身份证号', max_length=20, null=True, blank=True)
-    idcard_image = models.ImageField(u'身份证照片', upload_to='idcard', null=True, blank=True)
+    idcard_image = models.IntegerField(u'身份证照片', null=True, blank=True)
     mobile = models.CharField(u'手机号', max_length=15, null=True, blank=True)
     qq = models.CharField(u'QQ号', max_length=15, null=True, blank=True)
     weibo = models.CharField(u'微博', max_length=50, null=True, blank=True)

@@ -10,10 +10,14 @@ from imagekit.models import ImageSpecField
 class Image(models.Model):
     TYPE_IDCARD = 0
     TYPE_AVATAR = 1
+    TYPE_COVER = 2
+    TYPE_FEEDBACK = 3
     TYPE_UNKNOWN = 99
     TYPE = (
         (TYPE_IDCARD, u'身份证照片'),
         (TYPE_AVATAR, u'用户头像'),
+        (TYPE_COVER, u'项目封面'),
+        (TYPE_FEEDBACK, u'项目回馈图片描述'),
         (TYPE_UNKNOWN, u'未知类型'),
     )
 
@@ -23,7 +27,7 @@ class Image(models.Model):
     datetime = models.DateTimeField(u'图片上传时间', auto_now_add=True)
 
     def __unicode__(self):
-        return self.path
+        return self.image
 
     class Meta:
         verbose_name = u'图片存储'

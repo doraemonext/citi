@@ -13,6 +13,7 @@ from django.core.mail import EmailMultiAlternatives
 from captcha.fields import CaptchaField
 from mptt.forms import TreeNodeChoiceField
 
+from apps.image.models import Image
 from apps.location.models import Location
 
 
@@ -39,7 +40,7 @@ class RegistrationForm(forms.Form):
     native = TreeNodeChoiceField(label=u'籍贯', queryset=Location.objects.all(), empty_label='', required=False)
     profession = forms.CharField(label=u'职业', required=False)
     idcard = forms.CharField(label=u'身份证号', required=False)
-    idcard_image = forms.ImageField(label=u'身份证照片', required=False)
+    idcard_image = forms.IntegerField(label=u'身份证照片', required=False)
     mobile = forms.CharField(label=u'手机号', required=False)
     qq = forms.CharField(label=u'QQ号', required=False)
     weibo = forms.CharField(label=u'微博', required=False)
@@ -50,6 +51,7 @@ class RegistrationForm(forms.Form):
         'exist_email': u'电子邮件已被注册',
         'password_mismatch': u'两次密码输入不匹配',
         'detail_incomplete': u'详细信息不完整',
+        'idcard_image_invalid': u'身份证图片ID错误',
     }
 
     def clean_email(self):
@@ -102,6 +104,11 @@ class RegistrationForm(forms.Form):
         qq = self.get_and_set_cleaned_data('qq')
         weibo = self.get_and_set_cleaned_data('weibo')
         blog = self.get_and_set_cleaned_data('blog')
+        if idcard_image and not Image.objects.filter(pk=idcard_image).exists():
+            raise forms.ValidationError(
+                self.error_messages['idcard_image_invalid'],
+                code='idcard_image_invalid',
+            )
         if name or (sex == 'm' or sex == 'l') or age or native or profession or idcard or idcard_image or mobile or qq\
                 or weibo or blog:
             if name and (sex == 'm' or sex == 'l') and age and native and profession and idcard and mobile and qq\

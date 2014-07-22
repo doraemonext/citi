@@ -20,6 +20,7 @@ from django.views.generic.base import TemplateView
 from registration import signals
 from registration.views import RegistrationView as BaseRegistrationView
 
+from apps.image.models import Image
 from libs.utils.decorators import anonymous_required
 from .forms import RegistrationForm, LoginForm, PasswordResetForm, SetPasswordForm
 from .models import CustomRegistrationProfile, DetailInfo, FundInfo, BalanceInfo, ProjectInfo, QuestionInfo
@@ -50,6 +51,7 @@ class RegistrationView(BaseRegistrationView):
         处理注册表单数据
 
         """
+        logger.debug(cleaned_data.get('idcard_image', None))
         email, nickname, password = cleaned_data['email'], cleaned_data['nickname'], cleaned_data['password1']
         site = RequestSite(request)
         new_user = CustomRegistrationProfile.objects.create_inactive_user(email, nickname, password, site)
