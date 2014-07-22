@@ -62,7 +62,7 @@ class Project(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
     name = models.CharField(u'项目名称', max_length=30)
-    cover = models.ForeignKey(Image, verbose_name=u'项目封面')
+    cover = models.IntegerField(u'项目封面ID')
     location = TreeForeignKey(Location, verbose_name=u'地理位置')
     location_detail = models.CharField(u'详细地址', max_length=255, blank=True, null=True)
     category = TreeForeignKey(ProjectCategory, verbose_name=u'项目分类')
@@ -98,7 +98,7 @@ class ProjectFeedback(models.Model):
     """
     project = models.ForeignKey(Project, verbose_name=u'所属项目')
     content = models.TextField(u'回报描述')
-    image = models.ForeignKey(Image, verbose_name=u'图片描述', blank=True, null=True)
+    image = models.IntegerField(u'图片描述ID', blank=True, null=True)
     order = models.IntegerField(u'排列顺序', default=0)
 
     def __unicode__(self):

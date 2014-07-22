@@ -2,8 +2,10 @@
 
 import logging
 
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 
+from apps.image.models import Image
 from libs.api import fields
 from .models import ProjectFeedback, ProjectPackage
 
@@ -18,11 +20,27 @@ class ProjectFeedbackSerializer(serializers.ModelSerializer):
     """
     project = fields.CustomPrimaryKeyRelatedField()
     content = fields.CustomCharField()
-    image = fields.CustomImageField(required=False)
+    image = fields.CustomIntegerField(required=False)
 
     class Meta:
         model = ProjectFeedback
         fields = ('id', 'project', 'content', 'image')
+
+    def validate_image(self, attrs, source):
+        if source in attrs:
+            data = attrs[source]
+            try:
+                image = Image.objects.get(pk=data)
+            except ObjectDoesNotExist:
+                raise serializers.ValidationError('Invalid image ID')
+            if image.type != Image.TYPE_FEEDBACK:
+                raise serializers.ValidationError('Invalid image type')
+            if not image.user:
+                raise serializers.ValidationError('Invalid image user (no user)')
+            if self.context['view'].request.user != image.user:
+                raise serializers.ValidationError('Invalid image user (other user)')
+
+        return attrs
 
     def validate(self, attrs):
         proj = attrs.get('project')

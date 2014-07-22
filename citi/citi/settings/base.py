@@ -422,6 +422,10 @@ API_ERROR_CODE = {
     'Invalid ID': 10024,  # 错误的ID
     'Invalid type': 10025,  # 错误的类型
     'Permission denied when checking project id': 10026,  # 提供的项目ID数据越权, 非自己名下
+    'Invalid image ID': 10027,  # 错误的图片ID
+    'Invalid image type': 10028,  # 错误的图片类型
+    'Invalid image user (no user)': 10029,  # 错误的图片用户(无用户)
+    'Invalid image user (other user)': 10030,  # 错误的图片用户(他人用户)
 
     # System Error Code
     'System error': 12000,
