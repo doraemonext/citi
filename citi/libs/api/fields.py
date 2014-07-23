@@ -149,9 +149,14 @@ class CustomDateTimeField(fields.DateTimeField):
 
 
 class CustomTagField(fields.WritableField):
+    default_error_messages = {
+        'required': 'Required data',
+        'invalid': 'Invalid data',
+    }
+
     def from_native(self, value):
         if type(value) is not list:
-            raise ValidationError('Invalid data')
+            raise ValidationError(self.error_messages['invalid'])
         return value
 
     def to_native(self, value):

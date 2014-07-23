@@ -4,6 +4,7 @@ import logging
 
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
+from rest_framework.fields import SerializerMethodField
 
 from apps.image.models import Image
 from libs.api import fields
@@ -31,17 +32,28 @@ class ProjectSerializer(serializers.ModelSerializer):
     now_money = fields.CustomFloatField(read_only=True)
     status = fields.CustomChoiceField(choices=Project.STATUS)
     attention_count = fields.CustomIntegerField(read_only=True)
-    tags = fields.CustomTagField(blank=True)
+    tags = fields.CustomTagField(required=False)
     post_datetime = fields.CustomDateTimeField(read_only=True)
     modify_datetime = fields.CustomDateTimeField(read_only=True)
+    feedback = SerializerMethodField('get_feedback')
+    package = SerializerMethodField('get_package')
 
     class Meta:
         model = Project
         fields = (
             'id', 'user', 'name', 'cover', 'location', 'location_detail', 'category',
             'total_money', 'total_days', 'summary', 'content', 'now_money', 'status',
-            'attention_count', 'tags', 'post_datetime', 'modify_datetime'
+            'attention_count', 'tags', 'post_datetime', 'modify_datetime',
+            'feedback', 'package',
         )
+
+    def get_feedback(self, obj):
+        feedback = ProjectFeedback.objects.filter(project=obj)
+        return [item.pk for item in feedback]
+
+    def get_package(self, obj):
+        package = ProjectPackage.objects.filter(project=obj)
+        return [item.pk for item in package]
 
     def validate_cover(self, attrs, source):
         if source in attrs:
