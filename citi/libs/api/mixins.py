@@ -4,9 +4,13 @@ from django.core.exceptions import ValidationError
 
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin
+from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin
 
 from libs.api.utils import process_errors
+
+
+class CustomListModelMixin(ListModelMixin):
+    pass
 
 
 class CustomCreateModelMixin(CreateModelMixin):
