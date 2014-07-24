@@ -143,6 +143,8 @@ class ProjectPackageSerializer(serializers.ModelSerializer):
         model = ProjectPackage
         fields = ('id', 'project', 'name', 'money', 'type', 'limit', 'feedback')
 
+
+
     def validate_feedback(self, attrs, source):
         data = attrs[source]
         if not data:

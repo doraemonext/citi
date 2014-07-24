@@ -144,6 +144,17 @@ class ProjectPackage(models.Model):
 
 
 class ProjectAttentionManager(models.Manager):
+    def is_attention(self, project, user):
+        """
+        返回用户 user 是否关注项目 project
+
+        """
+        queryset = super(ProjectAttentionManager, self).get_queryset().filter(project=project).filter(user=user)
+        if queryset.exists():
+            return True
+        else:
+            return False
+
     def attention(self, project, user):
         """
         关注项目
@@ -153,6 +164,8 @@ class ProjectAttentionManager(models.Manager):
         if queryset.exists():
             raise AlreadyOperationException()
         super(ProjectAttentionManager, self).create(project=project, user=user)
+        project.attention_count += 1
+        project.save()
 
     def inattention(self, project, user):
         """
@@ -163,6 +176,8 @@ class ProjectAttentionManager(models.Manager):
         if not queryset.exists():
             raise AlreadyOperationException()
         queryset[0].delete()
+        project.attention_count -= 1
+        project.save()
 
 
 class ProjectAttention(models.Model):
