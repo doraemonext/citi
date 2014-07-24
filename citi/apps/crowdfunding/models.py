@@ -9,6 +9,7 @@ from taggit.managers import TaggableManager
 
 from apps.location.models import Location
 from apps.image.models import Image
+from libs.exceptions import AlreadyOperationException
 
 
 class ProjectCategory(MPTTModel):
@@ -142,6 +143,28 @@ class ProjectPackage(models.Model):
         )
 
 
+class ProjectAttentionManager(models.Manager):
+    def attention(self, project, user):
+        """
+        关注项目
+
+        """
+        queryset = super(ProjectAttentionManager, self).get_queryset().filter(project=project).filter(user=user)
+        if queryset.exists():
+            raise AlreadyOperationException()
+        super(ProjectAttentionManager, self).create(project=project, user=user)
+
+    def inattention(self, project, user):
+        """
+        取消关注项目
+
+        """
+        queryset = super(ProjectAttentionManager, self).get_queryset().filter(project=project).filter(user=user)
+        if not queryset.exists():
+            raise AlreadyOperationException()
+        queryset[0].delete()
+
+
 class ProjectAttention(models.Model):
     """
     项目关注表
@@ -157,6 +180,9 @@ class ProjectAttention(models.Model):
         permissions = (
             ('view_projectattention', u'Can view 项目关注'),
         )
+
+    objects = models.Manager()
+    manager = ProjectAttentionManager()
 
 
 class ProjectSupport(models.Model):

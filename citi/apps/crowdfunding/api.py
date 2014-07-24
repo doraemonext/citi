@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework.filters import SearchFilter, DjangoFilterBackend, OrderingFilter
 
 from libs.api import mixins
-from .models import ProjectCategory, Project, ProjectFeedback, ProjectPackage
+from .models import ProjectCategory, Project, ProjectFeedback, ProjectPackage, ProjectAttention
 from .serializers import ProjectCategorySerializer, ProjectSerializer, ProjectFeedbackSerializer, ProjectPackageSerializer
 
 
