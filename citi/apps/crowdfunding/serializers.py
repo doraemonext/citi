@@ -8,10 +8,20 @@ from rest_framework.fields import SerializerMethodField
 
 from apps.image.models import Image
 from libs.api import fields
-from .models import Project, ProjectFeedback, ProjectPackage
+from .models import ProjectCategory, Project, ProjectFeedback, ProjectPackage
 
 
 logger = logging.getLogger(__name__)
+
+
+class ProjectCategorySerializer(serializers.ModelSerializer):
+    """
+    地理位置序列化
+
+    """
+    class Meta:
+        model = ProjectCategory
+        fields = ('id', 'name')
 
 
 class ProjectSerializer(serializers.ModelSerializer):

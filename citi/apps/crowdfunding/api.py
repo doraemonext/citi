@@ -5,14 +5,29 @@ import logging
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from rest_framework.filters import SearchFilter, DjangoFilterBackend, OrderingFilter
 
 from libs.api import mixins
-from .models import Project, ProjectFeedback, ProjectPackage
-from .serializers import ProjectSerializer, ProjectFeedbackSerializer, ProjectPackageSerializer
+from .models import ProjectCategory, Project, ProjectFeedback, ProjectPackage
+from .serializers import ProjectCategorySerializer, ProjectSerializer, ProjectFeedbackSerializer, ProjectPackageSerializer
 
 
 logger = logging.getLogger(__name__)
+
+
+class ProjectCategoryList(APIView):
+    """
+    列出项目分类列表
+
+    """
+    permission_classes = (permissions.AllowAny, )
+
+    def get(self, request, format=None):
+        province = ProjectCategory.objects.filter(level=0).order_by('order')
+        serializer = ProjectCategorySerializer(province, many=True)
+        return Response(serializer.data)
 
 
 class ProjectList(mixins.CustomCreateModelMixin,
