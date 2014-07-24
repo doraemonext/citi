@@ -31,7 +31,7 @@ class ProjectList(mixins.CustomCreateModelMixin,
         else:
             obj.user = None
 
-    def post_save(self, obj, created=True):
+    def post_save(self, obj, created=False):
         if type(obj.tags) is list:
             saved_obj = Project.objects.get(pk=obj.pk)
             for tag in obj.tags:
@@ -41,9 +41,44 @@ class ProjectList(mixins.CustomCreateModelMixin,
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        if not request.user.has_perm('crowdfunding.add_project'):
-            raise PermissionDenied()
         return self.create(request, *args, **kwargs)
+
+
+class ProjectDetail(mixins.CustomRetrieveModelMixin,
+                    mixins.CustomUpdateModelMixin,
+                    mixins.CustomDestroyModelMixin,
+                    generics.GenericAPIView):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+
+    def check_object_permissions(self, request, obj):
+        if request.user != obj.user:
+            self.permission_denied(request)
+        super(ProjectDetail, self).check_object_permissions(request, obj)
+
+    def post_save(self, obj, created=False):
+        # 当请求为 PUT 或请求为 PATCH 并且有 tags 数据时清空原有 tags
+        if self.request.method == 'PUT' or (self.request.method == 'PATCH' and type(obj.tags) is list):
+            saved_obj = Project.objects.get(pk=obj.pk)
+            saved_obj.tags.clear()
+
+        if type(obj.tags) is list:
+            saved_obj = Project.objects.get(pk=obj.pk)
+            for tag in obj.tags:
+                saved_obj.tags.add(tag)
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 class ProjectFeedbackList(mixins.CustomCreateModelMixin,
@@ -53,8 +88,6 @@ class ProjectFeedbackList(mixins.CustomCreateModelMixin,
     permission_classes = (permissions.IsAuthenticated, )
 
     def post(self, request, *args, **kwargs):
-        if not request.user.has_perm('crowdfunding.add_projectfeedback'):
-            raise PermissionDenied()
         return self.create(request, *args, **kwargs)
 
 
@@ -72,23 +105,15 @@ class ProjectFeedbackDetail(mixins.CustomRetrieveModelMixin,
         super(ProjectFeedbackDetail, self).check_object_permissions(request, obj)
 
     def get(self, request, *args, **kwargs):
-        if not request.user.has_perm('crowdfunding.view_projectfeedback'):
-            raise PermissionDenied()
         return self.retrieve(request, *args, **kwargs)
 
     def patch(self, request, *args, **kwargs):
-        if not request.user.has_perm('crowdfunding.change_projectfeedback'):
-            raise PermissionDenied()
         return self.partial_update(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
-        if not request.user.has_perm('crowdfunding.change_projectfeedback'):
-            raise PermissionDenied()
         return self.update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
-        if not request.user.has_perm('crowdfunding.delete_projectfeedback'):
-            raise PermissionDenied()
         return self.destroy(request, *args, **kwargs)
 
 
@@ -99,8 +124,6 @@ class ProjectPackageList(mixins.CustomCreateModelMixin,
     permission_classes = (permissions.IsAuthenticated, )
 
     def post(self, request, *args, **kwargs):
-        if not request.user.has_perm('crowdfunding.add_projectpackage'):
-            raise PermissionDenied()
         return self.create(request, *args, **kwargs)
 
 
@@ -118,21 +141,13 @@ class ProjectPackageDetail(mixins.CustomRetrieveModelMixin,
         super(ProjectPackageDetail, self).check_object_permissions(request, obj)
 
     def get(self, request, *args, **kwargs):
-        if not request.user.has_perm('crowdfunding.view_projectpackage'):
-            raise PermissionDenied()
         return self.retrieve(request, *args, **kwargs)
 
     def patch(self, request, *args, **kwargs):
-        if not request.user.has_perm('crowdfunding.change_projectpackage'):
-            raise PermissionDenied()
         return self.partial_update(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
-        if not request.user.has_perm('crowdfunding.change_projectpackage'):
-            raise PermissionDenied()
         return self.update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
-        if not request.user.has_perm('crowdfunding.delete_projectpackage'):
-            raise PermissionDenied()
         return self.destroy(request, *args, **kwargs)

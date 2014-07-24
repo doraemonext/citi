@@ -71,6 +71,14 @@ class ProjectSerializer(serializers.ModelSerializer):
 
         return attrs
 
+    def save_object(self, obj, **kwargs):
+        # 修正location_detail在PUT下不能更新的问题
+        view = self.context['view']
+        if view.request.method == 'PUT' and not view.request.DATA.get('location_detail', None):
+            obj.location_detail = None
+
+        super(ProjectSerializer, self).save_object(obj, **kwargs)
+
 
 class ProjectFeedbackSerializer(serializers.ModelSerializer):
     """
