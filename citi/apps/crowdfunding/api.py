@@ -5,7 +5,7 @@ import logging
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.filters import SearchFilter, DjangoFilterBackend
+from rest_framework.filters import SearchFilter, DjangoFilterBackend, OrderingFilter
 
 from libs.api import mixins
 from .models import Project, ProjectFeedback, ProjectPackage
@@ -21,9 +21,11 @@ class ProjectList(mixins.CustomCreateModelMixin,
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
-    filter_backends = (DjangoFilterBackend, SearchFilter)
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filter_fields = ('id', 'user', 'name', 'location', 'category', 'status', 'post_datetime')
     search_fields = ('name', )
+    ordering_fields = ('post_datetime', 'name')
+    paginate_by = 10
 
     def pre_save(self, obj):
         if self.request.user.is_authenticated():
