@@ -426,6 +426,8 @@ API_ERROR_CODE = {
     'Invalid image type': 10028,  # 错误的图片类型
     'Invalid image user (no user)': 10029,  # 错误的图片用户(无用户)
     'Invalid image user (other user)': 10030,  # 错误的图片用户(他人用户)
+    'Already attention': 10031,  # 重复关注
+    'Already inattention': 10032,  # 重复取消关注
 
     # System Error Code
     'System error': 12000,

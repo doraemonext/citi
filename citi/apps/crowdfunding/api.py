@@ -4,13 +4,16 @@ import logging
 
 from rest_framework import generics
 from rest_framework import permissions
+from rest_framework import status
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.filters import SearchFilter, DjangoFilterBackend, OrderingFilter
 
 from libs.api import mixins
-from .models import ProjectCategory, Project, ProjectFeedback, ProjectPackage
+from libs.api import utils
+from libs.exceptions import AlreadyOperationException
+from .models import ProjectCategory, Project, ProjectFeedback, ProjectPackage, ProjectAttention
 from .serializers import ProjectCategorySerializer, ProjectSerializer, ProjectFeedbackSerializer, ProjectPackageSerializer
 
 
@@ -168,3 +171,30 @@ class ProjectPackageDetail(mixins.CustomRetrieveModelMixin,
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+class ProjectAttentionDetail(APIView):
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def get(self, request, project_id, format=None):
+        project = Project.objects.get(pk=project_id)
+        if ProjectAttention.manager.is_attention(project, request.user):
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, project_id, format=None):
+        project = Project.objects.get(pk=project_id)
+        try:
+            ProjectAttention.manager.attention(project, request.user)
+        except AlreadyOperationException:
+            return Response(utils.api_error_message('Already attention'), status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def delete(self, request, project_id, format=None):
+        project = Project.objects.get(pk=project_id)
+        try:
+            ProjectAttention.manager.inattention(project, request.user)
+        except AlreadyOperationException:
+            return Response(utils.api_error_message('Already inattention'), status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_204_NO_CONTENT)
