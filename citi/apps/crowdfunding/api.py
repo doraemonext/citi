@@ -2,10 +2,11 @@
 
 import logging
 
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework import status
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import PermissionDenied, APIException
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.filters import SearchFilter, DjangoFilterBackend, OrderingFilter
@@ -13,8 +14,13 @@ from rest_framework.filters import SearchFilter, DjangoFilterBackend, OrderingFi
 from libs.api import mixins
 from libs.api import utils
 from libs.exceptions import AlreadyOperationException
-from .models import ProjectCategory, Project, ProjectFeedback, ProjectPackage, ProjectAttention
-from .serializers import ProjectCategorySerializer, ProjectSerializer, ProjectFeedbackSerializer, ProjectPackageSerializer
+from .models import (
+    ProjectCategory, Project, ProjectFeedback, ProjectPackage, ProjectAttention, ProjectComment
+)
+from .serializers import (
+    ProjectCategorySerializer, ProjectSerializer, ProjectFeedbackSerializer, ProjectPackageSerializer,
+    ProjectCommentSerializer
+)
 
 
 logger = logging.getLogger(__name__)
@@ -198,3 +204,34 @@ class ProjectAttentionDetail(APIView):
         except AlreadyOperationException:
             return Response(utils.api_error_message('Already inattention'), status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ProjectCommentList(mixins.CustomCreateModelMixin,
+                         mixins.ListModelMixin,
+                         generics.GenericAPIView):
+    queryset = ProjectComment.objects.all()
+    serializer_class = ProjectCommentSerializer
+    permission_classes = (permissions.AllowAny, )
+
+    def __init__(self):
+        self.project = None
+        super(ProjectCommentList, self).__init__()
+
+    def filter_queryset(self, queryset):
+        queryset = queryset.filter(project=self.kwargs['project_id'])
+        queryset = queryset.filter(parent=None)
+        return super(ProjectCommentList, self).filter_queryset(queryset)
+
+    def pre_save(self, obj):
+        obj.project = self.project
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            self.project = Project.objects.get(pk=self.kwargs['project_id'])
+        except ObjectDoesNotExist:
+            return Response(utils.api_error_message('Not found'), status=status.HTTP_404_NOT_FOUND)
+
+        return self.create(request, *args, **kwargs)

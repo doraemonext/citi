@@ -266,13 +266,9 @@ class ProjectComment(MPTTModel):
     content = models.TextField(u'评论内容')
     datetime = models.DateTimeField(u'评论日期', auto_now=True)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', verbose_name=u'评论父亲')
-    order = models.PositiveIntegerField(u'排序')
 
     def __unicode__(self):
         return self.content
-
-    class MPTTMeta:
-        order_insertion_by = ['order']
 
     class Meta:
         verbose_name = u'项目评论'

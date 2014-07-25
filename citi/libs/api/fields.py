@@ -10,6 +10,7 @@ from django.core import validators
 from rest_framework import ISO_8601
 from rest_framework.compat import smart_text, timezone, parse_datetime
 from rest_framework import relations, fields
+from rest_framework import serializers
 
 
 class CustomPrimaryKeyRelatedField(relations.PrimaryKeyRelatedField):
@@ -163,3 +164,20 @@ class CustomTagField(fields.WritableField):
         if type(value) is not list:
             return [tag.name for tag in value.all()]
         return value
+
+
+class CustomBooleanField(fields.BooleanField):
+    default_error_messages = {
+        'required': 'Required data',
+        'invalid': 'Invalid data',
+    }
+
+
+class CustomRecursiveField(serializers.Serializer):
+    default_error_messages = {
+        'required': 'Required data',
+        'invalid': 'Invalid data',
+    }
+
+    def to_native(self, obj):
+        return self.parent.to_native(obj)

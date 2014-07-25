@@ -44,5 +44,3 @@ citi/citi/settings/production.py
 
 .idea
 citi/assets
-
-migrations
