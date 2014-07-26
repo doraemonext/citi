@@ -87,7 +87,7 @@ class DetailInfo(models.Model):
         ('l', u'女'),
     )
 
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=u'所属用户', related_name='detailinfo')
     avatar = models.ForeignKey(Image, verbose_name=u'用户头像', null=True, blank=True)
     name = models.CharField(u'姓名', max_length=20, null=True, blank=True)
     sex = models.CharField(u'性别', choices=SEX, max_length=1, null=True, blank=True)
@@ -114,7 +114,7 @@ class FundInfo(models.Model):
     用户资金信息表
 
     """
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=u'所属用户', related_name='fundinfo')
     alipay = models.CharField(u'支付宝账号', max_length=100, null=True, blank=True)
     bank_name = models.CharField(u'开户行名称', max_length=50, null=True, blank=True)
     bank_sub_name = models.CharField(u'支行名称', max_length=50, null=True, blank=True)
@@ -134,7 +134,7 @@ class BalanceInfo(models.Model):
     用户账户余额表
 
     """
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=u'所属用户', related_name='balanceinfo')
     balance = models.FloatField(u'当前余额', default=0.0)
 
     class Meta:
@@ -150,7 +150,7 @@ class ProjectInfo(models.Model):
     用户项目信息表
 
     """
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=u'所属用户', related_name='projectinfo')
     launch = models.IntegerField(u'已发起项目数目', default=0)
     attention = models.IntegerField(u'已关注项目数目', default=0)
     support = models.IntegerField(u'已支持项目数目', default=0)
@@ -168,7 +168,7 @@ class QuestionInfo(models.Model):
     用户问答信息表
 
     """
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name=u'所属用户', related_name='questioninfo')
     ask = models.IntegerField(u'我提问的数目', default=0)
     answer = models.IntegerField(u'我回答的数目', default=0)
     comment = models.IntegerField(u'我评论的数目', default=0)

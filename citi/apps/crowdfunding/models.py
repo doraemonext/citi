@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import logging
+
 from django.db import models
 from django.conf import settings
 from mptt.models import MPTTModel, TreeForeignKey
@@ -10,6 +12,9 @@ from taggit.managers import TaggableManager
 from apps.location.models import Location
 from apps.image.models import Image
 from libs.exceptions import AlreadyOperationException
+
+
+logger = logging.getLogger(__name__)
 
 
 class ProjectCategory(MPTTModel):
@@ -280,6 +285,12 @@ class ProjectComment(MPTTModel):
     def save(self, *args, **kwargs):
         super(ProjectComment, self).save(*args, **kwargs)
         ProjectComment.objects.rebuild()
+
+    def get_user_email(self):
+        if self.user:
+            return self.user.email
+        else:
+            return None
 
 
 class ProjectTopic(models.Model):

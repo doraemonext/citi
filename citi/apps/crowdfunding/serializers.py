@@ -165,6 +165,7 @@ class ProjectCommentSerializer(serializers.ModelSerializer):
     """
     project = fields.CustomPrimaryKeyRelatedField(read_only=True)
     user = fields.CustomPrimaryKeyRelatedField(read_only=True)
+    email = fields.CustomCharField(source='get_user_email', required=False)
     content = fields.CustomCharField()
     datetime = fields.CustomDateTimeField(read_only=True)
     parent = fields.CustomPrimaryKeyRelatedField(required=False)
@@ -173,7 +174,7 @@ class ProjectCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProjectComment
-        fields = ('id', 'project', 'user', 'content', 'datetime', 'parent', 'children', 'type')
+        fields = ('id', 'project', 'user', 'email', 'content', 'datetime', 'parent', 'children', 'type')
 
     def validate_type(self, attrs, source):
         data = attrs[source]

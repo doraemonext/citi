@@ -7,7 +7,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 from ..api import ProjectCategoryList
 from ..api import ProjectList, ProjectDetail, ProjectAttentionDetail
-from ..api import ProjectCommentList
+from ..api import ProjectCommentList, ProjectCommentDetail
 from ..api import ProjectFeedbackList, ProjectFeedbackDetail
 from ..api import ProjectPackageList, ProjectPackageDetail
 
@@ -17,7 +17,8 @@ urlpatterns = patterns('',
     url(r'^project/$', ProjectList.as_view()),
     url(r'^project/(?P<pk>[0-9]+)/$', ProjectDetail.as_view()),
     url(r'^project/(?P<project_id>[0-9]+)/attention/$', ProjectAttentionDetail.as_view()),
-    url(r'^project/(?P<project_id>[0-9]+)/comment/', ProjectCommentList.as_view()),
+    url(r'^project/(?P<project_id>[0-9]+)/comment/$', ProjectCommentList.as_view()),
+    url(r'^project/comment/(?P<pk>[0-9]+)/$', ProjectCommentDetail.as_view()),
     url(r'^feedback/$', ProjectFeedbackList.as_view()),
     url(r'^feedback/(?P<pk>[0-9]+)/$', ProjectFeedbackDetail.as_view()),
     url(r'^package/$', ProjectPackageList.as_view()),

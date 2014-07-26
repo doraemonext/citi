@@ -207,7 +207,7 @@ class ProjectAttentionDetail(APIView):
 
 
 class ProjectCommentList(mixins.CustomCreateModelMixin,
-                         mixins.ListModelMixin,
+                         mixins.CustomListModelMixin,
                          generics.GenericAPIView):
     queryset = ProjectComment.objects.all()
     serializer_class = ProjectCommentSerializer
@@ -226,6 +226,11 @@ class ProjectCommentList(mixins.CustomCreateModelMixin,
         obj.project = self.project
 
     def get(self, request, *args, **kwargs):
+        try:
+            self.project = Project.objects.get(pk=self.kwargs['project_id'])
+        except ObjectDoesNotExist:
+            return Response(utils.api_error_message('Not found'), status=status.HTTP_404_NOT_FOUND)
+
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -235,3 +240,28 @@ class ProjectCommentList(mixins.CustomCreateModelMixin,
             return Response(utils.api_error_message('Not found'), status=status.HTTP_404_NOT_FOUND)
 
         return self.create(request, *args, **kwargs)
+
+
+class ProjectCommentDetail(mixins.CustomRetrieveModelMixin,
+                           mixins.CustomUpdateModelMixin,
+                           mixins.CustomDestroyModelMixin,
+                           generics.GenericAPIView):
+    queryset = ProjectComment.objects.all()
+    serializer_class = ProjectCommentSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+
+    def check_object_permissions(self, request, obj):
+        if request.method not in permissions.SAFE_METHODS and request.user != obj.user:
+            self.permission_denied(request)
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
