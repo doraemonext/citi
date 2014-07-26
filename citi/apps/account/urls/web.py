@@ -3,10 +3,10 @@
 from django.conf.urls import patterns, url, include
 from django.views.generic.base import TemplateView
 
-import signals
-from .views import RegistrationView, ActivationView
-from .views import login, logout, password_reset, password_reset_done, password_reset_confirm, password_reset_complete
-from .views import ProfileView
+from .. import signals
+from ..views import RegistrationView, ActivationView
+from ..views import login, logout, password_reset, password_reset_done, password_reset_confirm, password_reset_complete
+from ..views import ProfileView
 
 
 urlpatterns = patterns('',

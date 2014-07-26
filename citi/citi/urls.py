@@ -9,7 +9,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', TemplateView.as_view(template_name='base.html')),
-    url(r'^accounts/', include('apps.account.urls')),
+    url(r'^accounts/', include('apps.account.urls.web')),
     url(r'^captcha/', include('captcha.urls')),
     url(r'^ueditor/', include('DjangoUeditor.urls')),
     url(r'^crowdfunding/', include('apps.crowdfunding.urls.web')),
@@ -19,6 +19,7 @@ urlpatterns = patterns('',
         url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
         url(r'^image/', include('apps.image.urls.api')),
         url(r'^location/', include('apps.location.urls')),
+        url(r'^accounts/', include('apps.account.urls.api')),
         url(r'^crowdfunding/', include('apps.crowdfunding.urls.api')),
     ])),
 

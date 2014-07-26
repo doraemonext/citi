@@ -6,12 +6,12 @@ from django.utils import timezone
 
 
 class CustomUserManager(BaseUserManager):
-    def _create_user(self, email, nickname, password, is_staff=False, is_superuser=False, **extra_fields):
+    def _create_user(self, email, nickname, password, is_authentication=False, is_staff=False, is_superuser=False, **extra_fields):
         now = timezone.now()
         if not email:
             raise ValueError('The given email must be set')
         email = self.normalize_email(email)
-        user = self.model(email=email, nickname=nickname,
+        user = self.model(email=email, nickname=nickname, is_authentication=is_authentication,
                           is_staff=is_staff, is_active=True,
                           is_superuser=is_superuser, last_login=now,
                           date_joined=now, **extra_fields)
@@ -23,7 +23,7 @@ class CustomUserManager(BaseUserManager):
         return self._create_user(email, nickname, password, **extra_fields)
 
     def create_superuser(self, email, nickname, password, **extra_fields):
-        return self._create_user(email, nickname, password, True, True, **extra_fields)
+        return self._create_user(email, nickname, password, True, True, True, **extra_fields)
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
@@ -31,6 +31,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     nickname = models.CharField(u'昵称', max_length=30)
     is_active = models.BooleanField(u'是否激活', default=False)
     is_staff = models.BooleanField(u'是否为管理员', default=False)
+    is_authentication = models.BooleanField(u'是否认证', default=False)
     date_joined = models.DateTimeField(u'注册日期', default=timezone.now)
 
     objects = CustomUserManager()
