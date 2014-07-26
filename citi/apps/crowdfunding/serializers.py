@@ -8,7 +8,7 @@ from rest_framework.fields import SerializerMethodField
 
 from apps.image.models import Image
 from libs.api import fields
-from .models import ProjectCategory, Project, ProjectFeedback, ProjectPackage
+from .models import ProjectCategory, Project, ProjectFeedback, ProjectPackage, ProjectComment
 
 
 logger = logging.getLogger(__name__)
@@ -143,8 +143,6 @@ class ProjectPackageSerializer(serializers.ModelSerializer):
         model = ProjectPackage
         fields = ('id', 'project', 'name', 'money', 'type', 'limit', 'feedback')
 
-
-
     def validate_feedback(self, attrs, source):
         data = attrs[source]
         if not data:
@@ -158,3 +156,44 @@ class ProjectPackageSerializer(serializers.ModelSerializer):
         if proj and proj.user != view.request.user:
             raise serializers.ValidationError('Permission denied when checking project id')
         return attrs
+
+
+class ProjectCommentSerializer(serializers.ModelSerializer):
+    """
+    项目评论序列化
+
+    """
+    project = fields.CustomPrimaryKeyRelatedField(read_only=True)
+    user = fields.CustomPrimaryKeyRelatedField(read_only=True)
+    email = fields.CustomCharField(source='get_user_email', required=False)
+    content = fields.CustomCharField()
+    datetime = fields.CustomDateTimeField(read_only=True)
+    parent = fields.CustomPrimaryKeyRelatedField(required=False)
+    children = fields.CustomRecursiveField(many=True, read_only=True)
+    type = fields.CustomCharField(write_only=True)
+
+    class Meta:
+        model = ProjectComment
+        fields = ('id', 'project', 'user', 'email', 'content', 'datetime', 'parent', 'children', 'type')
+
+    def validate_type(self, attrs, source):
+        data = attrs[source]
+        if self.context['view'].request.user.is_authenticated():
+            if data == 'anonymous' or data == 'normal':
+                return attrs
+        else:
+            if data == 'anonymous':
+                return attrs
+            elif data == 'normal':
+                raise serializers.ValidationError('Error comment type, you are not authenticated')
+
+        raise serializers.ValidationError('Invalid data')
+
+    def restore_object(self, attrs, instance=None):
+        obj = super(ProjectCommentSerializer, self).restore_object(attrs, instance)
+        type = attrs.pop('type', None)
+        if type == 'anonymous':
+            obj.user = None
+        else:
+            obj.user = self.context['view'].request.user
+        return obj

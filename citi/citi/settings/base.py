@@ -428,6 +428,7 @@ API_ERROR_CODE = {
     'Invalid image user (other user)': 10030,  # 错误的图片用户(他人用户)
     'Already attention': 10031,  # 重复关注
     'Already inattention': 10032,  # 重复取消关注
+    'Error comment type, you are not authenticated': 10033,  # 错误的评论发布类型, 匿名用户仅能发送匿名评论
 
     # System Error Code
     'System error': 12000,

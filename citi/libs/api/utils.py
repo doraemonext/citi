@@ -98,3 +98,13 @@ class CommonResponse(object):
         return Response(api_error_message('You do not have permission to perform this action.'),
                         status=status.HTTP_403_FORBIDDEN,
                         content_type='application/json')
+
+    @staticmethod
+    def not_found():
+        """
+        找不到页面
+
+        """
+        return Response(api_error_message('Not found'),
+                        status=status.HTTP_404_NOT_FOUND,
+                        content_type='application/json')

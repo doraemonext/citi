@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import logging
+
 from django.db import models
 from django.conf import settings
 from mptt.models import MPTTModel, TreeForeignKey
@@ -10,6 +12,9 @@ from taggit.managers import TaggableManager
 from apps.location.models import Location
 from apps.image.models import Image
 from libs.exceptions import AlreadyOperationException
+
+
+logger = logging.getLogger(__name__)
 
 
 class ProjectCategory(MPTTModel):
@@ -266,13 +271,9 @@ class ProjectComment(MPTTModel):
     content = models.TextField(u'评论内容')
     datetime = models.DateTimeField(u'评论日期', auto_now=True)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', verbose_name=u'评论父亲')
-    order = models.PositiveIntegerField(u'排序')
 
     def __unicode__(self):
         return self.content
-
-    class MPTTMeta:
-        order_insertion_by = ['order']
 
     class Meta:
         verbose_name = u'项目评论'
@@ -284,6 +285,12 @@ class ProjectComment(MPTTModel):
     def save(self, *args, **kwargs):
         super(ProjectComment, self).save(*args, **kwargs)
         ProjectComment.objects.rebuild()
+
+    def get_user_email(self):
+        if self.user:
+            return self.user.email
+        else:
+            return None
 
 
 class ProjectTopic(models.Model):
