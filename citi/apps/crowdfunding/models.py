@@ -195,8 +195,8 @@ class ProjectAttention(models.Model):
     datetime = models.DateTimeField(u'关注日期', auto_now=True)
 
     class Meta:
-        verbose_name = u'项目关注表'
-        verbose_name_plural = u'项目关注表'
+        verbose_name = u'项目关注'
+        verbose_name_plural = u'项目关注'
         permissions = (
             ('view_projectattention', u'Can view 项目关注'),
         )
