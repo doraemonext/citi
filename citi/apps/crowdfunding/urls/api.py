@@ -6,7 +6,7 @@ from django.views.generic.base import TemplateView
 from rest_framework.urlpatterns import format_suffix_patterns
 
 from ..api import ProjectCategoryList
-from ..api import ProjectList, ProjectDetail, ProjectAttentionDetail
+from ..api import ProjectList, ProjectDetail, ProjectAttentionDetail, ProjectSave
 from ..api import ProjectCommentList, ProjectCommentDetail
 from ..api import ProjectFeedbackList, ProjectFeedbackDetail
 from ..api import ProjectPackageList, ProjectPackageDetail
@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^category/$', ProjectCategoryList.as_view()),
     url(r'^project/$', ProjectList.as_view()),
     url(r'^project/(?P<pk>[0-9]+)/$', ProjectDetail.as_view()),
+    url(r'^project/(?P<project_id>[0-9]+)/save/$', ProjectSave.as_view()),
     url(r'^project/(?P<project_id>[0-9]+)/attention/$', ProjectAttentionDetail.as_view()),
     url(r'^project/(?P<project_id>[0-9]+)/comment/$', ProjectCommentList.as_view()),
     url(r'^project/comment/(?P<pk>[0-9]+)/$', ProjectCommentDetail.as_view()),

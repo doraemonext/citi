@@ -89,6 +89,11 @@ class Project(models.Model):
     def __unicode__(self):
         return self.name
 
+    def save_project(self):
+        if self.status == self.STATUS_DRAFT:
+            self.status = self.STATUS_PENDING
+            self.save()
+
     class Meta:
         verbose_name = u'项目'
         verbose_name_plural = u'项目'

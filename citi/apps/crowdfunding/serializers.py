@@ -40,7 +40,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     summary = fields.CustomCharField()
     content = fields.CustomCharField()
     now_money = fields.CustomFloatField(read_only=True)
-    status = fields.CustomChoiceField(choices=Project.STATUS)
+    status = fields.CustomChoiceField(read_only=True)
     attention_count = fields.CustomIntegerField(read_only=True)
     tags = fields.CustomTagField(required=False)
     post_datetime = fields.CustomDateTimeField(read_only=True)

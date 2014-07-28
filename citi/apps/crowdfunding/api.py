@@ -48,7 +48,7 @@ class ProjectList(mixins.CustomCreateModelMixin,
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filter_fields = ('id', 'user', 'name', 'location', 'category', 'status', 'post_datetime')
     search_fields = ('name', )
-    ordering_fields = ('post_datetime', 'name')
+    ordering_fields = ('post_datetime', 'name', 'attention_count')
     paginate_by = 10
 
     def pre_save(self, obj):
@@ -105,6 +105,18 @@ class ProjectDetail(mixins.CustomRetrieveModelMixin,
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+class ProjectSave(APIView):
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def put(self, request, project_id, format=None):
+        try:
+            project = Project.objects.get(pk=project_id)
+        except ObjectDoesNotExist:
+            return utils.CommonResponse.not_found()
+        project.save_project()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ProjectFeedbackList(mixins.CustomCreateModelMixin,
@@ -183,14 +195,22 @@ class ProjectAttentionDetail(APIView):
     permission_classes = (permissions.IsAuthenticated, )
 
     def get(self, request, project_id, format=None):
-        project = Project.objects.get(pk=project_id)
+        try:
+            project = Project.objects.get(pk=project_id)
+        except ObjectDoesNotExist:
+            return utils.CommonResponse.not_found()
+
         if ProjectAttention.manager.is_attention(project, request.user):
             return Response(status=status.HTTP_204_NO_CONTENT)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     def put(self, request, project_id, format=None):
-        project = Project.objects.get(pk=project_id)
+        try:
+            project = Project.objects.get(pk=project_id)
+        except ObjectDoesNotExist:
+            return utils.CommonResponse.not_found()
+
         try:
             ProjectAttention.manager.attention(project, request.user)
         except AlreadyOperationException:
@@ -198,7 +218,11 @@ class ProjectAttentionDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def delete(self, request, project_id, format=None):
-        project = Project.objects.get(pk=project_id)
+        try:
+            project = Project.objects.get(pk=project_id)
+        except ObjectDoesNotExist:
+            return utils.CommonResponse.not_found()
+
         try:
             ProjectAttention.manager.inattention(project, request.user)
         except AlreadyOperationException:
