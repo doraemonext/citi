@@ -6,7 +6,7 @@ from rest_framework import generics
 from rest_framework import permissions
 
 from libs.api import mixins
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UserAnonymousSerializer
 
 
 class UserDetail(mixins.CustomRetrieveModelMixin,
@@ -33,3 +33,13 @@ class UserDetail(mixins.CustomRetrieveModelMixin,
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
+
+
+class UserAnonymousDetail(mixins.CustomRetrieveModelMixin,
+                          generics.GenericAPIView):
+    queryset = get_user_model().objects.all()
+    serializer_class = UserAnonymousSerializer
+    permission_classes = (permissions.AllowAny, )
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)

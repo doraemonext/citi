@@ -83,3 +83,24 @@ class UserSerializer(serializers.ModelSerializer):
             'id', 'email', 'nickname', 'is_active', 'is_staff', 'is_authentication', 'date_joined',
             'detailinfo', 'fundinfo', 'balanceinfo', 'projectinfo', 'questioninfo',
         )
+
+
+class DetailInfoAnonymousSerializer(serializers.ModelSerializer):
+    default_error_messages = {
+        'required': 'Required data',
+        'invalid': 'Invalid data',
+    }
+
+    class Meta:
+        model = DetailInfo
+        fields = ('avatar', 'native', 'profession', 'qq', 'weibo', 'blog')
+
+
+class UserAnonymousSerializer(serializers.ModelSerializer):
+    email = fields.CustomCharField(read_only=True)
+    nickname = fields.CustomCharField(read_only=True)
+    detailinfo = DetailInfoAnonymousSerializer(read_only=True)
+
+    class Meta:
+        model = get_user_model()
+        fields = ('id', 'email', 'nickname', 'detailinfo')
