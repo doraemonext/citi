@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import json
 
 from django.conf import settings
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.template.response import TemplateResponse
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -19,9 +20,14 @@ from django.contrib.sites.models import RequestSite
 from django.views.generic.base import TemplateView
 from registration import signals
 from registration.views import RegistrationView as BaseRegistrationView
+from rest_framework.response import Response
+from rest_framework.status import HTTP_400_BAD_REQUEST
+from rest_framework.views import APIView
+from rest_framework.renderers import JSONRenderer
 
 from apps.image.models import Image
 from libs.utils.decorators import anonymous_required
+from libs.api.utils import process_errors
 from .forms import RegistrationForm, LoginForm, PasswordResetForm, SetPasswordForm
 from .models import CustomRegistrationProfile, DetailInfo, FundInfo, BalanceInfo, ProjectInfo, QuestionInfo
 
@@ -29,7 +35,46 @@ from .models import CustomRegistrationProfile, DetailInfo, FundInfo, BalanceInfo
 logger = logging.getLogger(__name__)
 
 
-class RegistrationView(BaseRegistrationView):
+class AjaxableResponseMixin(object):
+    def get_form_kwargs(self):
+        kwargs = {'initial': self.get_initial()}
+        if self.request.method in ('POST', 'PUT'):
+            dict_ = self.request.POST.copy()
+            del dict_['csrfmiddlewaretoken']
+            kwargs.update({
+                'data': dict_,
+                'files': self.request.FILES,
+            })
+        return kwargs
+
+    def render_to_json_response(self, context, **response_kwargs):
+        for item in context:
+            context[item] = context[item][0]
+        data = json.dumps(context)
+        response_kwargs['content_type'] = 'application/json'
+        return HttpResponse(data, **response_kwargs)
+
+    def form_invalid(self, form):
+        response = super(AjaxableResponseMixin, self).form_invalid(form)
+
+        if self.request.is_ajax():
+            return self.render_to_json_response(form.errors, status=400)
+        else:
+            return response
+
+    def form_valid(self, request, form):
+        if self.request.is_ajax():
+            new_user = self.register(request, **form.cleaned_data)
+            data = {
+                'redirect_url': [reverse(self.get_success_url())],
+            }
+            return self.render_to_json_response(data, status=200)
+        else:
+            response = super(AjaxableResponseMixin, self).form_valid(request, form)
+            return response
+
+
+class RegistrationView(AjaxableResponseMixin, BaseRegistrationView):
     """
     注册页面相关内容
 
@@ -51,7 +96,6 @@ class RegistrationView(BaseRegistrationView):
         处理注册表单数据
 
         """
-        logger.debug(cleaned_data.get('idcard_image', None))
         email, nickname, password = cleaned_data['email'], cleaned_data['nickname'], cleaned_data['password1']
         site = RequestSite(request)
         new_user = CustomRegistrationProfile.objects.create_inactive_user(email, nickname, password, site)
@@ -68,9 +112,6 @@ class RegistrationView(BaseRegistrationView):
         detail_info.idcard = cleaned_data.get('idcard', None)
         detail_info.idcard_image = cleaned_data.get('idcard_image', None)
         detail_info.mobile = cleaned_data.get('mobile', None)
-        detail_info.qq = cleaned_data.get('qq', None)
-        detail_info.weibo = cleaned_data.get('weibo', None)
-        detail_info.blog = cleaned_data.get('blog', None)
         detail_info.save()
 
         logger.info('The user %(user)s has successfully registered. ' % {'user': new_user.email})
@@ -132,7 +173,6 @@ class ActivationView(TemplateView):
 
 
 @anonymous_required
-@csrf_protect
 def login(request, template_name='login.html', authentication_form=LoginForm):
     """
     显示登陆页面并处理登陆请求, 当用户已经登陆时, 直接跳转到next所指向的页面

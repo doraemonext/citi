@@ -42,10 +42,7 @@ class RegistrationForm(forms.Form):
     idcard = forms.CharField(label=u'身份证号', required=False)
     idcard_image = forms.IntegerField(label=u'身份证照片', required=False)
     mobile = forms.CharField(label=u'手机号', required=False)
-    qq = forms.CharField(label=u'QQ号', required=False)
-    weibo = forms.CharField(label=u'微博', required=False)
-    blog = forms.CharField(label=u'博客', required=False)
-    captcha = CaptchaField(label=u'验证码')
+    # captcha = CaptchaField(label=u'验证码')
 
     error_messages = {
         'exist_email': u'电子邮件已被注册',
@@ -101,18 +98,13 @@ class RegistrationForm(forms.Form):
         idcard = self.get_and_set_cleaned_data('idcard')
         idcard_image = self.get_and_set_cleaned_data('idcard_image')
         mobile = self.get_and_set_cleaned_data('mobile')
-        qq = self.get_and_set_cleaned_data('qq')
-        weibo = self.get_and_set_cleaned_data('weibo')
-        blog = self.get_and_set_cleaned_data('blog')
         if idcard_image and not Image.objects.filter(pk=idcard_image).exists():
             raise forms.ValidationError(
                 self.error_messages['idcard_image_invalid'],
                 code='idcard_image_invalid',
             )
-        if name or (sex == 'm' or sex == 'l') or age or native or profession or idcard or idcard_image or mobile or qq\
-                or weibo or blog:
-            if name and (sex == 'm' or sex == 'l') and age and native and profession and idcard and mobile and qq\
-                    and weibo and blog:
+        if name or (sex == 'm' or sex == 'l') or age or native or profession or idcard or idcard_image or mobile:
+            if name and (sex == 'm' or sex == 'l') and age and native and profession and idcard and mobile:
                 pass
             else:
                 raise forms.ValidationError(
@@ -129,7 +121,7 @@ class LoginForm(forms.Form):
     """
     email = forms.EmailField(label=u'电子邮件', max_length=255, widget=forms.TextInput)
     password = forms.CharField(label=u'密码', widget=forms.PasswordInput)
-    captcha = CaptchaField(label=u'验证码')
+    # captcha = CaptchaField(label=u'验证码')
 
     error_messages = {
         'invalid_login': u'您输入的用户名或密码不正确',
