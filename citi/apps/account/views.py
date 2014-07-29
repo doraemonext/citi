@@ -186,11 +186,19 @@ def login(request, template_name='login.html', authentication_form=LoginForm):
     if request.method == "POST":
         form = authentication_form(request, data=request.POST)
         if form.is_valid():
-            # 用户登陆
-            auth_login(request, form.get_user())
-            logger.info('The user %(user)s has successfully signed in', {'user': form.get_user().email})
-
-            return HttpResponseRedirect(redirect_to)
+            if request.is_ajax():
+                return HttpResponse(json.dumps({"redirect_url": redirect_to}), status=200, content_type='application/json')
+            else:
+                # 用户登陆
+                auth_login(request, form.get_user())
+                logger.info('The user %(user)s has successfully signed in', {'user': form.get_user().email})
+                return HttpResponseRedirect(redirect_to)
+        else:
+            if request.is_ajax():
+                context = form.errors
+                for item in context:
+                    context[item] = context[item][0]
+                return HttpResponse(json.dumps(context), status=400, content_type='application/json')
     else:
         if request.user.is_authenticated():
             return HttpResponseRedirect(redirect_to)
