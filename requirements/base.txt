@@ -17,3 +17,4 @@ DjangoUeditor
 django-taggit
 django-imagekit
 django-filter
+django-cors-headers
