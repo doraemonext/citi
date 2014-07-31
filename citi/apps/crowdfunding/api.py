@@ -236,6 +236,7 @@ class ProjectCommentList(mixins.CustomCreateModelMixin,
     queryset = ProjectComment.objects.all()
     serializer_class = ProjectCommentSerializer
     permission_classes = (permissions.AllowAny, )
+    paginate_by = 10
 
     def __init__(self):
         self.project = None

@@ -8,7 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import TemplateView, FormView
+from django.views.generic import TemplateView, FormView, DetailView
 
 from system.settings.views import get_setting_dict
 from libs.ajax.views import AjaxResponseMixin
@@ -17,6 +17,14 @@ from .models import Project
 
 
 logger = logging.getLogger(__name__)
+
+
+class ProjectDetailView(DetailView):
+    """
+    显示项目详细信息页
+
+    """
+    model = Project
 
 
 class PublishView(TemplateView):
