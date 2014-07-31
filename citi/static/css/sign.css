@@ -1,0 +1,25 @@
+.sign-panel-agreement p {
+    padding: 20px 0 10px;
+}
+
+#city {
+    width: 140px;
+}
+#province {
+    width: 120px;
+    margin-right: 20px;
+}
+#image {
+    display: none;
+}
+.sex {
+	line-height: 40px;
+}
+.imgupload img {
+	cursor: pointer;
+}
+#upload {
+	display: none;
+	margin-bottom: 12px;
+	margin-left: 20px;
+}
