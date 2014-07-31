@@ -1,0 +1,1182 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>明食馆</title>
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <link rel="stylesheet" href="{% static 'css/module.css' %}">
+        <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+        <link rel="stylesheet" href="{% static 'css/slider.css' %}">
+        <link rel="stylesheet" href="{% static 'css/index.css' %}">
+        <link rel="stylesheet" href="{% static 'css/cmxform.css' %}">
+        <script data-main="{% static 'js/index' %}" src="{% static 'js/lib/require.js' %}" defer async="async"></script>
+    </head>
+    <body>
+        <header class="header center white clear relative active">
+            <div class="header-notify auto">
+                <p>这里是各种弹出通知</p>
+            </div>
+            <span class="absolute close" data-dismiss="header">×</span>
+        </header>
+        <nav class="nav bg-green-light clear">
+            <div class="nav-wrap auto">
+                <div class="logo left"></div>
+                <div class="search right">
+                    <form action="" class="left">
+                        <div class="field clear mr-12">
+                            <span class="search-icon left block"></span>
+                            <input class="input-search left block" type="text" placeholder="请输入您要搜索的内容"/>
+                        </div>
+                    </form>
+                    <div class="user left" data-toggle="#loginModal"></div>
+                </div>
+                <ul class="normal nav-link clear center">
+                    <li class="left"><a class="active block white" href="#">首页</a></li>
+                    <li class="left"><a class="block white" href="#">众筹项目</a></li>
+                    <li class="left"><a class="block white" href="#">问答讨论</a></li>
+                    <li class="left"><a class="block white" href="#">新手帮助</a></li>
+                    <li class="left"><a class="block white" href="#">发起项目</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="wrap pt-40 bg-grey">
+            <div id="slider" class="slider">
+            </div>
+            <div class="wrap-inner auto">
+                <div class="main">
+                    <section id="location" class="section pt-40">
+                        <div class="section-title mb-26">
+                            <div class="section-title-wrap relative title-large">
+                                <h2 class="relative">省份,城市</h2>
+                                <a class="title-large absolute normal" href="#">浏览更多...</a>
+                            </div>
+                        </div>
+                        <div class="project-list clear">
+                            <div class="project-wrap left">
+                                <div class="project project-first bg-white">
+                                    <div class="relative project-thumb">
+                                        <a href="#" class="block">
+                                            <img src="{% static 'img/test1.jpg' %}" alt="">
+
+                                            <div class="absolute project-info"><h3 class="white medium">五谷道场</h3></div>
+                                            <span class="project-tip right bg-pink absolute white">众筹中</span>
+                                        </a></div>
+                                    <div class="project-card text small">
+                                        <div class="project-info pb-18">
+                                            <a href="project-location" class="simsun data position">武汉市,武昌区</a>
+                                        </div>
+                                        <div class="project-percentage">
+                                            <div class="bg-green" style="width: 77%"></div>
+                                        </div>
+                                        <div class="project-schedule">
+                                            <dl class="clear">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">77%</dd>
+                                                    <dt class="title-small right">已达</dt>
+                                                </div>
+                                                <div class="center left project-schedule-wrap">
+                                                    <dd class="data">$12400</dd>
+                                                    <dt class="title-small right">已筹资</dt>
+                                                </div>
+                                                <div class="text-right left project-schedule-wrap">
+                                                    <dd class="data">12天</dd>
+                                                    <dt class="title-small right">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-wrap left">
+                                <div class="project project-middle bg-white">
+                                    <div class="relative project-thumb">
+                                        <img src="{% static 'img/test2.jpg' %}" alt="">
+
+                                        <div class="absolute project-info"><h3 class="white medium">吉柿面包坊</h3></div>
+                                        <span class="project-tip right bg-pink absolute white">众筹中</span>
+                                    </div>
+                                    <div class="project-card text small">
+                                        <div class="project-info pb-18">
+                                            <a href="project-location" class="simsun data position">武汉市,武昌区</a>
+                                        </div>
+                                        <div class="project-percentage">
+                                            <div class="bg-green" style="width: 12%"></div>
+                                        </div>
+                                        <div class="project-schedule">
+                                            <dl class="clear">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">12%</dd>
+                                                    <dt class="title-small right">已达</dt>
+                                                </div>
+                                                <div class="center left project-schedule-wrap">
+                                                    <dd class="data">$3450</dd>
+                                                    <dt class="title-small right">已筹资</dt>
+                                                </div>
+                                                <div class="text-right left project-schedule-wrap">
+                                                    <dd class="data">47天</dd>
+                                                    <dt class="title-small right">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-wrap left">
+                                <div class="project project-middle bg-white">
+                                    <div class="relative project-thumb">
+                                        <img src="{% static 'img/test3.jpg' %}" alt="">
+
+                                        <div class="absolute project-info"><h3 class="white medium">橙果源</h3></div>
+                                        <span class="project-tip right bg-pink absolute white">众筹中</span>
+                                    </div>
+                                    <div class="project-card text small">
+                                        <div class="project-info pb-18">
+                                            <a href="project-location" class="simsun data position">武汉市,武昌区</a>
+                                        </div>
+                                        <div class="project-percentage">
+                                            <div class="bg-green" style="width: 103%"></div>
+                                        </div>
+                                        <div class="project-schedule">
+                                            <dl class="clear">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">103%</dd>
+                                                    <dt class="title-small right">已达</dt>
+                                                </div>
+                                                <div class="center left project-schedule-wrap">
+                                                    <dd class="data">$32000</dd>
+                                                    <dt class="title-small right">已筹资</dt>
+                                                </div>
+                                                <div class="text-right left project-schedule-wrap">
+                                                    <dd class="data">7天</dd>
+                                                    <dt class="title-small right">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-wrap left">
+                                <div class="project project-last bg-white">
+                                    <div class="relative project-thumb">
+                                        <img src="{% static 'img/test5.jpg' %}" alt="">
+
+                                        <div class="absolute project-info"><h3 class="white medium">巴渝人家</h3></div>
+                                        <span class="project-tip right bg-pink absolute white">众筹中</span>
+                                    </div>
+                                    <div class="project-card text small">
+                                        <div class="project-info pb-18">
+                                            <a href="project-location" class="simsun data position">武汉市,武昌区</a>
+                                        </div>
+                                        <div class="project-percentage">
+                                            <div class="bg-green" style="width: 60%"></div>
+                                        </div>
+                                        <div class="project-schedule">
+                                            <dl class="clear">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">48%</dd>
+                                                    <dt class="title-small right">已达</dt>
+                                                </div>
+                                                <div class="center left project-schedule-wrap">
+                                                    <dd class="data">$5950</dd>
+                                                    <dt class="title-small right">已筹资</dt>
+                                                </div>
+                                                <div class="text-right left project-schedule-wrap">
+                                                    <dd class="data">29天</dd>
+                                                    <dt class="title-small right">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section id="best-of-today" class="section pt-40">
+                        <div class="section-title mb-26">
+                            <div class="section-title-wrap relative title-large">
+                                <h2 class="relative">今日最佳</h2>
+                                <a class="title-large absolute normal" href="#">浏览更多...</a>
+                            </div>
+                        </div>
+                        <div class="project-list relative">
+                            <div class="project-single-sidebar right bg-white">
+                                <div class="project-sidebar-lace-up">
+                                    <div class="bg-green-light"></div>
+                                </div>
+                                <div class="project-single-type">
+                                    <ul id="project-single-tab" class="tab-nav">
+                                        <li class="active relative">
+                                            <span class="triangle triangle-left js-tab-triangle"></span>
+                                            <a class="block center" href="#lucai">鲁菜</a>
+                                        </li>
+                                        <li class="relative"><a href="#chuancai" class="block center">川菜</a></li>
+                                        <li class="relative"><a href="#sucai" class="block center">苏菜</a></li>
+                                        <li class="relative"><a href="#yuecai" class="block center">粤菜</a></li>
+                                        <li class="relative"><a href="#mincai" class="block center">闽菜</a></li>
+                                        <li class="relative"><a href="#zhecai" class="block center">浙菜</a></li>
+                                        <li class="relative"><a href="#xiangcai" class="block center">湘菜</a></li>
+                                        <li class="relative"><a href="#huicai" class="block center">徽菜</a></li>
+                                        <li class="relative"><a href="#others" class="block center">其他</a></li>
+                                    </ul>
+                                </div>
+                                <div class="project-sidebar-lace-down">
+                                    <div class="bg-green-light"></div>
+                                </div>
+                            </div>
+                            <div class="project-single tab-content">
+                                <div id="lucai" class="active">
+                                    <div class="project-single-img left">
+                                        <a href="#"><img src="{% static 'img/dezhou.jpg' %}" alt=""></a>
+                                    </div>
+                                    <div class="project-single-card relative">
+                                        <div class="project-single-card-wrap text bg-white">
+                                            <div class="project-single-info">
+                                                <h3 class="title-large medium">德州名食</h3>
+                                                <span class="project-tip right bg-pink white">众筹中</span>
+                                                <a href="project-location"
+                                                   class="small simsun data position">武汉市,武昌区</a>
+                                            </div>
+                                            <div class="project-single-text-wrap"><p class="simsun js-text-overflow">
+                                                德州扒鸡是著名的德州三宝扒鸡、西瓜、金丝枣之一。德州扒鸡是中华传统名吃，鲁菜经典。德州扒鸡制作技艺为国家非物质文化遗产。[1]
+                                                早在清朝乾隆年间，德州扒鸡就被列为山东贡品送入宫中供帝后及皇族们享用。</p></div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">完成度 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-yellow" style="width: 42%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">增&nbsp;&nbsp;&nbsp;&nbsp;长 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-orange" style="width: 30%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">日&nbsp;&nbsp;&nbsp;&nbsp;期 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-green" style="width: 30%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="project-schedule absolute">
+                                            <dl class="clear small">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">42%</dd>
+                                                    <dt class="title-small">已达</dt>
+                                                </div>
+                                                <div class="left center project-schedule-wrap">
+                                                    <dd class="data center">7950</dd>
+                                                    <dt class="title-small">已筹资</dt>
+                                                </div>
+                                                <div class="left text-right project-schedule-wrap">
+                                                    <dd class="data">29天</dd>
+                                                    <dt class="title-small">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="chuancai">
+                                    <div class="project-single-img left">
+                                        <a href="#"><img src="{% static 'img/douhua.jpg' %}" alt=""></a>
+                                    </div>
+                                    <div class="project-single-card relative">
+                                        <div class="project-single-card-wrap text bg-white">
+                                            <div class="project-single-info">
+                                                <h3 class="title-large medium">李家豆花</h3>
+                                                <span class="project-tip right bg-pink white">众筹中</span>
+                                                <a href="project-location"
+                                                   class="small simsun data position">武汉市,武昌区</a>
+                                            </div>
+                                            <div class="project-single-text-wrap"><p class="js-text-overflow">
+                                                咸的一般是加入咸味的佐料，北方有加入肉馅的，芹菜、榨菜，黄花菜、木耳的；沿海有用海带丝、紫菜、虾皮的；还有放入麻酱、辣椒油、香菜、酱油、醋的；也有放韭菜花、蒜泥、葱花的等等，各地的口味不同主要取决于佐料。</p>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">完成度 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-yellow" style="width: 72%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">增&nbsp;&nbsp;&nbsp;&nbsp;长 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-orange" style="width: 22%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">日&nbsp;&nbsp;&nbsp;&nbsp;期 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-green" style="width: 87%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="project-schedule absolute">
+                                            <dl class="clear center small">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">48</dd>
+                                                    <dt class="title-small">已达</dt>
+                                                </div>
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">22500</dd>
+                                                    <dt class="title-small">已筹资</dt>
+                                                </div>
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">12天</dd>
+                                                    <dt class="title-small">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="sucai">
+                                    <div class="project-single-img left">
+                                        <a href="#"><img src="{% static 'img/doufu.jpg' %}" alt=""></a>
+                                    </div>
+                                    <div class="project-single-card relative">
+                                        <div class="project-single-card-wrap text bg-white">
+                                            <div class="project-single-info">
+                                                <h3 class="title-large medium">苏州豆腐</h3>
+                                                <span class="project-tip right bg-pink white">众筹中</span>
+                                                <a href="project-location"
+                                                   class="small simsun data position">武汉市,武昌区</a>
+                                            </div>
+                                            <div class="project-single-text-wrap"><p class="js-text-overflow">
+                                                苏州卤汁豆腐干色香味美， 鲜甜可口， 以其独特的风味延传了近百年历史， 是苏州最富特色的著名产品· 该产品选用优质大豆为主要原料。</p>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">完成度 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-yellow" style="width: 44%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">增&nbsp;&nbsp;&nbsp;&nbsp;长 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-orange" style="width: 38%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">日&nbsp;&nbsp;&nbsp;&nbsp;期 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-green" style="width: 32%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="project-schedule absolute">
+                                            <dl class="clear center small">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">80</dd>
+                                                    <dt class="title-small">已达</dt>
+                                                </div>
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">13200</dd>
+                                                    <dt class="title-small">已筹资</dt>
+                                                </div>
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">28天</dd>
+                                                    <dt class="title-small">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="yuecai">
+                                    <div class="project-single-img left">
+                                        <a href="#"><img src="{% static 'img/kaoya.jpg' %}" alt=""></a>
+                                    </div>
+                                    <div class="project-single-card relative">
+                                        <div class="project-single-card-wrap text bg-white">
+                                            <div class="project-single-info">
+                                                <h3 class="title-large medium">粤式脆皮鸭</h3>
+                                                <span class="project-tip right bg-pink white">众筹中</span>
+                                                <a href="project-location"
+                                                   class="small simsun data position">武汉市,武昌区</a>
+                                            </div>
+                                            <div class="project-single-text-wrap"><p class="js-text-overflow">
+                                                苏州卤汁豆腐干色香味美， 鲜甜可口， 以其独特的风味延传了近百年历史， 是苏州最富特色的著名产品· 该产品选用优质大豆为主要原料。</p>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">完成度 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-yellow" style="width: 44%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">增&nbsp;&nbsp;&nbsp;&nbsp;长 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-orange" style="width: 38%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">日&nbsp;&nbsp;&nbsp;&nbsp;期 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-green" style="width: 32%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="project-schedule absolute">
+                                            <dl class="clear center small">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">80</dd>
+                                                    <dt class="title-small">已达</dt>
+                                                </div>
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">13200</dd>
+                                                    <dt class="title-small">已筹资</dt>
+                                                </div>
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">28天</dd>
+                                                    <dt class="title-small">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="mincai">
+                                    <div class="project-single-img left">
+                                        <a href="#"><img src="{% static 'img/manyu.jpg' %}" alt=""></a>
+                                    </div>
+                                    <div class="project-single-card relative">
+                                        <div class="project-single-card-wrap text bg-white">
+                                            <div class="project-single-info">
+                                                <h3 class="title-large medium">闽家美食</h3>
+                                                <span class="project-tip right bg-pink white">众筹中</span>
+                                                <a href="project-location"
+                                                   class="small simsun data position">武汉市,武昌区</a>
+                                            </div>
+                                            <div class="project-single-text-wrap"><p class="js-text-overflow">
+                                                其菜肴特点是清爽、鲜嫩、淡雅、偏于酸甜，汤菜居多。福州菜善于用红糟为作料，尤其讲究调汤，予人"百汤百味"和糟香袭鼻之感，如"茸汤广肚"、"肉米鱼唇"、"鸡丝燕窝"、"鸡汤氽海蚌"、"煎糟鳗鱼"、"淡糟鲜竹蛏"等菜肴，均具有浓厚的地方色彩。闽南菜，盛地于厦门和晋江、尤溪地区，东及台湾。其菜肴特点是鲜醇、香嫩、清淡，并且以讲究作料、善用香辣而著称，在使用沙茶、芥末、橘汁以及药物、佳果等方面均有独到之处。</p>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">完成度 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-yellow" style="width: 96%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">增&nbsp;&nbsp;&nbsp;&nbsp;长 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-orange" style="width: 11%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">日&nbsp;&nbsp;&nbsp;&nbsp;期 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-green" style="width:  55%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="project-schedule absolute">
+                                            <dl class="clear center small">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">60</dd>
+                                                    <dt class="title-small">已达</dt>
+                                                </div>
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">83800</dd>
+                                                    <dt class="title-small">已筹资</dt>
+                                                </div>
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">32天</dd>
+                                                    <dt class="title-small">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="zhecai">
+                                    <div class="project-single-img left">
+                                        <a href="#"><img src="{% static 'img/longjing.jpg' %}" alt=""></a>
+                                    </div>
+                                    <div class="project-single-card relative">
+                                        <div class="project-single-card-wrap text bg-white">
+                                            <div class="project-single-info">
+                                                <h3 class="title-large medium">龙井菜坊</h3>
+                                                <span class="project-tip right bg-pink white">众筹中</span>
+                                                <a href="project-location"
+                                                   class="small simsun data position">武汉市,武昌区</a>
+                                            </div>
+                                            <div class="project-single-text-wrap"><p class="js-text-overflow">
+                                                龙井虾仁，是配以龙井茶的嫩芽烹制而成的虾仁，是富有浙江杭州地方特色的汉族名菜。虾仁玉白，鲜嫩；芽叶碧绿，清香，色泽雅丽，滋味独特，食后清口开胃，回味无穷，在杭菜中堪称一绝。</p>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">完成度 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-yellow" style="width: 47%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">增&nbsp;&nbsp;&nbsp;&nbsp;长 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-orange" style="width: 85%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">日&nbsp;&nbsp;&nbsp;&nbsp;期 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-green" style="width:  18%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="project-schedule absolute">
+                                            <dl class="clear center small">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">100</dd>
+                                                    <dt class="title-small">已达</dt>
+                                                </div>
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">12400</dd>
+                                                    <dt class="title-small">已筹资</dt>
+                                                </div>
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">88天</dd>
+                                                    <dt class="title-small">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="xiangcai">
+                                    <div class="project-single-img left">
+                                        <a href="#"><img src="{% static 'img/funiutang.jpeg' %}" alt=""></a>
+                                    </div>
+                                    <div class="project-single-card relative">
+                                        <div class="project-single-card-wrap text bg-white">
+                                            <div class="project-single-info">
+                                                <h3 class="title-large medium">伏牛堂</h3>
+                                                <span class="project-tip right bg-pink white">众筹中</span>
+                                                <a href="project-location"
+                                                   class="small simsun data position">武汉市,武昌区</a>
+                                            </div>
+                                            <div class="project-single-text-wrap"><p class="js-text-overflow">
+                                                清朝雍正年间，相当一部分回族人因为战争缘故，从万里之外的新疆来到江南小城常德定居。当喜食面食又善于烹饪牛羊肉的回族人来到了素有江南粮仓的鱼米之乡，便发生了一连串奇妙的爆炸式化学反应：彼时的回民发现常德盛产大米，就用烹制牛肉面的手法来制作由大米制成的米粉。弹滑润韧的江南米粉遇上香醇软烂的西北牛肉，便形成了千古一绝的常德米粉。</p>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">完成度 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-yellow" style="width: 100%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">增&nbsp;&nbsp;&nbsp;&nbsp;长 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-orange" style="width: 11%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">日&nbsp;&nbsp;&nbsp;&nbsp;期 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-green" style="width:  97%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="project-schedule absolute">
+                                            <dl class="clear center small">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">60</dd>
+                                                    <dt class="title-small">已达</dt>
+                                                </div>
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">12350</dd>
+                                                    <dt class="title-small">已筹资</dt>
+                                                </div>
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">2天</dd>
+                                                    <dt class="title-small">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="huicai">
+                                    <div class="project-single-img left">
+                                        <a href="#"><img src="{% static 'img/hupi.jpg' %}" alt=""></a>
+                                    </div>
+                                    <div class="project-single-card relative">
+                                        <div class="project-single-card-wrap text bg-white">
+                                            <div class="project-single-info">
+                                                <h3 class="title-large medium">徽人食所</h3>
+                                                <span class="project-tip right bg-pink white">众筹中</span>
+                                                <a href="project-location"
+                                                   class="small simsun data position">武汉市,武昌区</a>
+                                            </div>
+                                            <div class="project-single-text-wrap"><p class="js-text-overflow">
+                                                虎皮毛豆腐是以安徽省屯奚、休宁一带特产的毛豆腐（经特殊工艺制作而成，长有约3厘米长的白茸毛）炸制而成。是安徽省徽州一带非常驰名的汉族特色佳肴，属于徽菜系-素食类。相传与明朝朱元璋有关。</p>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">完成度 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-yellow" style="width: 56%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">增&nbsp;&nbsp;&nbsp;&nbsp;长 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-orange" style="width: 21%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">日&nbsp;&nbsp;&nbsp;&nbsp;期 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-green" style="width:  72%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="project-schedule absolute">
+                                            <dl class="clear center small">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">40</dd>
+                                                    <dt class="title-small">已达</dt>
+                                                </div>
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">8350</dd>
+                                                    <dt class="title-small">已筹资</dt>
+                                                </div>
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">11天</dd>
+                                                    <dt class="title-small">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="others">
+                                    <div class="project-single-img left">
+                                        <a href="#"><img src="{% static 'img/milktea.jpg' %}" alt=""></a>
+                                    </div>
+                                    <div class="project-single-card relative">
+                                        <div class="project-single-card-wrap text bg-white">
+                                            <div class="project-single-info">
+                                                <h3 class="title-large medium">恋水恋花</h3>
+                                                <span class="project-tip right bg-pink white">众筹中</span>
+                                                <a href="project-location"
+                                                   class="small simsun data position">武汉市,武昌区</a>
+                                            </div>
+                                            <div class="project-single-text-wrap"><p class="js-text-overflow">
+                                                丝袜奶茶已经成了香港文化的一种符号，在许多港片的人物对白中经常会提到丝袜奶茶。曾经，香港有个穷仔能拉出一手好茶，后来遇到一位貌美富豪的女孩，女孩首先是被穷小伙子的一杯杯丝袜奶茶所吸引，透过奶茶，女孩认为这个男孩非常勤奋，脾气又好，否则拉不出这一手好茶。尽管女孩的父母反对，但是他们还是相爱结婚。</p>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">完成度 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-yellow" style="width: 120%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">增&nbsp;&nbsp;&nbsp;&nbsp;长 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-orange" style="width: 51%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="project-single-percentage clear">
+                                                <span class="left">日&nbsp;&nbsp;&nbsp;&nbsp;期 :</span>
+
+                                                <div class="project-percentage">
+                                                    <div class="bg-green" style="width:  33%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="project-schedule absolute">
+                                            <dl class="clear center small">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">90</dd>
+                                                    <dt class="title-small">已达</dt>
+                                                </div>
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">10200</dd>
+                                                    <dt class="title-small">已筹资</dt>
+                                                </div>
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">60天</dd>
+                                                    <dt class="title-small">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+                    <section id="hot" class="section pt-40">
+                        <div class="section-title mb-26">
+                            <div class="section-title-wrap relative title-large">
+                                <h2 class="relative">热门项目</h2>
+                                <a class="title-large absolute normal" href="#">浏览更多...</a>
+                            </div>
+                        </div>
+                        <div class="project-list clear">
+                            <div class="project-wrap left">
+                                <div class="project project-first bg-white">
+                                    <div class="relative project-thumb">
+                                        <img src="{% static 'img/test5.jpg' %}" alt="">
+
+                                        <div class="absolute project-info"><h3 class="white medium">巴渝人家</h3></div>
+                                        <span class="project-tip right bg-pink absolute white">众筹中</span>
+                                    </div>
+                                    <div class="project-card text small">
+                                        <div class="project-info pb-18">
+                                            <a href="project-location" class="simsun data position">武汉市,武昌区</a>
+                                        </div>
+                                        <div class="project-percentage">
+                                            <div class="bg-green" style="width: 60%"></div>
+                                        </div>
+                                        <div class="project-schedule">
+                                            <dl class="clear">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">48%</dd>
+                                                    <dt class="title-small right">已达</dt>
+                                                </div>
+                                                <div class="center left project-schedule-wrap">
+                                                    <dd class="data">$5950</dd>
+                                                    <dt class="title-small right">已筹资</dt>
+                                                </div>
+                                                <div class="text-right left project-schedule-wrap">
+                                                    <dd class="data">29天</dd>
+                                                    <dt class="title-small right">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-wrap left">
+                                <div class="project project-middle bg-white">
+                                    <div class="relative project-thumb">
+                                        <img src="{% static 'img/test6.jpg' %}" alt="">
+
+                                        <div class="absolute project-info"><h3 class="white medium">旺三川——时尚川菜馆</h3>
+                                        </div>
+                                        <span class="project-tip right bg-blue absolute white">已成功</span>
+                                    </div>
+                                    <div class="project-card text small">
+                                        <div class="project-info pb-18">
+                                            <a href="project-location" class="simsun data position">长沙市,岳麓区</a>
+                                        </div>
+                                        <div class="project-percentage">
+                                            <div class="bg-green" style="width: 100%"></div>
+                                        </div>
+                                        <div class="project-schedule">
+                                            <dl class="clear">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">101%</dd>
+                                                    <dt class="title-small right">已达</dt>
+                                                </div>
+                                                <div class="center left project-schedule-wrap">
+                                                    <dd class="data">$20150</dd>
+                                                    <dt class="title-small right">已筹资</dt>
+                                                </div>
+                                                <div class="text-right left project-schedule-wrap">
+                                                    <dd class="data">0天</dd>
+                                                    <dt class="title-small right">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-wrap left">
+                                <div class="project project-middle bg-white">
+                                    <div class="relative project-thumb">
+                                        <img src="{% static 'img/test7.jpg' %}" alt="">
+
+                                        <div class="absolute project-info"><h3 class="white medium">稻香——传统广式早茶</h3>
+                                        </div>
+                                        <span class="project-tip right bg-pink absolute white">众筹中</span>
+                                    </div>
+                                    <div class="project-card text small">
+                                        <div class="project-info pb-18">
+                                            <a href="project-location" class="simsun data position">武汉市,武昌区</a>
+                                        </div>
+                                        <div class="project-percentage">
+                                            <div class="bg-green" style="width: 22%"></div>
+                                        </div>
+                                        <div class="project-schedule">
+                                            <dl class="clear">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">22%</dd>
+                                                    <dt class="title-small right">已达</dt>
+                                                </div>
+                                                <div class="center left project-schedule-wrap">
+                                                    <dd class="data">$4080</dd>
+                                                    <dt class="title-small right">已筹资</dt>
+                                                </div>
+                                                <div class="text-right left project-schedule-wrap">
+                                                    <dd class="data">56天</dd>
+                                                    <dt class="title-small right">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-wrap left">
+                                <div class="project project-last bg-white">
+                                    <div class="relative project-thumb">
+                                        <img src="{% static 'img/test8.jpg' %}" alt="">
+
+                                        <div class="absolute project-info"><h3 class="white medium">仿膳——来自宫廷的美食</h3>
+                                        </div>
+                                        <span class="project-tip right bg-pink absolute white">众筹中</span>
+                                    </div>
+                                    <div class="project-card text small">
+                                        <div class="project-info pb-18">
+                                            <a href="project-location" class="simsun data position">武汉市,武昌区</a>
+                                        </div>
+                                        <div class="project-percentage">
+                                            <div class="bg-green" style="width: 77%"></div>
+                                        </div>
+                                        <div class="project-schedule">
+                                            <dl class="clear">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">77%</dd>
+                                                    <dt class="title-small right">已达</dt>
+                                                </div>
+                                                <div class="center left project-schedule-wrap">
+                                                    <dd class="data">$45600</dd>
+                                                    <dt class="title-small right">已筹资</dt>
+                                                </div>
+                                                <div class="text-right left project-schedule-wrap">
+                                                    <dd class="data">3天</dd>
+                                                    <dt class="title-small right">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section id="new" class="section pt-40">
+                        <div class="section-title mb-26">
+                            <div class="section-title-wrap relative title-large">
+                                <h2 class="relative">最新项目</h2>
+                                <a class="title-large absolute normal" href="#">浏览更多...</a>
+                            </div>
+                        </div>
+                        <div class="project-list clear">
+                            <div class="project-wrap left">
+                                <div class="project project-first bg-white">
+                                    <div class="relative project-thumb">
+                                        <img src="{% static 'img/test9.jpg' %}" alt="">
+
+                                        <div class="absolute project-info"><h3 class="white medium">辣味聚集地，川菜大成</h3>
+                                        </div>
+                                        <span class="project-tip right bg-pink absolute white">众筹中</span>
+                                    </div>
+                                    <div class="project-card text small">
+                                        <div class="project-info pb-18">
+                                            <a href="project-location" class="simsun data position">武汉市,汉口区</a>
+                                        </div>
+                                        <div class="project-percentage">
+                                            <div class="bg-green" style="width: 52%"></div>
+                                        </div>
+                                        <div class="project-schedule">
+                                            <dl class="clear">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">52%</dd>
+                                                    <dt class="title-small right">已达</dt>
+                                                </div>
+                                                <div class="center left project-schedule-wrap">
+                                                    <dd class="data">$21950</dd>
+                                                    <dt class="title-small right">已筹资</dt>
+                                                </div>
+                                                <div class="text-right left project-schedule-wrap">
+                                                    <dd class="data">21天</dd>
+                                                    <dt class="title-small right">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-wrap left">
+                                <div class="project project-middle bg-white">
+                                    <div class="relative project-thumb">
+                                        <img src="{% static 'img/test10.jpg' %}" alt="">
+
+                                        <div class="absolute project-info"><h3 class="white medium">淮扬情</h3></div>
+                                        <span class="project-tip right bg-pink absolute white">众筹中</span>
+                                    </div>
+                                    <div class="project-card text small">
+                                        <div class="project-info pb-18">
+                                            <a href="project-location" class="simsun data position">武汉市,武昌区</a>
+                                        </div>
+                                        <div class="project-percentage">
+                                            <div class="bg-green" style="width: 31%"></div>
+                                        </div>
+                                        <div class="project-schedule">
+                                            <dl class="clear">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">31%</dd>
+                                                    <dt class="title-small right">已达</dt>
+                                                </div>
+                                                <div class="center left project-schedule-wrap">
+                                                    <dd class="data">$5400</dd>
+                                                    <dt class="title-small right">已筹资</dt>
+                                                </div>
+                                                <div class="text-right left project-schedule-wrap">
+                                                    <dd class="data">18天</dd>
+                                                    <dt class="title-small right">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-wrap left">
+                                <div class="project project-middle bg-white">
+                                    <div class="relative project-thumb">
+                                        <img src="{% static 'img/test11.jpg' %}" alt="">
+
+                                        <div class="absolute project-info"><h3 class="white medium">翡翠36餐厅——精致的法式美食</h3>
+                                        </div>
+                                        <span class="project-tip right bg-pink absolute white">众筹中</span>
+                                    </div>
+                                    <div class="project-card text small">
+                                        <div class="project-info pb-18">
+                                            <a href="project-location" class="simsun data position">武汉市,汉口区</a>
+                                        </div>
+                                        <div class="project-percentage">
+                                            <div class="bg-green" style="width: 86%"></div>
+                                        </div>
+                                        <div class="project-schedule">
+                                            <dl class="clear">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">86%</dd>
+                                                    <dt class="title-small right">已达</dt>
+                                                </div>
+                                                <div class="center left project-schedule-wrap">
+                                                    <dd class="data">$220150</dd>
+                                                    <dt class="title-small right">已筹资</dt>
+                                                </div>
+                                                <div class="text-right left project-schedule-wrap">
+                                                    <dd class="data">7天</dd>
+                                                    <dt class="title-small right">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="project-wrap left">
+                                <div class="project project-last bg-white">
+                                    <div class="relative project-thumb">
+                                        <img src="{% static 'img/test12.jpg' %}" alt="">
+
+                                        <div class="absolute project-info"><h3 class="white medium">丹麦童话</h3></div>
+                                        <span class="project-tip right bg-pink absolute white">众筹中</span>
+                                    </div>
+                                    <div class="project-card text small">
+                                        <div class="project-info pb-18">
+                                            <a href="project-location" class="simsun data position">南京市,雨花台区</a>
+                                        </div>
+                                        <div class="project-percentage">
+                                            <div class="bg-green" style="width: 60%"></div>
+                                        </div>
+                                        <div class="project-schedule">
+                                            <dl class="clear">
+                                                <div class="left project-schedule-wrap">
+                                                    <dd class="data">48%</dd>
+                                                    <dt class="title-small right">已达</dt>
+                                                </div>
+                                                <div class="center left project-schedule-wrap">
+                                                    <dd class="data">$3850</dd>
+                                                    <dt class="title-small right">已筹资</dt>
+                                                </div>
+                                                <div class="text-right left project-schedule-wrap">
+                                                    <dd class="data">33天</dd>
+                                                    <dt class="title-small right">剩余时间</dt>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="find-more normal bg-white center auto">
+                        <a class="title-large inline-block" href="search.html">浏览全部+</a>
+                    </div>
+                </div>
+            </div>
+            <div class="toolbar">
+                <div class="clear relative white toolbar-icon-wrap">
+                    <div class="relative share">
+                    </div>
+                    <span class="absolute">分享<br/>我们</span>
+                </div>
+                <div class="clear relative white toolbar-icon-wrap">
+                    <div class="relative download">
+                    </div>
+                    <span class="absolute">应用<br/>下载</span>
+                </div>
+                <div class="clear relative white toolbar-icon-wrap">
+                    <div class="relative feedback">
+                    </div>
+                    <span class="absolute">问题<br/>反馈</span>
+                </div>
+                <div class="clear relative white toolbar-icon-wrap hide">
+                    <div class="relative go-to-top">
+                    </div>
+                    <span class="absolute">返回<br/>顶部</span>
+                </div>
+            </div>
+            <footer class="footer data">
+                <div class="footer-wrap auto">
+                    <div class="footer-company clear">
+                        <h2 class="normal">合作伙伴</h2>
+                        <ul>
+                            <li class="left mr-12"><a href="#">i黑马</a></li>
+                            <li class="left mr-12"><a href="#">创业邦</a></li>
+                            <li class="left mr-12"><a href="#">网易科技</a></li>
+                            <li class="left mr-12"><a href="#">36Kr财新网</a></li>
+                            <li class="left mr-12"><a href="#">浙江卫视</a></li>
+                            <li class="left mr-12"><a href="#">上海壹周</a></li>
+                            <li class="left mr-12"><a href="#">新浪网</a></li>
+                            <li class="left mr-12"><a href="#">新民晚报</a></li>
+                            <li class="left mr-12"><a href="#">扭秧歌杂志</a></li>
+                            <li class="left mr-12"><a href="#">商界时尚</a></li>
+                            <li class="left mr-12"><a href="#">人民网</a></li>
+                            <li class="left mr-12"><a href="#">人物杂志</a></li>
+                            <li class="left mr-12"><a href="#">南方日报</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-help data clear">
+                        <div class="footer-section left">
+                            <h2 class="normal">关于</h2>
+                            <ul>
+                                <li><a href="#">了解好味道</a></li>
+                                <li><a href="#">好味道历程</a></li>
+                                <li><a href="#">友情链接</a></li>
+                                <li><a href="#">联系我们</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-section left">
+                            <h2 class="normal">帮助</h2>
+                            <ul>
+                                <li><a href="#">建议反馈</a></li>
+                                <li><a href="#">常见问题</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-section left">
+                            <h2 class="normal">声明</h2>
+                            <ul>
+                                <li><a href="#">用户协议</a></li>
+                                <li><a href="#">免责声明</a></li>
+                                <li><a href="#">隐私版权声明</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-section left">
+                            <h2 class="normal">分类</h2>
+                            <ul>
+                                <li><a href="#">鲁菜/川菜/苏菜</a></li>
+                                <li><a href="#">粤菜/闽菜/浙菜</a></li>
+                                <li><a href="#">湘菜/徽菜/其他</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-section center code left">
+                            <img src="{% static 'img/code.png' %}" width="120" height="120" alt="">
+
+                            <h2 class="normal">扫一扫加微信工作号</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="copyright white bg-green-light">
+                    <div class="auto clear">
+                        <div class="left">
+                            <p>COPYRIGHT © 2014 武汉好味道科技有限公司 ALL RIGHTS RESERVED.<br/>中国信息产业部备案 鄂ICP备13002000号-1 </p>
+                        </div>
+                        <div class="right clear platform">
+                            <div class="left relative">
+                                <a href="#" class="block">
+                                    <div class="absolute sina"></div>
+                                </a>
+                            </div>
+                            <div class="left relative">
+                                <a href="#" class="block">
+                                    <div class="absolute qqzone"></div>
+                                </a>
+                            </div>
+                            <div class="left relative douban-wrap">
+                                <a href="#" class="block">
+                                    <div class="absolute douban"></div>
+                                </a>
+                            </div>
+                            <div class="left relative">
+                                <a href="#" class="block">
+                                    <div class="absolute renren"></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <div class="login modal" id="loginModal">
+            <div class="modal-dialog">
+                <div class="modal-header center clear bg-green-light relative">
+                    <div class="close absolute" data-dismiss="modal">×</div>
+                    <h4 class="modal-title white">欢迎登陆</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body-wrap auto">
+                        <form action="?next=/accounts/profile/" method="post" id="login">
+                            <div class="login-item clear login-accout">
+                                <label class="left login-input-icon left" for="account">account</label>
+                                <input class="input left" type="text" id="account" name="account" placeholder="请输入邮箱">
+                            </div>
+                            <div class="login-item clear login-password">
+                                <label class="left login-input-icon left" for="password">password</label>
+                                <input class="input left" type="password" name="password" id="password"
+                                       placeholder="请输入密码">
+                            </div>
+                            <div class="login-opt title-small clear">
+                                <p class="right text-right">
+                                    还没有帐号？立即<em><a href="/accounts/register">免费注册</a></em><br>
+                                    <a href="/account/password_reset" class="title-small">找回密码
+                                </p>
+                                <input type="checkbox" name="autologin" id="autologin"><label
+                                    for="autologin">自动登录</label>
+                            </div>
+                            <div class="clear">
+                                <button type="submit" form="login" class="white right login-submit btn normal">登&nbsp;&nbsp;录</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-backdrop"></div>
+    </body>
+</html>

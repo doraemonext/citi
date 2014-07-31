@@ -5,10 +5,12 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from rest_framework.urlpatterns import format_suffix_patterns
 
+from apps.home.views import HomeView
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', TemplateView.as_view(template_name='base.html')),
+    url(r'^$', HomeView.as_view()),
     url(r'^accounts/', include('apps.account.urls.web')),
     url(r'^captcha/', include('captcha.urls')),
     url(r'^ueditor/', include('DjangoUeditor.urls')),

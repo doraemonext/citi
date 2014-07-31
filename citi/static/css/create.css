@@ -1,0 +1,69 @@
+.js-sign-header .active a {
+    color: #7abe9f;
+}
+
+.basic-info-list > select {
+    width: 120px;
+}
+#project-province {
+    margin-right: 40px;
+}
+#project-time {
+    width: 100px;
+}
+.basic-info-list ul {
+    font-size: 18px;
+}
+.project-type > li {
+    width: 21%;
+    margin-bottom: 10px;
+}
+.project-type input {
+    margin-right: 5px;
+}
+#project-info {
+    border: none;
+    border-radius: 4px;
+}
+#project-img, #project-tag {
+    display: none;
+}
+.project-img-upload {
+    width: 70px;
+    height: 30px;
+    margin-top: 5px;
+    border-radius: 10px;
+}
+.project-tag > li {
+    padding: 6px 0;
+}
+.project-tag > li > div {
+    padding: 0 22px 0 18px;
+    font-size: 14px;
+    line-height: 28px;
+    border-radius: 6px;
+}
+.project-tag-del {
+    top: 0;
+    right: 3px;
+    font-size: 18px;
+    cursor: pointer;
+}
+.project-tag .project-tag-add > div {
+    padding: 0 18px 0 22px;
+    line-height: 26px;
+    cursor: pointer;
+    border: 1px dashed #7abe9f;
+}
+
+#sign label.error {
+    margin-left: 20px;
+    font-size: 14px;
+}
+.project-wrap {
+    width: 236px;
+    border: 1px solid #eee;
+}
+.project-wrap img {
+    width: 100%;
+}
