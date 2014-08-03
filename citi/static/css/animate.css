@@ -99,6 +99,7 @@
 
 /* login */
 .modal {
+    display: none;
     transition: visibility .4s .4s;
 }
 .modal .modal-dialog {

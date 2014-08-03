@@ -99,35 +99,35 @@
 .info-function-supporter-last span {
     line-height: 64px;
 }
-.pop-up {
-    margin: 18px 0;
-    background-color: #f4f4f4;
-    border-radius: 6px;
-}
-.pop-brief .dropdown {
-    margin-top: 20px;
-    margin-left: 15px;
-}
-.pop-brief .right {
-    margin-top: 25px;
-}
-.pop-info {
-    margin-top: 5px;
-    margin-bottom: 20px;
-}
-.pop-info-wrap {
-    padding: 0 130px 0 70px;
-}
-.pop-info-wrap > p {
-    margin-top: 10px;
-}
-.pop-up .modal-close {
-    color: #7abe9f;
-    top: 5px;
-    right: 5px;
+.info-function-supporter .panel .close {
+    top: 15px;
+    right: 15px;
     margin-top: 0;
 }
+.info-function-supporter .panel .select {
+    margin-top: 15px;
+    margin-left: 20px;
+    font-size: 20px;
+    background-color: white;
+}
+.info-function-supporter .panel .right {
+    margin-right: 30px;
+}
+.info-function-supporter .panel-header {
+    line-height: 70px;
+    font-size: 14px;
+}
+.info-function-supporter .panel-body {
+    padding-bottom: 40px;
+}
+.info-function-supporter .panel-text {
+    padding: 5px 130px 0 70px;
+}
+.info-function-supporter .panel-body p {
+    margin-top: 10px;
+}
 .info-function-comment-list {
+    margin-top: 20px;
     border-bottom: 1px solid #f4f4f4;
 }
 .comment-list {

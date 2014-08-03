@@ -461,4 +461,4 @@ SUIT_CONFIG = {
     'LIST_PER_PAGE': 20,
 }
 
-CORS_URLS_REGEX = r'^/api/.*$'
+CORS_ORIGIN_ALLOW_ALL = True

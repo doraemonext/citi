@@ -415,7 +415,7 @@ input[type=radio]:checked::after, input[type=checkbox]:checked::after {
     width: 100%;
     line-height: 35px;
     text-indent: 8px;
-    background-color: rgba(0, 0, 0, .2);
+    background-color: rgba(0, 0, 0, .1);
 }
 .project-percentage {
     margin-bottom: 18px;
@@ -543,38 +543,4 @@ input[type=radio]:checked::after, input[type=checkbox]:checked::after {
     font-size: 30px;
     font-weight: 900;
     margin-right: 12px;
-}
-
-.login .login-item > input {
-    width: 270px;
-    padding: 0 0 0 17px;
-    height: 44px;
-}
-.login-input-icon {
-    width: 44px;
-    height: 44px;
-    text-indent: 999em;
-    background-color: #f0f0f0;
-}
-.login .login-password {
-    margin-top: 15px;
-}
-.login-opt {
-    padding: 20px 0;
-}
-.login-opt > p {
-    line-height: 1.5;
-}
-.login-opt > input {
-    vertical-align: -2px;
-}
-.login-opt em > a {
-    color: #7abe9f;
-}
-.login .btn {
-    width: 100%;
-    padding: 0;
-    font-size: 20px;
-    line-height: 44px;
-    background-color: #7abe9f;
 }

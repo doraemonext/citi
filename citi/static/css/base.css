@@ -63,9 +63,7 @@ svg {
 .toolbar svg {
     fill: white;
 }
-.logo svg{
-    fill: white;
-}
+
 /* common */
 .nav-wrap {
     width: 1200px;
@@ -90,6 +88,9 @@ svg {
 .logo {
     width: 202px;
     height: 78px;
+}
+.logo svg {
+    fill: white;
 }
 .nav-link > li > a {
     width: 120px;
@@ -212,4 +213,36 @@ svg {
     height: 30px;
     margin-top: -15px;
     margin-left: -15px;
+}
+
+/* panel */
+.panel {   
+    position: relative;
+    background-color: #fbfbfb;
+    border-radius: 6px;
+    margin-bottom: 30px;
+}
+.panel-header {
+    font-size: 24px;
+    text-align: center; 
+    padding: 10px 15px;
+}
+.panel-body {
+    font-size: 18px;
+    position: relative;
+    padding: 15px;
+}
+.padding-footer {
+    padding: 10px 15px;
+}
+.panel .close {
+    color: #7abe9f;
+}
+
+/* tab */
+.tab-content .tab-pane {
+    display: none;
+}
+.tab-content .tab-pane.active {
+    display: block;
 }

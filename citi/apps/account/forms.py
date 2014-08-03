@@ -93,8 +93,6 @@ class RegistrationForm(forms.Form):
         name = self.get_and_set_cleaned_data('name')
         sex = self.get_and_set_cleaned_data('sex')
         age = self.get_and_set_cleaned_data('age')
-        native = self.get_and_set_cleaned_data('native')
-        profession = self.get_and_set_cleaned_data('profession')
         idcard = self.get_and_set_cleaned_data('idcard')
         idcard_image = self.get_and_set_cleaned_data('idcard_image')
         mobile = self.get_and_set_cleaned_data('mobile')
@@ -103,8 +101,8 @@ class RegistrationForm(forms.Form):
                 self.error_messages['idcard_image_invalid'],
                 code='idcard_image_invalid',
             )
-        if name or (sex == 'm' or sex == 'l') or age or native or profession or idcard or idcard_image or mobile:
-            if name and (sex == 'm' or sex == 'l') and age and native and profession and idcard and mobile:
+        if name or (sex == 'm' or sex == 'l') or age or idcard or idcard_image or mobile:
+            if name and (sex == 'm' or sex == 'l') and age and idcard and mobile:
                 pass
             else:
                 raise forms.ValidationError(

@@ -67,3 +67,35 @@
 .project-wrap img {
     width: 100%;
 }
+.panel label {
+    line-height: 40px;
+}
+.panel input[type=text] {
+    width: 270px;
+}
+.reward {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.reward-wrap > div {
+    width: 49%;
+}
+.panel-body > div {
+    line-height: 40px;
+    margin-bottom: 20px;
+}
+#reward-pic {
+    display: none;
+}
+.add-reward {
+    width: 200px;
+    padding: 15px 0;
+    text-align: center;
+    border: 1px dashed #7abe9f;
+    margin: 0 auto;
+    font-size: 20px;
+    cursor: pointer;
+}
+.reward-payback-list input {
+    margin-right: 5px;
+}
