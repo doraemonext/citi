@@ -149,15 +149,16 @@ require(['jquery', 'jquery.cropbox', 'app/form'], function ($) {
 						data.direct_url + '" class="white">去邮箱</a></button>')
 					.appendTo(submit.parent()).siblings().hide();
 				},
-				function (data) {
-					var errorInInfo = $.map(data, function (v, i) {
-						return i in rules ? i : null;
-					})
-					form.validate().showErrors(data);
-					if (errorInInfo.length > 0) {
-						$('#previous').trigger('click');
-					}
-				}
+                function (data) {
+                    var response = data.responseJSON,
+                        errorInInfo = $.map(response, function (v, i) {
+                            return i in rules ? i : null;
+                        })
+                    form.validate().showErrors(response);
+                    if (errorInInfo.length > 0) {
+                        $('#previous').trigger('click');
+                    }
+                }
 			)
 			return false;
 		})

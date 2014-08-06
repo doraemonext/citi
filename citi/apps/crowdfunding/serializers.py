@@ -8,7 +8,7 @@ from rest_framework.fields import SerializerMethodField
 
 from apps.image.models import Image
 from libs.api import fields
-from .models import ProjectCategory, Project, ProjectFeedback, ProjectPackage, ProjectComment
+from .models import ProjectCategory, Project, ProjectFeedback, ProjectPackage, ProjectComment, ProjectSupport
 
 
 logger = logging.getLogger(__name__)
@@ -197,3 +197,20 @@ class ProjectCommentSerializer(serializers.ModelSerializer):
         else:
             obj.user = self.context['view'].request.user
         return obj
+
+
+class ProjectSupportSerializer(serializers.ModelSerializer):
+    """
+    项目支持序列化
+
+    """
+    project = fields.CustomPrimaryKeyRelatedField(read_only=True)
+    user = fields.CustomPrimaryKeyRelatedField(read_only=True)
+    package = fields.CustomPrimaryKeyRelatedField(read_only=True)
+    money = fields.CustomFloatField(read_only=True)
+    status = fields.CustomIntegerField(read_only=True)
+    datetime = fields.CustomDateTimeField(read_only=True)
+
+    class Meta:
+        model = ProjectSupport
+        fields = ('id', 'project', 'user', 'package', 'money', 'status', 'datetime')

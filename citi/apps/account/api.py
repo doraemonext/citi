@@ -4,7 +4,11 @@ from django.contrib.auth import get_user_model
 
 from rest_framework import generics
 from rest_framework import permissions
+from rest_framework import views
+from rest_framework import response
 
+from apps.crowdfunding.models import ProjectSupport
+from apps.crowdfunding.serializers import ProjectSupportSerializer
 from libs.api import mixins
 from .serializers import UserSerializer, UserAnonymousSerializer
 
@@ -43,3 +47,12 @@ class UserAnonymousDetail(mixins.CustomRetrieveModelMixin,
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
+
+
+class UserProjectSupport(views.APIView):
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def get(self, request, format=None):
+        support = ProjectSupport.objects.filter(user=request.user)
+        serializer = ProjectSupportSerializer(support, many=True)
+        return response.Response(serializer.data)
