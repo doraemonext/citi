@@ -103,8 +103,8 @@ require(['jquery'], function ($) {
 		city = $('#city'),
 		vacant = $('<option value=""></option>');
 
-		// ** $.getJSON('api/location/province').success(function (data) {
-		$.getJSON('js/province.json').success(function (data) {
+		$.getJSON('api/location/province').success(function (data) {
+		// $.getJSON('js/province.json').success(function (data) {
 			var provinceHtml = '';
 			for (var i = 0, len = data.length; i < len; i = i + 1) {
 				provinceHtml += '<option value="' + data[i].id +'">' + data[i].name + '</option>';
@@ -113,8 +113,8 @@ require(['jquery'], function ($) {
 		})
 		province.on('change', function () {
 			vacant.remove();
-			// ** $.getJSON('api/location/city/' + province.val()).success(function (data) {
-			$.getJSON('js/' + province.val() + '.json').success(function (data) {
+			$.getJSON('api/location/city/' + province.val()).success(function (data) {
+			// $.getJSON('js/' + province.val() + '.json').success(function (data) {
 				var cityHtml = '';
 				for (var i = 0, len = data.length; i < len; i = i + 1) {
 					cityHtml += '<option value="' + data[i].id +'">' + data[i].name + '</option>';
