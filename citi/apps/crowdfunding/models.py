@@ -208,6 +208,15 @@ class ProjectAttention(models.Model):
     manager = ProjectAttentionManager()
 
 
+class ProjectSupportManager(models.Manager):
+    def add_support(self, project, user, package, money):
+        """
+        用户 user 为项目 project 支持 package 套餐, 总金额为 money
+        """
+        super(ProjectSupportManager, self).create(project=project, user=user, package=package,
+                                                  money=money, status=ProjectSupport.STATUS_UNDERWAY)
+
+
 class ProjectSupport(models.Model):
     """
     项目支持表
@@ -229,12 +238,23 @@ class ProjectSupport(models.Model):
     status = models.IntegerField(u'支持状态', choices=STATUS, default=STATUS_UNDERWAY)
     datetime = models.DateTimeField(u'支持日期', auto_now=True)
 
+    def succeed(self):
+        self.status = self.STATUS_SUCCEED
+        self.save()
+
+    def fail(self):
+        self.status = self.STATUS_FAILED
+        self.save()
+
     class Meta:
         verbose_name = u'项目支持表'
         verbose_name_plural = u'项目支持表'
         permissions = (
             ('view_projectsupport', u'Can view 项目支持'),
         )
+
+    objects = models.Manager()
+    manager = ProjectSupportManager()
 
 
 class ProjectRetention(models.Model):
