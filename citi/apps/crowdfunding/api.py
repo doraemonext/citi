@@ -211,10 +211,7 @@ class ProjectAttentionDetail(APIView):
         except ObjectDoesNotExist:
             return utils.CommonResponse.not_found()
 
-        try:
-            ProjectAttention.manager.attention(project, request.user)
-        except AlreadyOperationException:
-            return Response(utils.api_error_message('Already attention'), status=status.HTTP_400_BAD_REQUEST)
+        ProjectAttention.manager.attention(project, request.user)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def delete(self, request, project_id, format=None):
@@ -223,10 +220,7 @@ class ProjectAttentionDetail(APIView):
         except ObjectDoesNotExist:
             return utils.CommonResponse.not_found()
 
-        try:
-            ProjectAttention.manager.inattention(project, request.user)
-        except AlreadyOperationException:
-            return Response(utils.api_error_message('Already inattention'), status=status.HTTP_400_BAD_REQUEST)
+        ProjectAttention.manager.inattention(project, request.user)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
