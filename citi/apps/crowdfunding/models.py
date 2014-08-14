@@ -171,11 +171,10 @@ class ProjectAttentionManager(models.Manager):
 
         """
         queryset = super(ProjectAttentionManager, self).get_queryset().filter(project=project).filter(user=user)
-        if queryset.exists():
-            raise AlreadyOperationException()
-        super(ProjectAttentionManager, self).create(project=project, user=user)
-        project.attention_count += 1
-        project.save()
+        if not queryset.exists():
+            super(ProjectAttentionManager, self).create(project=project, user=user)
+            project.attention_count += 1
+            project.save()
 
     def inattention(self, project, user):
         """
@@ -183,11 +182,10 @@ class ProjectAttentionManager(models.Manager):
 
         """
         queryset = super(ProjectAttentionManager, self).get_queryset().filter(project=project).filter(user=user)
-        if not queryset.exists():
-            raise AlreadyOperationException()
-        queryset[0].delete()
-        project.attention_count -= 1
-        project.save()
+        if queryset.exists():
+            queryset[0].delete()
+            project.attention_count -= 1
+            project.save()
 
 
 class ProjectAttention(models.Model):
@@ -208,6 +206,15 @@ class ProjectAttention(models.Model):
 
     objects = models.Manager()
     manager = ProjectAttentionManager()
+
+
+class ProjectSupportManager(models.Manager):
+    def add_support(self, project, user, package, money):
+        """
+        用户 user 为项目 project 支持 package 套餐, 总金额为 money
+        """
+        super(ProjectSupportManager, self).create(project=project, user=user, package=package,
+                                                  money=money, status=ProjectSupport.STATUS_UNDERWAY)
 
 
 class ProjectSupport(models.Model):
@@ -231,12 +238,23 @@ class ProjectSupport(models.Model):
     status = models.IntegerField(u'支持状态', choices=STATUS, default=STATUS_UNDERWAY)
     datetime = models.DateTimeField(u'支持日期', auto_now=True)
 
+    def succeed(self):
+        self.status = self.STATUS_SUCCEED
+        self.save()
+
+    def fail(self):
+        self.status = self.STATUS_FAILED
+        self.save()
+
     class Meta:
         verbose_name = u'项目支持表'
         verbose_name_plural = u'项目支持表'
         permissions = (
             ('view_projectsupport', u'Can view 项目支持'),
         )
+
+    objects = models.Manager()
+    manager = ProjectSupportManager()
 
 
 class ProjectRetention(models.Model):
