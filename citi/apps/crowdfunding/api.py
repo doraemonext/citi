@@ -15,11 +15,12 @@ from libs.api import mixins
 from libs.api import utils
 from libs.exceptions import AlreadyOperationException
 from .models import (
-    ProjectCategory, Project, ProjectFeedback, ProjectPackage, ProjectAttention, ProjectComment
+    ProjectCategory, Project, ProjectFeedback, ProjectPackage, ProjectAttention, ProjectComment,
+    ProjectTopic, ProjectTopicComment
 )
 from .serializers import (
     ProjectCategorySerializer, ProjectSerializer, ProjectFeedbackSerializer, ProjectPackageSerializer,
-    ProjectCommentSerializer
+    ProjectCommentSerializer, ProjectTopicSerializer
 )
 
 
@@ -284,3 +285,44 @@ class ProjectCommentDetail(mixins.CustomRetrieveModelMixin,
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+class ProjectTopicList(mixins.CustomCreateModelMixin,
+                       mixins.ListModelMixin,
+                       generics.GenericAPIView):
+    queryset = ProjectTopic.objects.all()
+    serializer_class = ProjectTopicSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filter_fields = ('id', 'user', 'title')
+    search_fields = ('title', )
+    ordering_fields = ('post_datetime', 'title')
+    paginate_by = 10
+
+    def __init__(self):
+        self.project = None
+        super(ProjectTopicList, self).__init__()
+
+    def filter_queryset(self, queryset):
+        queryset = queryset.filter(project=self.kwargs['project_id'])
+        return super(ProjectTopicList, self).filter_queryset(queryset)
+
+    def pre_save(self, obj):
+        obj.user = self.request.user
+        obj.project = self.project
+
+    def get(self, request, *args, **kwargs):
+        try:
+            self.project = Project.objects.get(pk=self.kwargs['project_id'])
+        except ObjectDoesNotExist:
+            return Response(utils.api_error_message('Not found'), status=status.HTTP_404_NOT_FOUND)
+
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            self.project = Project.objects.get(pk=self.kwargs['project_id'])
+        except ObjectDoesNotExist:
+            return Response(utils.api_error_message('Not found'), status=status.HTTP_404_NOT_FOUND)
+
+        return self.create(request, *args, **kwargs)
