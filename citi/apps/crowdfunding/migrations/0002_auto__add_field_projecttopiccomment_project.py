@@ -8,204 +8,15 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'ProjectCategory'
-        db.create_table(u'crowdfunding_projectcategory', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=30)),
-            ('parent', self.gf('mptt.fields.TreeForeignKey')(blank=True, related_name='children', null=True, to=orm['crowdfunding.ProjectCategory'])),
-            ('order', self.gf('django.db.models.fields.PositiveIntegerField')()),
-            (u'lft', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
-            (u'rght', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
-            (u'tree_id', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
-            (u'level', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
-        ))
-        db.send_create_signal(u'crowdfunding', ['ProjectCategory'])
-
-        # Adding model 'Project'
-        db.create_table(u'crowdfunding_project', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['users.CustomUser'])),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=30)),
-            ('cover', self.gf('django.db.models.fields.IntegerField')()),
-            ('location', self.gf('mptt.fields.TreeForeignKey')(to=orm['location.Location'])),
-            ('location_detail', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('category', self.gf('mptt.fields.TreeForeignKey')(to=orm['crowdfunding.ProjectCategory'])),
-            ('total_money', self.gf('django.db.models.fields.FloatField')()),
-            ('total_days', self.gf('django.db.models.fields.IntegerField')()),
-            ('summary', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('content', self.gf('DjangoUeditor.models.UEditorField')()),
-            ('now_money', self.gf('django.db.models.fields.FloatField')(default=0)),
-            ('status', self.gf('django.db.models.fields.IntegerField')(default=0)),
-            ('attention_count', self.gf('django.db.models.fields.IntegerField')(default=0)),
-            ('post_datetime', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('modify_datetime', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-        ))
-        db.send_create_signal(u'crowdfunding', ['Project'])
-
-        # Adding model 'ProjectFeedback'
-        db.create_table(u'crowdfunding_projectfeedback', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['crowdfunding.Project'])),
-            ('content', self.gf('django.db.models.fields.TextField')()),
-            ('image', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('order', self.gf('django.db.models.fields.IntegerField')(default=0)),
-        ))
-        db.send_create_signal(u'crowdfunding', ['ProjectFeedback'])
-
-        # Adding model 'ProjectPackage'
-        db.create_table(u'crowdfunding_projectpackage', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['crowdfunding.Project'])),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=30)),
-            ('money', self.gf('django.db.models.fields.FloatField')()),
-            ('type', self.gf('django.db.models.fields.IntegerField')(default=0)),
-            ('limit', self.gf('django.db.models.fields.IntegerField')(default=0)),
-        ))
-        db.send_create_signal(u'crowdfunding', ['ProjectPackage'])
-
-        # Adding M2M table for field feedback on 'ProjectPackage'
-        m2m_table_name = db.shorten_name(u'crowdfunding_projectpackage_feedback')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('projectpackage', models.ForeignKey(orm[u'crowdfunding.projectpackage'], null=False)),
-            ('projectfeedback', models.ForeignKey(orm[u'crowdfunding.projectfeedback'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['projectpackage_id', 'projectfeedback_id'])
-
-        # Adding model 'ProjectAttention'
-        db.create_table(u'crowdfunding_projectattention', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['crowdfunding.Project'])),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['users.CustomUser'])),
-            ('datetime', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-        ))
-        db.send_create_signal(u'crowdfunding', ['ProjectAttention'])
-
-        # Adding model 'ProjectSupport'
-        db.create_table(u'crowdfunding_projectsupport', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['crowdfunding.Project'])),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['users.CustomUser'])),
-            ('package', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['crowdfunding.ProjectPackage'])),
-            ('money', self.gf('django.db.models.fields.FloatField')()),
-            ('status', self.gf('django.db.models.fields.IntegerField')(default=0)),
-            ('datetime', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-        ))
-        db.send_create_signal(u'crowdfunding', ['ProjectSupport'])
-
-        # Adding model 'ProjectRetention'
-        db.create_table(u'crowdfunding_projectretention', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['crowdfunding.Project'])),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['users.CustomUser'])),
-            ('apiration', self.gf('django.db.models.fields.IntegerField')(default=0)),
-            ('datetime', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-        ))
-        db.send_create_signal(u'crowdfunding', ['ProjectRetention'])
-
-        # Adding model 'ProjectComment'
-        db.create_table(u'crowdfunding_projectcomment', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['crowdfunding.Project'])),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['users.CustomUser'], null=True, blank=True)),
-            ('content', self.gf('django.db.models.fields.TextField')()),
-            ('datetime', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('parent', self.gf('mptt.fields.TreeForeignKey')(blank=True, related_name='children', null=True, to=orm['crowdfunding.ProjectComment'])),
-            (u'lft', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
-            (u'rght', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
-            (u'tree_id', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
-            (u'level', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
-        ))
-        db.send_create_signal(u'crowdfunding', ['ProjectComment'])
-
-        # Adding model 'ProjectTopic'
-        db.create_table(u'crowdfunding_projecttopic', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['crowdfunding.Project'])),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['users.CustomUser'])),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('content', self.gf('django.db.models.fields.TextField')()),
-            ('post_datetime', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('modify_datetime', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-        ))
-        db.send_create_signal(u'crowdfunding', ['ProjectTopic'])
-
-        # Adding model 'ProjectTopicComment'
-        db.create_table(u'crowdfunding_projecttopiccomment', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('topic', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['crowdfunding.ProjectTopic'])),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['users.CustomUser'])),
-            ('content', self.gf('django.db.models.fields.TextField')()),
-            ('datetime', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('parent', self.gf('mptt.fields.TreeForeignKey')(blank=True, related_name='children', null=True, to=orm['crowdfunding.ProjectTopicComment'])),
-            (u'lft', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
-            (u'rght', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
-            (u'tree_id', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
-            (u'level', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
-        ))
-        db.send_create_signal(u'crowdfunding', ['ProjectTopicComment'])
-
-        # Adding model 'ProjectSection'
-        db.create_table(u'crowdfunding_projectsection', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['crowdfunding.Project'])),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('description', self.gf('django.db.models.fields.TextField')()),
-            ('status', self.gf('django.db.models.fields.IntegerField')(default=0)),
-            ('order', self.gf('django.db.models.fields.PositiveIntegerField')()),
-        ))
-        db.send_create_signal(u'crowdfunding', ['ProjectSection'])
-
-        # Adding model 'ProjectTask'
-        db.create_table(u'crowdfunding_projecttask', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['crowdfunding.Project'])),
-            ('content', self.gf('django.db.models.fields.TextField')()),
-            ('status', self.gf('django.db.models.fields.IntegerField')(default=0)),
-            ('order', self.gf('django.db.models.fields.PositiveIntegerField')()),
-        ))
-        db.send_create_signal(u'crowdfunding', ['ProjectTask'])
+        # Adding field 'ProjectTopicComment.project'
+        db.add_column(u'crowdfunding_projecttopiccomment', 'project',
+                      self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['crowdfunding.Project']),
+                      keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting model 'ProjectCategory'
-        db.delete_table(u'crowdfunding_projectcategory')
-
-        # Deleting model 'Project'
-        db.delete_table(u'crowdfunding_project')
-
-        # Deleting model 'ProjectFeedback'
-        db.delete_table(u'crowdfunding_projectfeedback')
-
-        # Deleting model 'ProjectPackage'
-        db.delete_table(u'crowdfunding_projectpackage')
-
-        # Removing M2M table for field feedback on 'ProjectPackage'
-        db.delete_table(db.shorten_name(u'crowdfunding_projectpackage_feedback'))
-
-        # Deleting model 'ProjectAttention'
-        db.delete_table(u'crowdfunding_projectattention')
-
-        # Deleting model 'ProjectSupport'
-        db.delete_table(u'crowdfunding_projectsupport')
-
-        # Deleting model 'ProjectRetention'
-        db.delete_table(u'crowdfunding_projectretention')
-
-        # Deleting model 'ProjectComment'
-        db.delete_table(u'crowdfunding_projectcomment')
-
-        # Deleting model 'ProjectTopic'
-        db.delete_table(u'crowdfunding_projecttopic')
-
-        # Deleting model 'ProjectTopicComment'
-        db.delete_table(u'crowdfunding_projecttopiccomment')
-
-        # Deleting model 'ProjectSection'
-        db.delete_table(u'crowdfunding_projectsection')
-
-        # Deleting model 'ProjectTask'
-        db.delete_table(u'crowdfunding_projecttask')
+        # Deleting field 'ProjectTopicComment.project'
+        db.delete_column(u'crowdfunding_projecttopiccomment', 'project_id')
 
 
     models = {
@@ -350,6 +161,7 @@ class Migration(SchemaMigration):
             u'level': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             u'lft': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             'parent': ('mptt.fields.TreeForeignKey', [], {'blank': 'True', 'related_name': "'children'", 'null': 'True', 'to': u"orm['crowdfunding.ProjectTopicComment']"}),
+            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['crowdfunding.Project']"}),
             u'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
             'topic': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['crowdfunding.ProjectTopic']"}),
             u'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),

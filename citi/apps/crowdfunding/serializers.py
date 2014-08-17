@@ -231,3 +231,21 @@ class ProjectTopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectTopic
         fields = ('id', 'project', 'user', 'title', 'content', 'post_datetime', 'modify_datetime')
+
+
+class ProjectTopicCommentSerializer(serializers.ModelSerializer):
+    """
+    项目主题评论序列化
+
+    """
+    project = fields.CustomPrimaryKeyRelatedField(read_only=True)
+    topic = fields.CustomPrimaryKeyRelatedField(read_only=True)
+    user = fields.CustomPrimaryKeyRelatedField(read_only=True)
+    content = fields.CustomCharField()
+    datetime = fields.CustomDateTimeField(read_only=True)
+    parent = fields.CustomPrimaryKeyRelatedField()
+    children = fields.CustomRecursiveField(many=True, read_only=True)
+
+    class Meta:
+        model = ProjectTopicComment
+        fields = ('id', 'project', 'topic', 'user', 'content', 'datetime', 'parent', 'children')

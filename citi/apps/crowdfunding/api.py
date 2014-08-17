@@ -20,7 +20,7 @@ from .models import (
 )
 from .serializers import (
     ProjectCategorySerializer, ProjectSerializer, ProjectFeedbackSerializer, ProjectPackageSerializer,
-    ProjectCommentSerializer, ProjectTopicSerializer
+    ProjectCommentSerializer, ProjectTopicSerializer, ProjectTopicCommentSerializer
 )
 
 
@@ -334,6 +334,73 @@ class ProjectTopicDetail(mixins.CustomRetrieveModelMixin,
                          generics.GenericAPIView):
     queryset = ProjectTopic.objects.all()
     serializer_class = ProjectTopicSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def check_object_permissions(self, request, obj):
+        if request.method not in permissions.SAFE_METHODS:
+            if request.user != obj.user:
+                self.permission_denied(request)
+        else:
+            if not ProjectSupport.manager.has_support(obj.project, request.user):
+                self.permission_denied(request)
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+
+class ProjectTopicCommentList(mixins.CustomCreateModelMixin,
+                              mixins.CustomListModelMixin,
+                              generics.GenericAPIView):
+    queryset = ProjectTopicComment.objects.all()
+    serializer_class = ProjectTopicCommentSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+    paginate_by = 10
+
+    def __init__(self):
+        self.topic = None
+        super(ProjectTopicCommentList, self).__init__()
+
+    def filter_queryset(self, queryset):
+        queryset = queryset.filter(topic=self.kwargs['topic_id'])
+        queryset = queryset.filter(parent=None)
+        return super(ProjectTopicCommentList, self).filter_queryset(queryset)
+
+    def pre_save(self, obj):
+        obj.user = self.request.user
+        obj.topic = self.topic
+        obj.project = self.topic.project
+
+    def get(self, request, *args, **kwargs):
+        try:
+            self.topic = ProjectTopic.objects.get(pk=self.kwargs['topic_id'])
+        except ObjectDoesNotExist:
+            return Response(utils.api_error_message('Not found'), status=status.HTTP_404_NOT_FOUND)
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            self.topic = ProjectTopic.objects.get(pk=self.kwargs['topic_id'])
+        except ObjectDoesNotExist:
+            return Response(utils.api_error_message('Not found'), status=status.HTTP_404_NOT_FOUND)
+
+        return self.create(request, *args, **kwargs)
+
+
+class ProjectTopicCommentDetail(mixins.CustomRetrieveModelMixin,
+                                mixins.CustomUpdateModelMixin,
+                                mixins.CustomDestroyModelMixin,
+                                generics.GenericAPIView):
+    queryset = ProjectTopicComment.objects.all()
+    serializer_class = ProjectTopicCommentSerializer
     permission_classes = (permissions.IsAuthenticated, )
 
     def check_object_permissions(self, request, obj):

@@ -359,17 +359,17 @@ class ProjectTopicComment(MPTTModel):
 
     """
     project = models.ForeignKey(Project, verbose_name=u'所属项目')
+    topic = models.ForeignKey(ProjectTopic, verbose_name=u'所属项目主题')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=u'所属用户')
     content = models.TextField(u'评论内容')
     datetime = models.DateTimeField(u'评论日期', auto_now_add=True)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', verbose_name=u'评论父亲')
-    order = models.PositiveIntegerField(u'排序')
 
     def __unicode__(self):
         return self.content
 
     class MPTTMeta:
-        order_insertion_by = ['order']
+        pass
 
     class Meta:
         verbose_name = u'项目讨论主题评论'
