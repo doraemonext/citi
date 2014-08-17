@@ -16,7 +16,7 @@ from libs.api import utils
 from libs.exceptions import AlreadyOperationException
 from .models import (
     ProjectCategory, Project, ProjectFeedback, ProjectPackage, ProjectAttention, ProjectComment,
-    ProjectTopic, ProjectTopicComment
+    ProjectTopic, ProjectTopicComment, ProjectSupport
 )
 from .serializers import (
     ProjectCategorySerializer, ProjectSerializer, ProjectFeedbackSerializer, ProjectPackageSerializer,
@@ -41,7 +41,7 @@ class ProjectCategoryList(APIView):
 
 
 class ProjectList(mixins.CustomCreateModelMixin,
-                  mixins.ListModelMixin,
+                  mixins.CustomListModelMixin,
                   generics.GenericAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
@@ -288,7 +288,7 @@ class ProjectCommentDetail(mixins.CustomRetrieveModelMixin,
 
 
 class ProjectTopicList(mixins.CustomCreateModelMixin,
-                       mixins.ListModelMixin,
+                       mixins.CustomListModelMixin,
                        generics.GenericAPIView):
     queryset = ProjectTopic.objects.all()
     serializer_class = ProjectTopicSerializer
@@ -326,3 +326,32 @@ class ProjectTopicList(mixins.CustomCreateModelMixin,
             return Response(utils.api_error_message('Not found'), status=status.HTTP_404_NOT_FOUND)
 
         return self.create(request, *args, **kwargs)
+
+
+class ProjectTopicDetail(mixins.CustomRetrieveModelMixin,
+                         mixins.CustomUpdateModelMixin,
+                         mixins.CustomDestroyModelMixin,
+                         generics.GenericAPIView):
+    queryset = ProjectTopic.objects.all()
+    serializer_class = ProjectTopicSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def check_object_permissions(self, request, obj):
+        if request.method not in permissions.SAFE_METHODS:
+            if request.user != obj.user:
+                self.permission_denied(request)
+        else:
+            if not ProjectSupport.manager.has_support(obj.project, request.user):
+                self.permission_denied(request)
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)

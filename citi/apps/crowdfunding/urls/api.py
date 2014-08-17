@@ -10,7 +10,7 @@ from ..api import ProjectList, ProjectDetail, ProjectAttentionDetail, ProjectSav
 from ..api import ProjectCommentList, ProjectCommentDetail
 from ..api import ProjectFeedbackList, ProjectFeedbackDetail
 from ..api import ProjectPackageList, ProjectPackageDetail
-from ..api import ProjectTopicList
+from ..api import ProjectTopicList, ProjectTopicDetail
 
 
 urlpatterns = patterns('',
@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^project/(?P<project_id>[0-9]+)/comment/$', ProjectCommentList.as_view()),
     url(r'^project/comment/(?P<pk>[0-9]+)/$', ProjectCommentDetail.as_view()),
     url(r'^project/(?P<project_id>[0-9]+)/topic/$', ProjectTopicList.as_view()),
+    url(r'^project/topic/(?P<pk>[0-9]+)/$', ProjectTopicDetail.as_view()),
     url(r'^feedback/$', ProjectFeedbackList.as_view()),
     url(r'^feedback/(?P<pk>[0-9]+)/$', ProjectFeedbackDetail.as_view()),
     url(r'^package/$', ProjectPackageList.as_view()),
