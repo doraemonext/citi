@@ -15,11 +15,12 @@ from libs.api import mixins
 from libs.api import utils
 from libs.exceptions import AlreadyOperationException
 from .models import (
-    ProjectCategory, Project, ProjectFeedback, ProjectPackage, ProjectAttention, ProjectComment
+    ProjectCategory, Project, ProjectFeedback, ProjectPackage, ProjectAttention, ProjectComment,
+    ProjectTopic, ProjectTopicComment, ProjectSupport
 )
 from .serializers import (
     ProjectCategorySerializer, ProjectSerializer, ProjectFeedbackSerializer, ProjectPackageSerializer,
-    ProjectCommentSerializer
+    ProjectCommentSerializer, ProjectTopicSerializer
 )
 
 
@@ -40,7 +41,7 @@ class ProjectCategoryList(APIView):
 
 
 class ProjectList(mixins.CustomCreateModelMixin,
-                  mixins.ListModelMixin,
+                  mixins.CustomListModelMixin,
                   generics.GenericAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
@@ -272,6 +273,76 @@ class ProjectCommentDetail(mixins.CustomRetrieveModelMixin,
     def check_object_permissions(self, request, obj):
         if request.method not in permissions.SAFE_METHODS and request.user != obj.user:
             self.permission_denied(request)
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+
+class ProjectTopicList(mixins.CustomCreateModelMixin,
+                       mixins.CustomListModelMixin,
+                       generics.GenericAPIView):
+    queryset = ProjectTopic.objects.all()
+    serializer_class = ProjectTopicSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filter_fields = ('id', 'user', 'title')
+    search_fields = ('title', )
+    ordering_fields = ('post_datetime', 'title')
+    paginate_by = 10
+
+    def __init__(self):
+        self.project = None
+        super(ProjectTopicList, self).__init__()
+
+    def filter_queryset(self, queryset):
+        queryset = queryset.filter(project=self.kwargs['project_id'])
+        return super(ProjectTopicList, self).filter_queryset(queryset)
+
+    def pre_save(self, obj):
+        obj.user = self.request.user
+        obj.project = self.project
+
+    def get(self, request, *args, **kwargs):
+        try:
+            self.project = Project.objects.get(pk=self.kwargs['project_id'])
+        except ObjectDoesNotExist:
+            return Response(utils.api_error_message('Not found'), status=status.HTTP_404_NOT_FOUND)
+
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            self.project = Project.objects.get(pk=self.kwargs['project_id'])
+        except ObjectDoesNotExist:
+            return Response(utils.api_error_message('Not found'), status=status.HTTP_404_NOT_FOUND)
+
+        return self.create(request, *args, **kwargs)
+
+
+class ProjectTopicDetail(mixins.CustomRetrieveModelMixin,
+                         mixins.CustomUpdateModelMixin,
+                         mixins.CustomDestroyModelMixin,
+                         generics.GenericAPIView):
+    queryset = ProjectTopic.objects.all()
+    serializer_class = ProjectTopicSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def check_object_permissions(self, request, obj):
+        if request.method not in permissions.SAFE_METHODS:
+            if request.user != obj.user:
+                self.permission_denied(request)
+        else:
+            if not ProjectSupport.manager.has_support(obj.project, request.user):
+                self.permission_denied(request)
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)

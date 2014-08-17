@@ -216,6 +216,12 @@ class ProjectSupportManager(models.Manager):
         super(ProjectSupportManager, self).create(project=project, user=user, package=package,
                                                   money=money, status=ProjectSupport.STATUS_UNDERWAY)
 
+    def has_support(self, project, user):
+        if super(ProjectSupportManager, self).get_queryset().filter(project=project).filter(user=user).exists():
+            return True
+        else:
+            return False
+
 
 class ProjectSupport(models.Model):
     """
@@ -316,6 +322,11 @@ class ProjectComment(MPTTModel):
             return None
 
 
+class ProjectTopicManager(models.Manager):
+    def add_topic(self, project, user, title, content):
+        super(ProjectTopicManager, self).create(project=project, user=user, title=title, content=content)
+
+
 class ProjectTopic(models.Model):
     """
     项目讨论主题表
@@ -337,6 +348,9 @@ class ProjectTopic(models.Model):
         permissions = (
             ('view_projecttopic', u'Can view 项目讨论主题'),
         )
+
+    objects = models.Manager()
+    manager = ProjectTopicManager()
 
 
 class ProjectTopicComment(MPTTModel):
