@@ -46,6 +46,8 @@ class ProjectSerializer(serializers.ModelSerializer):
     status = fields.CustomChoiceField(read_only=True)
     attention_count = fields.CustomIntegerField(read_only=True)
     support_count = SerializerMethodField('get_support_count')
+    normal_support_count = SerializerMethodField('get_normal_support_count')
+    partner_support_count = SerializerMethodField('get_partner_support_count')
     tags = fields.CustomTagField(required=False)
     post_datetime = fields.CustomDateTimeField(read_only=True)
     modify_datetime = fields.CustomDateTimeField(read_only=True)
@@ -57,7 +59,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'user', 'name', 'cover', 'location', 'location_detail', 'category',
             'total_money', 'total_days', 'remaining_days', 'summary', 'content', 'now_money', 'status',
-            'attention_count', 'support_count', 'tags', 'post_datetime', 'modify_datetime',
+            'attention_count', 'support_count', 'normal_support_count', 'partner_support_count', 'tags', 'post_datetime', 'modify_datetime',
             'feedback', 'package',
         )
 
@@ -79,6 +81,12 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     def get_support_count(self, obj):
         return ProjectSupport.objects.filter(project=obj).count()
+
+    def get_normal_support_count(self, obj):
+        return ProjectSupport.manager.get_normal_support(project=obj).count()
+
+    def get_partner_support_count(self, obj):
+        return ProjectSupport.manager.get_partner_support(project=obj).count()
 
     def validate_cover(self, attrs, source):
         if source in attrs:

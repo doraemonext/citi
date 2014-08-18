@@ -222,6 +222,12 @@ class ProjectSupportManager(models.Manager):
         else:
             return False
 
+    def get_normal_support(self, project):
+        return super(ProjectSupportManager, self).get_queryset().filter(project=project).filter(package__type=ProjectPackage.TYPE_NORMAL)
+
+    def get_partner_support(self, project):
+        return super(ProjectSupportManager, self).get_queryset().filter(project=project).filter(package__type=ProjectPackage.TYPE_PARTNER)
+
 
 class ProjectSupport(models.Model):
     """
