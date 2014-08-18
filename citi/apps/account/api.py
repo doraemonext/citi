@@ -7,8 +7,8 @@ from rest_framework import permissions
 from rest_framework import views
 from rest_framework import response
 
-from apps.crowdfunding.models import ProjectSupport
-from apps.crowdfunding.serializers import ProjectSupportSerializer
+from apps.crowdfunding.models import Project, ProjectSupport
+from apps.crowdfunding.serializers import ProjectSerializer, ProjectSupportSerializer
 from libs.api import mixins
 from .serializers import UserSerializer, UserAnonymousSerializer
 
@@ -47,6 +47,15 @@ class UserAnonymousDetail(mixins.CustomRetrieveModelMixin,
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
+
+
+class UserProject(views.APIView):
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def get(self, request, format=None):
+        project = Project.objects.filter(user=request.user)
+        serializer = ProjectSerializer(project, many=True)
+        return response.Response(serializer.data)
 
 
 class UserProjectSupport(views.APIView):
