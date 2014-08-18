@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import datetime
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
 from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
 
@@ -37,6 +39,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     category = fields.CustomPrimaryKeyRelatedField()
     total_money = fields.CustomFloatField()
     total_days = fields.CustomIntegerField()
+    remaining_days = SerializerMethodField('get_remaining_days')
     summary = fields.CustomCharField()
     content = fields.CustomCharField()
     now_money = fields.CustomFloatField(read_only=True)
@@ -52,7 +55,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = Project
         fields = (
             'id', 'user', 'name', 'cover', 'location', 'location_detail', 'category',
-            'total_money', 'total_days', 'summary', 'content', 'now_money', 'status',
+            'total_money', 'total_days', 'remaining_days', 'summary', 'content', 'now_money', 'status',
             'attention_count', 'tags', 'post_datetime', 'modify_datetime',
             'feedback', 'package',
         )
@@ -64,6 +67,10 @@ class ProjectSerializer(serializers.ModelSerializer):
     def get_package(self, obj):
         package = ProjectPackage.objects.filter(project=obj)
         return [item.pk for item in package]
+
+    def get_remaining_days(self, obj):
+        datetime_end = obj.post_datetime + datetime.timedelta(days=obj.total_days)
+        return (datetime_end - timezone.now()).days
 
     def validate_cover(self, attrs, source):
         if source in attrs:
