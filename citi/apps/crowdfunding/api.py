@@ -16,11 +16,11 @@ from libs.api import utils
 from libs.exceptions import AlreadyOperationException
 from .models import (
     ProjectCategory, Project, ProjectFeedback, ProjectPackage, ProjectAttention, ProjectComment,
-    ProjectTopic, ProjectTopicComment, ProjectSupport
+    ProjectTopic, ProjectTopicComment, ProjectSupport, ProjectSection
 )
 from .serializers import (
     ProjectCategorySerializer, ProjectSerializer, ProjectFeedbackSerializer, ProjectPackageSerializer,
-    ProjectCommentSerializer, ProjectTopicSerializer, ProjectTopicCommentSerializer
+    ProjectCommentSerializer, ProjectTopicSerializer, ProjectTopicCommentSerializer, ProjectSectionSerializer
 )
 
 
@@ -422,3 +422,39 @@ class ProjectTopicCommentDetail(mixins.CustomRetrieveModelMixin,
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+class ProjectSectionList(mixins.CustomListModelMixin,
+                         mixins.CustomCreateModelMixin,
+                         generics.GenericAPIView):
+    queryset = ProjectSection.objects.all()
+    serializer_class = ProjectSectionSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def __init__(self):
+        self.project = None
+        super(ProjectSectionList, self).__init__()
+
+    def filter_queryset(self, queryset):
+        queryset = queryset.filter(project=self.kwargs['project_id'])
+        return super(ProjectSectionList, self).filter_queryset(queryset)
+
+    def pre_save(self, obj):
+        obj.project = self.project
+
+    def get(self, request, *args, **kwargs):
+        try:
+            self.project = Project.objects.get(pk=self.kwargs['project_id'])
+        except ObjectDoesNotExist:
+            return Response(utils.api_error_message('Not found'), status=status.HTTP_404_NOT_FOUND)
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            self.project = Project.objects.get(pk=self.kwargs['project_id'])
+        except ObjectDoesNotExist:
+            return Response(utils.api_error_message('Not found'), status=status.HTTP_404_NOT_FOUND)
+        if self.project.user != request.user:
+            return utils.CommonResponse.forbidden()
+
+        return self.create(request, *args, **kwargs)

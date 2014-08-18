@@ -8,7 +8,7 @@ from rest_framework.fields import SerializerMethodField
 
 from apps.image.models import Image
 from libs.api import fields
-from .models import ProjectCategory, Project, ProjectFeedback, ProjectPackage, ProjectComment, ProjectSupport, ProjectTopic, ProjectTopicComment
+from .models import ProjectCategory, Project, ProjectFeedback, ProjectPackage, ProjectComment, ProjectSupport, ProjectTopic, ProjectTopicComment, ProjectSection, ProjectTask
 
 
 logger = logging.getLogger(__name__)
@@ -249,3 +249,34 @@ class ProjectTopicCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectTopicComment
         fields = ('id', 'project', 'topic', 'user', 'content', 'datetime', 'parent', 'children')
+
+
+class ProjectSectionSerializer(serializers.ModelSerializer):
+    """
+    项目阶段序列化
+
+    """
+    project = fields.CustomPrimaryKeyRelatedField(read_only=True)
+    title = fields.CustomCharField()
+    description = fields.CustomCharField()
+    status = fields.CustomIntegerField()
+    order = fields.CustomIntegerField()
+
+    class Meta:
+        model = ProjectSection
+        fields = ('id', 'project', 'title', 'description', 'status', 'order')
+
+
+class ProjectTaskSerializer(serializers.ModelSerializer):
+    """
+    项目任务序列化
+
+    """
+    project = fields.CustomPrimaryKeyRelatedField(read_only=True)
+    content = fields.CustomCharField()
+    status = fields.CustomIntegerField()
+    order = fields.CustomIntegerField()
+
+    class Meta:
+        model = ProjectTask
+        fields = ('id', 'project', 'content', 'status', 'order')
