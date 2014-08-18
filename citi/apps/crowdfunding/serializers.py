@@ -45,6 +45,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     now_money = fields.CustomFloatField(read_only=True)
     status = fields.CustomChoiceField(read_only=True)
     attention_count = fields.CustomIntegerField(read_only=True)
+    support_count = SerializerMethodField('get_support_count')
     tags = fields.CustomTagField(required=False)
     post_datetime = fields.CustomDateTimeField(read_only=True)
     modify_datetime = fields.CustomDateTimeField(read_only=True)
@@ -56,7 +57,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'user', 'name', 'cover', 'location', 'location_detail', 'category',
             'total_money', 'total_days', 'remaining_days', 'summary', 'content', 'now_money', 'status',
-            'attention_count', 'tags', 'post_datetime', 'modify_datetime',
+            'attention_count', 'support_count', 'tags', 'post_datetime', 'modify_datetime',
             'feedback', 'package',
         )
 
@@ -70,7 +71,14 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     def get_remaining_days(self, obj):
         datetime_end = obj.post_datetime + datetime.timedelta(days=obj.total_days)
-        return (datetime_end - timezone.now()).days
+        remaining_days = (datetime_end - timezone.now()).days
+        if remaining_days > 0:
+            return remaining_days
+        else:
+            return 0
+
+    def get_support_count(self, obj):
+        return ProjectSupport.objects.filter(project=obj).count()
 
     def validate_cover(self, attrs, source):
         if source in attrs:
