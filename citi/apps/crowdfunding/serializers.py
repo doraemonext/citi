@@ -273,10 +273,11 @@ class ProjectTaskSerializer(serializers.ModelSerializer):
 
     """
     project = fields.CustomPrimaryKeyRelatedField(read_only=True)
+    section = fields.CustomPrimaryKeyRelatedField()
     content = fields.CustomCharField()
     status = fields.CustomIntegerField()
     order = fields.CustomIntegerField()
 
     class Meta:
         model = ProjectTask
-        fields = ('id', 'project', 'content', 'status', 'order')
+        fields = ('id', 'project', 'section', 'content', 'status', 'order')

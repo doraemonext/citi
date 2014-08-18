@@ -429,6 +429,7 @@ class ProjectTask(models.Model):
     )
 
     project = models.ForeignKey(Project, verbose_name=u'所属项目')
+    section = models.ForeignKey(ProjectSection, verbose_name=u'所属阶段')
     content = models.TextField(u'任务描述')
     status = models.IntegerField(u'任务状态', choices=STATUS, default=STATUS_NOT_DONE)
     order = models.PositiveIntegerField(u'项目任务顺序')
