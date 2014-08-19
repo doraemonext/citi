@@ -7,8 +7,8 @@ from rest_framework import permissions
 from rest_framework import views
 from rest_framework import response
 
-from apps.crowdfunding.models import Project, ProjectSupport
-from apps.crowdfunding.serializers import ProjectSerializer, ProjectSupportSerializer
+from apps.crowdfunding.models import Project, ProjectSupport, ProjectAttention
+from apps.crowdfunding.serializers import ProjectSerializer, ProjectSupportSerializer, ProjectAttentionSerializer
 from libs.api import mixins
 from .serializers import UserSerializer, UserAnonymousSerializer
 
@@ -64,4 +64,13 @@ class UserProjectSupport(views.APIView):
     def get(self, request, format=None):
         support = ProjectSupport.objects.filter(user=request.user)
         serializer = ProjectSupportSerializer(support, many=True)
+        return response.Response(serializer.data)
+
+
+class UserProjectAttention(views.APIView):
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def get(self, request, format=None):
+        attention = ProjectAttention.objects.filter(user=request.user)
+        serializer = ProjectAttentionSerializer(attention, many=True)
         return response.Response(serializer.data)

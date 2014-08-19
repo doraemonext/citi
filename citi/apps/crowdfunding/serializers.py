@@ -8,9 +8,10 @@ from django.utils import timezone
 from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
 
+from apps.account.serializers import UserSerializer
 from apps.image.models import Image
 from libs.api import fields
-from .models import ProjectCategory, Project, ProjectFeedback, ProjectPackage, ProjectComment, ProjectSupport, ProjectTopic, ProjectTopicComment, ProjectSection, ProjectTask
+from .models import ProjectCategory, Project, ProjectFeedback, ProjectPackage, ProjectComment, ProjectSupport, ProjectAttention, ProjectTopic, ProjectTopicComment, ProjectSection, ProjectTask
 
 
 logger = logging.getLogger(__name__)
@@ -227,8 +228,7 @@ class ProjectSupportSerializer(serializers.ModelSerializer):
     项目支持序列化
 
     """
-    project = fields.CustomPrimaryKeyRelatedField(read_only=True)
-    user = fields.CustomPrimaryKeyRelatedField(read_only=True)
+    project = ProjectSerializer(read_only=True)
     package = fields.CustomPrimaryKeyRelatedField(read_only=True)
     money = fields.CustomFloatField(read_only=True)
     status = fields.CustomIntegerField(read_only=True)
@@ -236,7 +236,20 @@ class ProjectSupportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProjectSupport
-        fields = ('id', 'project', 'user', 'package', 'money', 'status', 'datetime')
+        fields = ('id', 'project', 'package', 'money', 'status', 'datetime')
+
+
+class ProjectAttentionSerializer(serializers.ModelSerializer):
+    """
+    项目关注序列化
+
+    """
+    project = ProjectSerializer(read_only=True)
+    datetime = fields.CustomDateTimeField(read_only=True)
+
+    class Meta:
+        model = ProjectAttention
+        fields = ('id', 'project', 'datetime')
 
 
 class ProjectTopicSerializer(serializers.ModelSerializer):
