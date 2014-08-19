@@ -54,7 +54,7 @@ class UserProject(views.APIView):
 
     def get(self, request, format=None):
         project = Project.objects.filter(user=request.user)
-        serializer = ProjectSerializer(project, many=True)
+        serializer = ProjectSerializer(project, many=True, request=request)
         return response.Response(serializer.data)
 
 

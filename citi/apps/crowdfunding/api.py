@@ -81,7 +81,7 @@ class ProjectDetail(mixins.CustomRetrieveModelMixin,
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
 
     def check_object_permissions(self, request, obj):
-        if request.user != obj.user:
+        if request.method not in permissions.SAFE_METHODS and request.user != obj.user:
             self.permission_denied(request)
         super(ProjectDetail, self).check_object_permissions(request, obj)
 

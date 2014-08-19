@@ -54,6 +54,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     modify_datetime = fields.CustomDateTimeField(read_only=True)
     feedback = SerializerMethodField('get_feedback')
     package = SerializerMethodField('get_package')
+    personal_information = SerializerMethodField('get_personal_information')
 
     class Meta:
         model = Project
@@ -61,7 +62,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             'id', 'user', 'name', 'cover', 'location', 'location_detail', 'category',
             'total_money', 'total_days', 'remaining_days', 'summary', 'content', 'now_money', 'status',
             'attention_count', 'support_count', 'normal_support_count', 'partner_support_count', 'tags', 'post_datetime', 'modify_datetime',
-            'feedback', 'package',
+            'feedback', 'package', 'personal_information'
         )
 
     def get_feedback(self, obj):
@@ -88,6 +89,32 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     def get_partner_support_count(self, obj):
         return ProjectSupport.manager.get_partner_support(project=obj).count()
+
+    def get_personal_information(self, obj):
+        try:
+            request = self.context['request']
+        except KeyError:
+            return {}
+
+        info = {}
+        if request.user.is_authenticated():
+            if ProjectAttention.manager.is_attention(project=obj, user=request.user):
+                info['is_attended'] = True
+            else:
+                info['is_attended'] = False
+
+            if ProjectSupport.manager.has_support(project=obj, user=request.user):
+                info['is_supported'] = True
+            else:
+                info['is_supported'] = False
+
+            if info['is_supported']:
+                info['support_type'] = ProjectSupport.objects.filter(project=obj).filter(user=request.user).first().package.type
+            else:
+                info['support_type'] = -1
+
+        return info
+
 
     def validate_cover(self, attrs, source):
         if source in attrs:
