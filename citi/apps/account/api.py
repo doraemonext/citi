@@ -54,7 +54,8 @@ class UserProject(views.APIView):
 
     def get(self, request, format=None):
         project = Project.objects.filter(user=request.user)
-        serializer = ProjectSerializer(project, many=True, request=request)
+        context = {'request': request}
+        serializer = ProjectSerializer(project, many=True, context=context)
         return response.Response(serializer.data)
 
 
@@ -63,7 +64,8 @@ class UserProjectSupport(views.APIView):
 
     def get(self, request, format=None):
         support = ProjectSupport.objects.filter(user=request.user)
-        serializer = ProjectSupportSerializer(support, many=True)
+        context = {'request': request}
+        serializer = ProjectSupportSerializer(support, many=True, context=context)
         return response.Response(serializer.data)
 
 
@@ -72,5 +74,6 @@ class UserProjectAttention(views.APIView):
 
     def get(self, request, format=None):
         attention = ProjectAttention.objects.filter(user=request.user)
-        serializer = ProjectAttentionSerializer(attention, many=True)
+        context = {'request': request}
+        serializer = ProjectAttentionSerializer(attention, many=True, context=context)
         return response.Response(serializer.data)
