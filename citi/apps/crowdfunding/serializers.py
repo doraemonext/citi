@@ -306,7 +306,7 @@ class ProjectTopicCommentSerializer(serializers.ModelSerializer):
     user = fields.CustomPrimaryKeyRelatedField(read_only=True)
     content = fields.CustomCharField()
     datetime = fields.CustomDateTimeField(read_only=True)
-    parent = fields.CustomPrimaryKeyRelatedField()
+    parent = fields.CustomPrimaryKeyRelatedField(required=False)
     children = fields.CustomRecursiveField(many=True, read_only=True)
 
     class Meta:
