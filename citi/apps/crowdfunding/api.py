@@ -154,7 +154,11 @@ class ProjectFeedbackDetail(mixins.CustomRetrieveModelMixin,
         return self.update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+        obj = self.get_object()
+        if ProjectPackage.manager.test_delete_feedback(obj):
+            return self.destroy(request, *args, **kwargs)
+        else:
+            return Response(utils.api_error_message('Already associated'), status=status.HTTP_400_BAD_REQUEST)
 
 
 class ProjectPackageList(mixins.CustomCreateModelMixin,

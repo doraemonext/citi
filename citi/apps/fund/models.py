@@ -3,6 +3,10 @@
 from django.db import models
 
 
+class OrderManager(models.Manager):
+    pass
+
+
 class Order(models.Model):
     """
     订单信息表
@@ -29,6 +33,9 @@ class Order(models.Model):
         permissions = (
             ('view_order', u'Can view 订单信息'),
         )
+
+    objects = models.Manager()
+    manager = OrderManager()
 
 
 class Trade(models.Model):

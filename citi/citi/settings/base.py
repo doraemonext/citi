@@ -432,6 +432,7 @@ API_ERROR_CODE = {
     'Already attention': 10031,  # 重复关注
     'Already inattention': 10032,  # 重复取消关注
     'Error comment type, you are not authenticated': 10033,  # 错误的评论发布类型, 匿名用户仅能发送匿名评论
+    'Already associated': 10034,  # 已经存在关联, 不能删除
 
     # System Error Code
     'System error': 12000,

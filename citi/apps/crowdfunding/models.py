@@ -123,6 +123,19 @@ class ProjectFeedback(models.Model):
         )
 
 
+class ProjectPackageManager(models.Manager):
+    def test_delete_feedback(self, feedback_obj):
+        """
+        测试是否可以删除描述 feedback_obj
+
+        """
+        queryset = super(ProjectPackageManager, self).get_queryset().filter(feedback=feedback_obj)
+        if queryset.exists():
+            return False
+        else:
+            return True
+
+
 class ProjectPackage(models.Model):
     """
     项目回馈套餐方案 model
@@ -151,6 +164,9 @@ class ProjectPackage(models.Model):
         permissions = (
             ('view_projectpackage', u'Can view 项目回馈套餐方案'),
         )
+
+    objects = models.Manager()
+    manager = ProjectPackageManager()
 
 
 class ProjectAttentionManager(models.Manager):
