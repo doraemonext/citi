@@ -148,8 +148,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
+    'django_jinja.loaders.AppLoader',
+    'django_jinja.loaders.FileSystemLoader',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
@@ -195,6 +195,7 @@ DJANGO_APPS = (
     # Useful template tags:
     # 'django.contrib.humanize',
 
+    'django_jinja',
     'annoying',
     'mptt',
     'django_mptt_admin',
