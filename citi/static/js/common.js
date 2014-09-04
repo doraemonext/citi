@@ -1,5 +1,5 @@
 require.config({
-	baseUrl: 'js/lib',
+	baseUrl: '/static/js/lib',
 	paths: {
 		app: '../app',
 		jquery: 'jquery-1.11.1.min',
@@ -106,10 +106,10 @@ require(['jquery', 'jquery.validate'], function ($) {
 		// load svg
 		var svgToLoad = ['share', 'download', 'go-to-top', 'search-icon', 'user', 'feedback', 'qqzone', 'renren', 'douban', 'sina', 'logo'];
 		$.each(svgToLoad, function (i, v) {
-			$('.' + v).load('img/' + v + '.svg')
+			$('.' + v).load('/static/img/' + v + '.svg')
 		})
 		$('.position').each(function () {
-			$(this).prepend('<em class="position-icon"></em>').find('.position-icon').load('img/position.svg');
+			$(this).prepend('<em class="position-icon"></em>').find('.position-icon').load('/static/img/position.svg');
 		})
 
 		// search icon
@@ -136,7 +136,7 @@ require(['jquery', 'jquery.validate'], function ($) {
 		var province = $('#province'),
 			city = $('#city'),
 			vacant = $('<option value=""></option>');
-		$.getJSON('js/province.json').success(function (data) {
+		$.getJSON('/api/location/province/').success(function (data) {
 			var provinceHtml = '';
 			for (var i = 0, len = data.length; i < len; i = i + 1) {
 				provinceHtml += '<option value="' + data[i].id +'">' + data[i].name + '</option>';
@@ -146,7 +146,7 @@ require(['jquery', 'jquery.validate'], function ($) {
 		province.on('change', function () {
 			vacant.remove();
 
-			$.getJSON('js/' + province.val() + '.json').success(function (data) {
+			$.getJSON('/api/location/city/' + province.val() + '/').success(function (data) {
 				var cityHtml = '';
 				for (var i = 0, len = data.length; i < len; i = i + 1) {
 					cityHtml += '<option value="' + data[i].id +'">' + data[i].name + '</option>';

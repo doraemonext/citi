@@ -26,6 +26,8 @@ from rest_framework.views import APIView
 from rest_framework.renderers import JSONRenderer
 
 from apps.image.models import Image
+from apps.fund.models import Order, Trade
+from system.settings.models import Settings
 from libs.utils.decorators import anonymous_required
 from libs.api.utils import process_errors
 from .forms import RegistrationForm, LoginForm, PasswordResetForm, SetPasswordForm
@@ -343,7 +345,7 @@ class ProfileView(TemplateView):
 
     """
     http_method_names = ['get']
-    template_name = 'profile/home.html'
+    template_name = 'profile/home.jinja'
 
     def __init__(self):
         super(ProfileView, self).__init__()
@@ -353,6 +355,11 @@ class ProfileView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
+        context['config'] = Settings.manager.get_setting_dict()
+        trades = Trade.manager.get_user_trade(user=self.request.user)
+        for trade in trades:
+            trade.order_info = Order.objects.get(pk=trade.order_id)
+        context['trades'] = trades
         return context
 
     @method_decorator(login_required)
