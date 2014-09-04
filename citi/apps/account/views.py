@@ -25,8 +25,9 @@ from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 from rest_framework.renderers import JSONRenderer
 
+from apps.crowdfunding.models import Project, ProjectPackage
 from apps.image.models import Image
-from apps.fund.models import Order, Trade
+from apps.fund.models import Order, Trade, OrderPackage
 from system.settings.models import Settings
 from libs.utils.decorators import anonymous_required
 from libs.api.utils import process_errors
@@ -359,6 +360,10 @@ class ProfileView(TemplateView):
         trades = Trade.manager.get_user_trade(user=self.request.user)
         for trade in trades:
             trade.order_info = Order.objects.get(pk=trade.order_id)
+            if Order.objects.get(sn=trade.sn).order_type in (Order.ORDER_TYPE_SUPPORT, Order.ORDER_TYPE_SUPPORT_BACK, Order.ORDER_TYPE_SUPPORT_TRANSFER):
+                trade.project_info = ProjectPackage.objects.get(pk=OrderPackage.objects.get(sn=trade.sn).package_id).project
+            else:
+                trade.project_info = None
         context['trades'] = trades
         return context
 

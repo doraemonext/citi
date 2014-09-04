@@ -4,14 +4,15 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 
+from apps.crowdfunding.models import ProjectPackage
 from libs.utils.sn import make_sn
 
 
 class OrderManager(models.Manager):
     def get_user_order(self, user):
-        return super(OrderManager, self).get_queryset().filter(user_id=user.pk)
+        return super(OrderManager, self).get_queryset().filter(user_id=user.pk).order_by('-add_datetime')
 
-    def add_order(self, user, order_type, order_content, pay_status, pay_way, sender_type, money, sender=None):
+    def add_order(self, user, order_type, order_content, pay_status, pay_way, sender_type, money, package=None, sender=None):
         """
         添加订单
         """
@@ -22,7 +23,7 @@ class OrderManager(models.Manager):
             sender_id = sender.pk
             sender_email = sender.email
 
-        return super(OrderManager, self).create(
+        order = super(OrderManager, self).create(
             sn=make_sn(),
             user_id=user.pk,
             user_email=user.email,
@@ -36,6 +37,11 @@ class OrderManager(models.Manager):
             sender_email=sender_email,
             money=money,
         )
+
+        if order_type in (Order.ORDER_TYPE_SUPPORT, Order.ORDER_TYPE_SUPPORT_BACK, Order.ORDER_TYPE_SUPPORT_TRANSFER):
+            OrderPackage.manager.add_order_package(order=order, package=package)
+
+        return order
 
 
 class Order(models.Model):
@@ -137,7 +143,7 @@ class Order(models.Model):
 
 class TradeManager(models.Manager):
     def get_user_trade(self, user):
-        return super(TradeManager, self).get_queryset().filter(user_id=user.pk)
+        return super(TradeManager, self).get_queryset().filter(user_id=user.pk).order_by('-datetime')
 
     def add_trade(self, order, user, money):
         balance = user.balanceinfo.balance + money
@@ -163,7 +169,7 @@ class Trade(models.Model):
 
     """
     order_id = models.IntegerField(u'所属订单ID')
-    sn = models.CharField(u'订单编号', max_length=40, unique=True)
+    sn = models.CharField(u'订单编号', max_length=40)
     user_id = models.IntegerField(u'用户ID')
     user_email = models.EmailField(u'用户电子邮件', max_length=255)
     money = models.FloatField(u'交易金额')
@@ -179,3 +185,38 @@ class Trade(models.Model):
 
     objects = models.Manager()
     manager = TradeManager()
+
+
+class OrderPackageManager(models.Manager):
+    def add_order_package(self, order, package):
+        return super(OrderPackageManager, self).create(
+            order_id=order.pk,
+            sn=order.sn,
+            package_id=package.pk,
+            package_name=package.name,
+            package_money=package.money,
+            package_type=package.type
+        )
+
+
+class OrderPackage(models.Model):
+    """
+    订单包含套餐表
+
+    """
+    order_id = models.IntegerField(u'所属订单ID')
+    sn = models.CharField(u'订单编号', max_length=40, unique=True)
+    package_id = models.IntegerField(u'所属套餐ID')
+    package_name = models.CharField(u'套餐名称', max_length=30)
+    package_money = models.FloatField(u'投资数额')
+    package_type = models.IntegerField(u'投资类别', choices=ProjectPackage.TYPE, default=ProjectPackage.TYPE_NORMAL)
+
+    class Meta:
+        verbose_name = u'订单包含套餐表'
+        verbose_name_plural = u'订单包含套餐表'
+        permissions = (
+            ('view_orderpackage', u'Can view 订单包含套餐表'),
+        )
+
+    objects = models.Manager()
+    manager = OrderPackageManager()

@@ -1,3 +1,18 @@
+{% macro translate_trade_type(type) -%}
+    {% if type == 0 %}
+        充值
+    {% elif type == 1 %}
+        提现
+    {% elif type == 2 %}
+        项目支持
+    {% elif type == 3 %}
+        项目支持失败，资金退回
+    {% elif type == 4 %}
+        项目支持成功，资金转入发起人账户
+    {% endif %}
+{%- endmacro %}
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -92,10 +107,14 @@
 									</tr>
                                     {% for trade in trades %}
 									<tr>
-										<td></td>
+                                        {% if trade.project_info %}
+                                            <td>{{ trade.project_info.name }}</td>
+                                        {% else %}
+                                            <td>无</td>
+                                        {% endif %}
 										<td>{{ trade.money }}</td>
 										<td>{{ trade.datetime }}</td>
-										<td>{{ trade.order_info.order_type }}</td>
+										<td>{{ translate_trade_type(trade.order_info.order_type) }}</td>
 									</tr>
                                     {% endfor %}
 								</table>
