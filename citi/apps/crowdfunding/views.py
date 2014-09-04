@@ -14,7 +14,7 @@ from sorl.thumbnail import get_thumbnail
 from system.settings.views import get_setting_dict
 from libs.ajax.views import AjaxResponseMixin
 from .forms import ProjectForm
-from .models import Project
+from .models import Project, ProjectPackage
 
 
 logger = logging.getLogger(__name__)
@@ -30,7 +30,9 @@ class ProjectDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
-        context['user_image'] = get_thumbnail(self.object.user.detailinfo.avatar.image, '100x100', crop='center').url
+        context['user_image'] = get_thumbnail(self.request.user.detailinfo.avatar.image, '100x100', crop='center').url
+        context['project_user_image'] = get_thumbnail(self.object.user.detailinfo.avatar.image, '100x100', crop='center').url
+        context['packages'] = ProjectPackage.objects.filter(project=self.object)
         return context
 
 

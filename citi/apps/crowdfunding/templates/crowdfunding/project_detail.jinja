@@ -70,9 +70,16 @@
                         <p>浙江,绍兴,人<br/>{{ object.user.detailinfo.profession }}</p>
                     </div>
                 </div>
+
                 <div class="user-icon round-icon left">
                     <div class="round-icon">
-                        <img src="{{ user_image }}">
+                        <div class="round-icon-wrap">
+                            <div class="round relative">
+                                <div class="absolute">
+                                    <img src="{{ project_user_image }}">
+                                </div>
+							</div>
+						</div>
                     </div>
                 </div>
             </div>
@@ -152,7 +159,6 @@
                         </ul>
                         <div class="panel" data-animate="slide">
                             <div class="panel-header relative">
-                                <div class="close absolute" data-dismiss="panel">&times;</div>
                                 <div class="clear">
                                     <div class="left round-icon">
                                         <div class="round-icon-wrap">
@@ -161,39 +167,31 @@
                                     </div>
                                     <div class="left">
                                         <select class="select left">
-                                            <option value="50" data-target="#first">$50</option>
-                                            <option value="100" data-target="#second">$100</option>
-                                            </a>
-                                            <option value="200" data-target="#third">$200</option>
-                                            </a>
+                                            {% for package in packages %}
+                                            <option value="{{ package.money|int }}" data-target="#package{{ loop.index }}">￥{{ package.money }}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
-                                    <div class="right"><p>已有0位支持者 / 限额10位</p></div>
                                 </div>
                             </div>
                             <div class="panel-body clear">
                                 <div class="clear relative tab-content">
-                                    <div class="panel-text tab-pane active" id="first">
-                                        <p>红橡木盒子，表面涂木蜡油。 直径约12.5厘米，可存放直径2厘米珠子的手串。 因手工制作 所以每个盒子都会是独一无二的存在。</p>
+                                    {% for package in packages %}
+                                        {% if loop.first %}
+                                        <div class="panel-text tab-pane active" id="package{{ loop.index }}">
+                                        {% else %}
+                                        <div class="panel-text tab-pane" id="package{{ loop.index }}">
+                                        {% endif %}
 
-                                        <p>仅大陆地区包邮</p>
+                                        已有 0 位支持者 / 限额 10 位
 
-                                        <p>配送费用：免运费</p>
+                                        <p><strong>套餐名称：</strong>{{ package.name }}</p>
+                                        {% for feedback in package.feedback.all() %}
+                                            <p>{{ loop.index }}. {{ feedback.content }}</p>
+                                        {% endfor %}
 
-                                        <p>预计回报发送时间：项目成功结束后25天内 </p>
-                                    </div>
-                                    <div class="panel-text tab-pane" id="second">
-                                        <p>仅大陆地区包邮</p>
-
-                                        <p>配送费用：免运费</p>
-
-                                        <p>预计回报发送时间：项目成功结束后25天内 </p>
-                                    </div>
-                                    <div class="panel-text tab-pane" id="third">
-                                        <p>配送费用：免运费</p>
-
-                                        <p>预计回报发送时间：项目成功结束后25天内 </p>
-                                    </div>
+                                        </div>
+                                    {% endfor %}
                                 </div>
                                 <div class="right">
                                     <button class="mr-12 btn bg-green-light white" id="previous">去付款</button>
@@ -207,7 +205,9 @@
                                         <div class="comment-list-wrap clear">
                                             <div class="left round-icon">
                                                 <div class="round-icon-wrap">
-                                                    <div class="round"></div>
+                                                    <div class="round">
+                                                        <img src="{{ user_image }}">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="comment-form comment-text clear">
