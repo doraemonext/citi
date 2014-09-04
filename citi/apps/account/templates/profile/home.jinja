@@ -204,38 +204,39 @@
 					</div>
 					<div id="information" data-animate="fade">
 						<section class="title-small bg-white information mb-20">
-								<div class="clear">
-									<form method="post" action="/api/accounts/user/" id="modifyInfo">
-										<div class="section-title-wrap relative mb-20">
-											<h2 class="relative">个人资料</h2>
-										</div>
-										<div>
-											<div class="basic-info-list mb-20 clear">
-												<label class="mr-12 green left" for="email">邮&nbsp;箱:</label><input type="text" id="email" name="email" class="input">
-											</div>
-											<div class="basic-info-list mb-20 clear">
-												<label class="mr-12 green left" for="phone">手机号:</label><input type="text" id="phone" name="mobile" class="input">
-											</div>
-											<div class="basic-info-list mb-20 clear">
-												<label class="mr-12 green left" for="nickname">昵&nbsp;称:</label><input type="text" id="nickname" name="nickname" class="input">
-											</div>
-											<div class="basic-info-list mb-20 clear">
-												<label class="mr-12 green left" for="qq">QQ:</label><input type="text" id="qq" name="qq" class="input">
-											</div>
-											<div class="basic-info-list mb-20 clear">
-												<label class="mr-12 green left" for="province">籍&nbsp;贯:</label>
-												<select name="province" id="province" class="select left">
-												</select>
-												<select name="native" id="city" class="select left"></select>
-											</div>
-											<div class="basic-info-list mb-20 clear">
-												<label class="mr-12 green left" for="occupation">职&nbsp;业:</label><input type="text" id="occupation" name="occupation" class="input">
-											</div>
-										</div>
-										<button type="submit" class="right btn bg-green-light white" id="information-modify" form="modifyInfo">确认修改</button>
-									</form>
-								</div>
-							</section>
+                            <div class="clear">
+                                <form method="post" action="/api/accounts/user/" id="modifyInfo">
+                                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                                    <div class="section-title-wrap relative mb-20">
+                                        <h2 class="relative">个人资料</h2>
+                                    </div>
+                                    <div>
+                                        <div class="basic-info-list mb-20 clear">
+                                            <label class="mr-12 green left" for="email">邮&nbsp;箱:</label><input type="text" id="email" class="input" value="{{ request.user.email }}" disabled>
+                                        </div>
+                                        <div class="basic-info-list mb-20 clear">
+                                            <label class="mr-12 green left" for="phone">手机号:</label><input type="text" id="phone" name="mobile" class="input" value="{{ request.user.detailinfo.mobile }}">
+                                        </div>
+                                        <div class="basic-info-list mb-20 clear">
+                                            <label class="mr-12 green left" for="nickname">昵&nbsp;称:</label><input type="text" id="nickname" name="nickname" class="input" value="{{ request.user.nickname }}">
+                                        </div>
+                                        <div class="basic-info-list mb-20 clear">
+                                            <label class="mr-12 green left" for="qq">QQ:</label><input type="text" id="qq" name="qq" class="input" value="{{ request.user.detailinfo.qq }}">
+                                        </div>
+                                        <div class="basic-info-list mb-20 clear">
+                                            <label class="mr-12 green left" for="province">籍&nbsp;贯:</label>
+                                            <select name="province" id="province" class="select left">
+                                            </select>
+                                            <select name="native" id="city" class="select left"></select>
+                                        </div>
+                                        <div class="basic-info-list mb-20 clear">
+                                            <label class="mr-12 green left" for="occupation">职&nbsp;业:</label><input type="text" id="occupation" name="occupation" class="input" value="{{ request.user.detailinfo.profession }}">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="right btn bg-green-light white" id="information-modify" form="modifyInfo">确认修改</button>
+                                </form>
+                            </div>
+                        </section>
 					</div>
 					<div id="password" data-animate="fade">
 						<section class="title-small bg-white password">
