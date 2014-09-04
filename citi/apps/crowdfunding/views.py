@@ -14,7 +14,7 @@ from sorl.thumbnail import get_thumbnail
 from system.settings.views import get_setting_dict
 from libs.ajax.views import AjaxResponseMixin
 from .forms import ProjectForm
-from .models import Project, ProjectPackage
+from .models import Project, ProjectPackage, ProjectSupport
 
 
 logger = logging.getLogger(__name__)
@@ -30,9 +30,21 @@ class ProjectDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
-        context['user_image'] = get_thumbnail(self.request.user.detailinfo.avatar.image, '100x100', crop='center').url
-        context['project_user_image'] = get_thumbnail(self.object.user.detailinfo.avatar.image, '100x100', crop='center').url
+        if self.request.user.detailinfo.avatar:
+            context['user_image'] = get_thumbnail(self.request.user.detailinfo.avatar.image, '100x100', crop='center').url
+        else:
+            context['user_image'] = None
+        if self.object.user.detailinfo.avatar:
+            context['project_user_image'] = get_thumbnail(self.object.user.detailinfo.avatar.image, '100x100', crop='center').url
+        else:
+            context['project_user_image'] = None
         context['packages'] = ProjectPackage.objects.filter(project=self.object)
+        context['supports'] = ProjectSupport.objects.filter(project=self.object)
+        for support in context['supports']:
+            if support.user.detailinfo.avatar:
+                support.image = get_thumbnail(support.user.detailinfo.avatar.image, '100x100', crop='center').url
+            else:
+                support.image = None
         return context
 
 

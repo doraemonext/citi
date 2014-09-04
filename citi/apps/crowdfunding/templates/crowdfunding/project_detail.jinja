@@ -52,7 +52,7 @@
                         </div>
                         <div class="inline-block">
                             <dt class="inline-block">项目地点:</dt>
-                            <dd class="inline-block">湖北省,武汉市</dd>
+                            <dd class="inline-block">{{ object.location.translate }}</dd>
                         </div>
                     </dl>
                     <ul class="project-info-num">
@@ -67,7 +67,7 @@
                     <div class="user-info clear section-title-wrap title-large">
                         <h2 class="right large">{{ object.user.nickname }}</h2>
 
-                        <p>浙江,绍兴,人<br/>{{ object.user.detailinfo.profession }}</p>
+                        <p>{{ object.user.detailinfo.native.translate }}, 人<br/>{{ object.user.detailinfo.profession }}</p>
                     </div>
                 </div>
 
@@ -75,9 +75,13 @@
                     <div class="round-icon">
                         <div class="round-icon-wrap">
                             <div class="round relative">
-                                <div class="absolute">
-                                    <img src="{{ project_user_image }}">
-                                </div>
+                                {% if project_user_image %}
+                                    <div class="absolute">
+                                        <img src="{{ project_user_image }}">
+                                    </div>
+                                {% else %}
+                                    <div class="user absolute"></div>
+                                {% endif %}
 							</div>
 						</div>
                     </div>
@@ -141,21 +145,21 @@
                     <div class="text info-function-supporter">
                         <ul class="clear center mb-20">
                             <li class="round-icon left info-function-supporter-first">
-                                <div class="round-icon-wrap"><a href="#" class="medium white round">支持</a></div>
+                                <div class="round-icon-wrap"><a href="##" class="medium white round">支持</a></div>
                             </li>
+                            {% for support in supports %}
                             <li class="round-icon left">
-                                <div class="round-icon-wrap"><a href="#" class="round"></a></div>
+                                <div class="round-icon-wrap">
+                                    <div class="round relative">
+                                        {% if support.image %}
+                                        <div class="absolute">
+                                            <img src="{{ support.image }}">
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
                             </li>
-                            <li class="round-icon left">
-                                <div class="round-icon-wrap"><a href="#" class="round"></a></div>
-                            </li>
-                            <li class="round-icon left">
-                                <div class="round-icon-wrap"><a href="#" class="round"></a></div>
-                            </li>
-                            <li class="round-icon left">
-                                <div class="round-icon-wrap"><a href="#" class="round"></a></div>
-                            </li>
-
+                            {% endfor %}
                         </ul>
                         <div class="panel" data-animate="slide">
                             <div class="panel-header relative">
@@ -205,9 +209,11 @@
                                         <div class="comment-list-wrap clear">
                                             <div class="left round-icon">
                                                 <div class="round-icon-wrap">
+                                                    {% if user_image %}
                                                     <div class="round">
                                                         <img src="{{ user_image }}">
                                                     </div>
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                             <div class="comment-form comment-text clear">

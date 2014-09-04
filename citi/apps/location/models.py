@@ -26,6 +26,13 @@ class Location(MPTTModel):
             ('view_location', u'Can view 地理位置'),
         )
 
+    @property
+    def translate(self):
+        if self.parent:
+            return self.parent.name + u', ' + self.name
+        else:
+            return self.name
+
     def save(self, *args, **kwargs):
         super(Location, self).save(*args, **kwargs)
         Location.objects.rebuild()
