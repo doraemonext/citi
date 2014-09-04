@@ -1,3 +1,5 @@
+{% extends 'base.jinja' %}
+
 {% macro translate_trade_type(type) -%}
     {% if type == 0 %}
         充值
@@ -12,10 +14,7 @@
     {% endif %}
 {%- endmacro %}
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% block head %}
 	<meta charset="UTF-8">
 	<title>{{ config.title }}</title>
 	<link rel="stylesheet" href="{{ "css/base.css"|static }}">
@@ -29,37 +28,9 @@
 		require(['app/account']);
 	})
 	</script>
-</head>
-<body>
-    {% if notifications %}
-	<header class="header center white alert clear relative active">
-		<div class="header-notify auto">
-			<p>这里是各种弹出通知</p>
-		</div>
-		<span class="absolute close" data-dismiss="alert">×</span>
-	</header>
-    {% endif %}
-	<nav class="nav bg-green-light clear">
-		<div class="nav-wrap auto">
-			<div class="logo left bg-yellow"></div>
-			<div class="search right">
-				<form action="" class="left">
-					<div class="field clear mr-12">	
-						<span class="search-icon left block"></span>
-						<input class="input-search left block" type="text" placeholder="请输入您要搜索的内容"/>
-					</div>
-				</form>
-				<div class="user left"></div>
-			</div>
-			<ul class="normal nav-link clear center">
-				<li class="left"><a class="block white" href="{{ url('home') }}">首页</a></li>
-				<li class="left"><a class="block white" href="">众筹项目</a></li>
-				<li class="left"><a class="block white" href="#">问答讨论</a></li>
-				<li class="left"><a class="block white" href="#">新手帮助</a></li>
-				<li class="left"><a class="block white" href="{{ url('crowdfunding.publish.content') }}">发起项目</a></li>
-			</ul>
-		</div>
-	</nav>
+{% endblock %}
+
+{% block content %}
 	<div class="wrap pt-40 bg-grey info">
 		<div class="wrap-inner auto">
 			<div class="main pt-40 clear">
@@ -262,117 +233,8 @@
 				</div>				
 			</div>
 		</div>
-		<div class="toolbar hide">
-				<div class="clear relative white toolbar-icon-wrap">
-					<div class="relative share">
-					</div>
-					<span class="absolute">分享<br>我们</span>
-				</div>
-				<div class="clear relative white toolbar-icon-wrap">
-					<div class="relative download">
-					</div>
-					<span class="absolute">应用<br>下载</span>
-				</div>
-				<div class="clear relative white toolbar-icon-wrap">
-					<div class="relative feedback">
-					</div>
-					<span class="absolute">问题<br>反馈</span>
-				</div>
-				<div class="clear relative white toolbar-icon-wrap">
-					<div class="relative go-to-top">
-					</div>
-					<span class="absolute">返回<br>顶部</span>
-				</div>
-			</div>
-			<footer class="footer data">
-				<div class="footer-wrap auto">
-					<div class="footer-company clear">
-						<h2 class="normal">合作伙伴</h2>
-						<ul>
-							<li class="left mr-12"><a href="#">i黑马</a></li>
-							<li class="left mr-12"><a href="#">创业邦</a></li>
-							<li class="left mr-12"><a href="#">网易科技</a></li>
-							<li class="left mr-12"><a href="#">36Kr财新网</a></li>
-							<li class="left mr-12"><a href="#">浙江卫视</a></li>
-							<li class="left mr-12"><a href="#">上海壹周</a></li>
-							<li class="left mr-12"><a href="#">新浪网</a></li>
-							<li class="left mr-12"><a href="#">新民晚报</a></li>
-							<li class="left mr-12"><a href="#">扭秧歌杂志</a></li>
-							<li class="left mr-12"><a href="#">商界时尚</a></li>
-							<li class="left mr-12"><a href="#">人民网</a></li>  
-							<li class="left mr-12"><a href="#">人物杂志</a></li> 
-							<li class="left mr-12"><a href="#">南方日报</a></li>
-						</ul>
-					</div>
-					<div class="footer-help data clear">
-						<div class="footer-section left">
-							<h2 class="normal">关于</h2>
-							<ul>
-								<li><a href="#">了解追梦</a></li>
-								<li><a href="#">追梦历程</a></li>
-								<li><a href="#">友情链接</a></li>
-								<li><a href="#">联系我们</a></li>
-							</ul>
-						</div>
-						<div class="footer-section left">
-							<h2 class="normal">帮助</h2>
-							<ul>
-								<li><a href="#">建议反馈</a></li>
-								<li><a href="#">常见问题</a></li>
-							</ul>
-						</div>
-						<div class="footer-section left">				
-							<h2 class="normal">声明</h2>
-							<ul>
-								<li><a href="#">用户协议</a></li>
-								<li><a href="#">免责声明</a></li>
-								<li><a href="#">隐私版权声明</a></li>
-							</ul>
-						</div>
-						<div class="footer-section left">
-							<h2 class="normal">分类</h2>
-							<ul>
-								<li><a href="#">鲁菜/川菜/苏菜</a></li>
-								<li><a href="#">粤菜/闽菜/浙菜</a></li>
-								<li><a href="#">湘菜/徽菜/其他</a></li>
-							</ul>
-						</div>
-						<div class="footer-section center code left">
-							<img src="{{ "img/code.png"|static }}" width="120" height="120" alt="">
-							<h2 class="normal">扫一扫加微信工作号</h2>
-						</div>
-					</div>
-				</div>
-				<div class="copyright white bg-green-light">
-					<div class="auto clear">
-						<div class="left">
-							<p>COPYRIGHT © 2011~2014 PPT STORE ALL RIGHTS RESERVED.<br>中国信息产业部备案　京ICP备11039233号-1</p>
-						</div>
-						<div class="right clear platform">
-							<div class="left relative">
-								<a href="#" class="block">
-									<div class="absolute sina"></div>
-								</a>
-							</div>
-							<div class="left relative">
-								<a href="#" class="block">
-									<div class="absolute qqzone"></div>
-								</a>
-							</div>
-							<div class="left relative douban-wrap">
-								<a href="#" class="block">
-									<div class="absolute douban"></div>
-								</a>
-							</div>
-							<div class="left relative">
-								<a href="#" class="block">
-									<div class="absolute renren"></div>
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</footer>
+        {{ super() }}
 	</div>
+    {% endblock %}
 </body>
 </html>
