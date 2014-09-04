@@ -1,0 +1,240 @@
+{% extends 'base.jinja' %}
+
+{% macro translate_trade_type(type) -%}
+    {% if type == 0 %}
+        充值
+    {% elif type == 1 %}
+        提现
+    {% elif type == 2 %}
+        项目支持
+    {% elif type == 3 %}
+        项目支持失败，资金退回
+    {% elif type == 4 %}
+        项目支持成功，资金转入发起人账户
+    {% endif %}
+{%- endmacro %}
+
+{% block head %}
+	<meta charset="UTF-8">
+	<title>{{ config.title }}</title>
+	<link rel="stylesheet" href="{{ "css/base.css"|static }}">
+	<link rel="stylesheet" href="{{ "css/module.css"|static }}">
+	<link rel="stylesheet" href="{{ "css/animate.css"|static }}">
+	<link rel="stylesheet" href="{{ "css/slider.css"|static }}">
+	<link rel="stylesheet" href="{{ "css/account.css"|static }}">
+	<script src="{{ "js/lib/require.js"|static }}"></script>
+	<script>
+	require(['/static/js/common.js'], function (common) {
+		require(['app/account']);
+	})
+	</script>
+{% endblock %}
+
+{% block content %}
+	<div class="wrap pt-40 bg-grey info">
+		<div class="wrap-inner auto">
+			<div class="main pt-40 clear">
+				<div class="account-sidebar bg-white left">
+					<div class="round-icon">
+                        <img src="{{ user_image }}">
+					</div>
+
+					<ul class="normal pb-20 clear center">
+						<li class="active"><a class="block title-small" href="#" data-toggle="tab" data-target="#brief">账户总览</a></li>
+						<li><a class="block title-small" href="#" data-toggle="tab" data-target="#question">我的问答</a></li>
+						<li><a class="block title-small" href="#" data-toggle="tab" data-target="#information">修改个人资料</a></li>
+						<li><a class="block title-small" href="#" data-toggle="tab" data-target="#password">修改密码</a></li>
+					</ul>
+				</div>
+				<div class="account-main tab-content">
+					<div id="brief" class="active" data-animate="fade">
+						<section class="title-small bg-white balance mb-20">
+							<div>
+								<div class="section-title-wrap relative mb-20">
+									<h2 class="relative">
+										账户余额
+										<span class="normal">{{ request.user.email }}</span>
+									</h2>
+								</div>
+								<div class="clear">
+									<span class="inline-block large green">￥{{ request.user.balanceinfo.balance }}</span>
+								</div>
+							</div>
+						</section>
+						<section class="title-small bg-white transaction mb-20">
+							<div>
+								<div class="section-title-wrap relative mb-20">
+									<h2 class="relative">交易明细</h2>
+								</div>
+								<table class="table">
+									<tr>
+										<th>项目名称</th>
+										<th>资金数额</th>
+										<th>时间</th>
+										<th>行为</th>
+									</tr>
+                                    {% for trade in trades %}
+									<tr>
+                                        {% if trade.project_info %}
+                                        <td>{{ trade.project_info.name }}</td>
+                                        {% else %}
+                                        <td>无</td>
+                                        {% endif %}
+										<td>{{ trade.money }}</td>
+										<td>{{ trade.datetime }}</td>
+										<td>{{ translate_trade_type(trade.order_info.order_type) }}</td>
+									</tr>
+                                    {% endfor %}
+								</table>
+							</div>
+						</section>
+					</div>
+					<div id="question" data-animate="fade">
+						<ul class="normal clear center question-nav mb-10">
+							<li class="left mr-12 active"><a class="block title-small bg-white" href="#" data-toggle="tab" data-target="#myproblem">我的提问</a></li>
+							<li class="left mr-12"><a class="block title-small bg-white" href="#" data-toggle="tab" data-target="#myanswer">我的回答</a></li>
+							<li class="left"><a class="block title-small bg-white" href="#" data-toggle="tab" data-target="#myfocus">我的关注</a></li>
+						</ul>
+						<section class="title-small bg-white question mb-20 tab-content">
+							<div id="myproblem" data-animate="fade" class="active">
+								<div class="section-title-wrap relative mb-20">
+									<h2 class="relative">我的提问</h2>
+								</div>
+								<table class="table">
+									<tr>
+										<th>标题</th>
+										<th>时间</th>
+										<th>回复</th>
+										<th>状态</th>	
+									</tr>
+									<tr>
+										<td>1</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+								</table>
+							</div>
+							<div id="myanswer" data-animate="fade">
+								<div class="section-title-wrap relative mb-20">
+									<h2 class="relative">我的回答</h2>
+								</div>
+								<table class="table">
+									<tr>
+										<th>标题</th>
+										<th>时间</th>
+										<th>回复</th>
+										<th>状态</th>	
+									</tr>
+									<tr>
+										<td>1</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+								</table>
+							</div>
+							<div id="myfocus" data-animate="fade">
+								<div class="section-title-wrap relative mb-20">
+									<h2 class="relative">我的关注</h2>
+								</div>
+								<table class="table">
+									<tr>
+										<th>标题</th>
+										<th>时间</th>
+										<th>回复</th>
+										<th>状态</th>	
+									</tr>
+									<tr>
+										<td>1</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+								</table>
+							</div>
+						</section>
+					</div>
+					<div id="information" data-animate="fade">
+						<section class="title-small bg-white information mb-20">
+                            <div class="clear">
+                                <form method="post" action="/api/accounts/user/" id="modifyInfo">
+                                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                                    <div class="section-title-wrap relative mb-20">
+                                        <h2 class="relative">个人资料</h2>
+                                    </div>
+                                    <div>
+                                        <div class="basic-info-list mb-20 clear">
+                                            <label class="mr-12 green left" for="email">邮&nbsp;箱:</label><input type="text" id="email" class="input" value="{{ request.user.email }}" disabled>
+                                        </div>
+                                        <div class="basic-info-list mb-20 clear">
+                                            <label class="mr-12 green left" for="phone">手机号:</label><input type="text" id="phone" name="mobile" class="input" value="{{ request.user.detailinfo.mobile }}">
+                                        </div>
+                                        <div class="basic-info-list mb-20 clear">
+                                            <label class="mr-12 green left" for="nickname">昵&nbsp;称:</label><input type="text" id="nickname" name="nickname" class="input" value="{{ request.user.nickname }}">
+                                        </div>
+                                        <div class="basic-info-list mb-20 clear">
+                                            <label class="mr-12 green left" for="qq">QQ:</label><input type="text" id="qq" name="qq" class="input" value="{{ request.user.detailinfo.qq }}">
+                                        </div>
+                                        <div class="basic-info-list mb-20 clear">
+                                            <label class="mr-12 green left" for="province">籍&nbsp;贯:</label>
+                                            <select name="province" id="province" class="select left">
+                                            </select>
+                                            <select name="native" id="city" class="select left"></select>
+                                        </div>
+                                        <div class="basic-info-list mb-20 clear">
+                                            <label class="mr-12 green left" for="occupation">职&nbsp;业:</label><input type="text" id="occupation" name="occupation" class="input" value="{{ request.user.detailinfo.profession }}">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="right btn bg-green-light white" id="information-modify" form="modifyInfo">确认修改</button>
+                                </form>
+                            </div>
+                        </section>
+					</div>
+					<div id="password" data-animate="fade">
+						<section class="title-small bg-white password">
+							<div class="clear">
+								<div class="section-title-wrap relative mb-20">
+									<h2 class="relative">修改密码</h2>
+								</div>
+								<div>
+									<div class="basic-info-list mb-20 clear">
+										<label class="mr-12 green left" for="oldpassword">原密码:</label><input type="password" id="oldpassword" name="oldpassword" class="input valid" aria-required="true" aria-invalid="false">
+									</div>
+									<div class="basic-info-list mb-20 clear">
+										<label class="mr-12 green left" for="password">密&nbsp;码:</label><input type="password" id="password" name="password1" class="input valid" aria-required="true" aria-invalid="false">
+									</div>
+									<div class="basic-info-list mb-20 clear">
+										<label class="mr-12 green left" for="repassword">重复密码:</label><input type="password" id="repassword" name="password2" class="input valid" aria-required="true" aria-invalid="false">
+									</div>
+								</div>
+								<button type="submit" class="right btn bg-green-light white" id="password-modify">确认修改</button>
+							</div>
+						</section>
+					</div>
+				</div>				
+			</div>
+		</div>
+        {{ super() }}
+	</div>
+    {% endblock %}
+</body>
+</html>

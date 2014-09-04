@@ -28,26 +28,20 @@ require.config({
 
 require(['jquery', 'jquery.validate'], function ($) {
 	$(document).ready(function () {
-		/*($.fontAvailable('microsoft yahei') && $.fontAvailable('youyuan')) ?
-		$('<link>')
-		.attr({
-			rel: 'stylesheet',
-			href: 'css/font.css'
-		})
-		.appendTo('head') :
-		$('body');
-		console.log($.fontAvailable('microsoft yahei'));*/
-
-		// open & close for modal & tab
-		var animate = function (isToggle, targetElem, dismissAnimate, diff, elem) {
-			var animation,
+		var animate = function (isToggle, targetElem, targetAnimation, diff, elem) {
+			var fade = ['fadeIn', 'fadeOut'],
+				slide = ['slideDown', 'slideUp'],
+				animation,
+				oppositeAnimation,
 				isCustom;
-			if (typeof dismissAnimate !== 'undefined') {
+			if (typeof targetAnimation !== 'undefined') {
 				isCustom = false;
-				if (dismissAnimate.indexOf('slide') !== -1) {
-					animation = isToggle ? 'slideDown' : 'slideUp';
-				} else if (dismissAnimate.indexOf('fade') !== -1) {
-					animation = isToggle ? 'fadeIn' : 'fadeOut';
+				if (targetAnimation.indexOf('slide') !== -1) {
+					animation = isToggle ? slide.shift() : slide.pop();
+					oppositeAnimation = slide.pop();
+				} else if (targetAnimation.indexOf('fade') !== -1) {
+					animation = isToggle ? fade.shift() : fade.pop();
+					oppositeAnimation = fade.pop();
 				}
 			} else {
 				isCustom = true;
@@ -59,9 +53,13 @@ require(['jquery', 'jquery.validate'], function ($) {
 				}
 				targetElem[animation]('active');
 			} else {
+				if (!isCustom) {
+					targetElem.siblings().hide().end()[animation]();
+				}
 				$(elem).parent().siblings().removeClass('active').end().addClass('active');
 				targetElem.siblings().removeClass('active').end().addClass('active');
 			}
+
 			if (diff === 'modal') {
 				isToggle ? $('.modal-backdrop').fadeIn() : $('.modal-backdrop').fadeOut();
 			}
@@ -71,29 +69,30 @@ require(['jquery', 'jquery.validate'], function ($) {
 			var elem = elem.jquery ? elem : $(elem),
 				data = elem.data(),
 				isToggle = 'toggle' in data,
+				// usually diff has the value among modal, alert, tab, panel
 				diff = data.toggle || data.dismiss,
-				target, targetElem, isModal, dismissAnimate;
-			if (diff === 'tab') {
-				target = elem.attr('href');
-			} else if (isToggle)  {
+				target, targetElem, isModal, targetAnimation;
+			if (isToggle)  {
 				target = elem.data('target');
 			} else if (!isToggle) {
 				target = elem.data('dismiss');
 			}
 			targetElem = isToggle ? $(target) : elem.parents('.' + target);
-			dismissAnimate = targetElem.data('animate');
+			targetAnimation = targetElem.data('animate');
 
 			return {
 				isToggle: isToggle,
 				diff: diff,
 				targetElem: targetElem,
-				dismissAnimate: dismissAnimate
+				targetAnimation: targetAnimation
 			}
 		}
 
+		// toggle: target stores in data-target and animation stores in data-animate in target (if not defined add 'active' for default)
+		// dismiss: target is the element possessing the class in data-dismiss (if no data-animation is detected, removes 'active' for default)
 		$('[data-dismiss], [data-toggle]').on('click', function () {
 			var result = moduleSetup(this);
-			animate(result.isToggle, result.targetElem, result.dismissAnimate, result.diff, this);
+			animate(result.isToggle, result.targetElem, result.targetAnimation, result.diff, this);
 			return false;
 		})
 
@@ -110,7 +109,7 @@ require(['jquery', 'jquery.validate'], function ($) {
 			$('.' + v).load('/static/img/' + v + '.svg')
 		})
 		$('.position').each(function () {
-			$(this).prepend('<em class="position-icon"></em>').find('.position-icon').load('img/position.svg');
+			$(this).prepend('<em class="position-icon"></em>').find('.position-icon').load('/static/img/position.svg');
 		})
 
 		// search icon
@@ -133,6 +132,32 @@ require(['jquery', 'jquery.validate'], function ($) {
 		// fix the problem of the modal animation in chrome
 		$('.modal').show();
 
+			// province & city
+		var province = $('#province'),
+			city = $('#city'),
+			vacant = $('<option value=""></option>');
+		$.getJSON('/api/location/province/').success(function (data) {
+			var provinceHtml = '';
+			for (var i = 0, len = data.length; i < len; i = i + 1) {
+				provinceHtml += '<option value="' + data[i].id +'">' + data[i].name + '</option>';
+			}
+			province.append(vacant).append(provinceHtml);
+		})
+		province.on('change', function () {
+			vacant.remove();
+
+			$.getJSON('/api/location/city/' + province.val() + '/').success(function (data) {
+				var cityHtml = '';
+				for (var i = 0, len = data.length; i < len; i = i + 1) {
+					cityHtml += '<option value="' + data[i].id +'">' + data[i].name + '</option>';
+				}
+				city.empty().append(vacant).append(cityHtml);
+			})
+		})
+		city.on('change', function () {
+			vacant.remove();
+		})
+
 		// extend jQuery
 		$.fn.extend({
 			textOverflow: function (maxHeight) {
@@ -152,5 +177,8 @@ require(['jquery', 'jquery.validate'], function ($) {
 			equalTo: '两次密码不一致',
 			accept: '请输入拥有合法后缀名的字符串'
 		});
+		$.validator.addMethod('isPhone', function (str) {
+			return /^1[3|4|5|8][0-9]\d{4,8}$/.test(str);
+		}, '请输入正确格式的手机号')
 	})
 })

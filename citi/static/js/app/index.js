@@ -40,7 +40,7 @@ require(['jquery', 'slider', 'jquery.validate'], function ($, slider) {
 			function () {
 				clearTimeout(time);
 			}
-			)
+		)
 
 		$('#login').validate({
 			rules: {

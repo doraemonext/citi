@@ -1,7 +1,9 @@
 .js-sign-header .active a {
     color: #7abe9f;
 }
-
+.sign-panel-agreement p {
+    padding: 20px 0 10px;
+}
 .basic-info-list > select {
     width: 120px;
 }
@@ -21,12 +23,8 @@
 .project-type input {
     margin-right: 5px;
 }
-#project-info {
-    border: none;
-    border-radius: 4px;
-}
 #project-img, #project-tag {
-    display: none;
+    visibility: hidden;
 }
 .project-img-upload {
     width: 70px;
@@ -80,11 +78,14 @@
 .reward-wrap > div {
     width: 49%;
 }
+.reward-wrap .panel {
+    display: none;
+}
 .panel-body > div {
     line-height: 40px;
     margin-bottom: 20px;
 }
-#reward-pic {
+input[type=file] {
     display: none;
 }
 .add-reward {
@@ -98,4 +99,29 @@
 }
 .reward-payback-list input {
     margin-right: 5px;
+}
+.image {
+    display: none;
+}
+.imageCancel {
+    display: none;
+}
+.imageId, .project {
+    position: absolute;
+    visibility: hidden;
+}
+.imagePreview img {
+    width: 320px;
+}
+#imageId {
+    visibility: hidden;
+    position: absolute;
+}
+.imageWrap > button {
+    display: none;
+    margin-bottom: 12px;
+    margin-left: 20px;
+}
+.imageWrap .readTrigger {
+    display: inline-block;
 }

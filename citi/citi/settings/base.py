@@ -206,6 +206,7 @@ DJANGO_APPS = (
     'taggit',
     'imagekit',
     'corsheaders',
+    'sorl.thumbnail',
 
     'system.users',
     'system.authtoken',

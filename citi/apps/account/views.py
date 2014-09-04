@@ -24,8 +24,12 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 from rest_framework.renderers import JSONRenderer
+from sorl.thumbnail import get_thumbnail
 
+from apps.crowdfunding.models import Project, ProjectPackage
 from apps.image.models import Image
+from apps.fund.models import Order, Trade, OrderPackage
+from system.settings.models import Settings
 from libs.utils.decorators import anonymous_required
 from libs.api.utils import process_errors
 from .forms import RegistrationForm, LoginForm, PasswordResetForm, SetPasswordForm
@@ -343,7 +347,7 @@ class ProfileView(TemplateView):
 
     """
     http_method_names = ['get']
-    template_name = 'profile/home.html'
+    template_name = 'profile/home.jinja'
 
     def __init__(self):
         super(ProfileView, self).__init__()
@@ -353,6 +357,16 @@ class ProfileView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
+        context['config'] = Settings.manager.get_setting_dict()
+        trades = Trade.manager.get_user_trade(user=self.request.user)
+        for trade in trades:
+            trade.order_info = Order.objects.get(pk=trade.order_id)
+            if Order.objects.get(sn=trade.sn).order_type in (Order.ORDER_TYPE_SUPPORT, Order.ORDER_TYPE_SUPPORT_BACK, Order.ORDER_TYPE_SUPPORT_TRANSFER):
+                trade.project_info = ProjectPackage.objects.get(pk=OrderPackage.objects.get(sn=trade.sn).package_id).project
+            else:
+                trade.project_info = None
+        context['trades'] = trades
+        context['user_image'] = get_thumbnail(self.request.user.detailinfo.avatar.image, '100x100', crop='center', quality=99).url
         return context
 
     @method_decorator(login_required)

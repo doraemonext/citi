@@ -80,10 +80,10 @@
     transition: height .4s, opacity .4s .6s;
 }
 
-.modal-close:hover {
+.close:hover {
     transform: rotate(180deg);
 }
-.modal-close {
+.close {
     transition: transform .6s;
 }
 
