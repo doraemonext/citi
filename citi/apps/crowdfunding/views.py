@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, FormView, DetailView
+from sorl.thumbnail import get_thumbnail
 
 from system.settings.views import get_setting_dict
 from libs.ajax.views import AjaxResponseMixin
@@ -25,6 +26,12 @@ class ProjectDetailView(DetailView):
 
     """
     model = Project
+    template_name = 'crowdfunding/project_detail.jinja'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProjectDetailView, self).get_context_data(**kwargs)
+        context['user_image'] = get_thumbnail(self.object.user.detailinfo.avatar.image, '100x100', crop='center').url
+        return context
 
 
 class PublishView(TemplateView):

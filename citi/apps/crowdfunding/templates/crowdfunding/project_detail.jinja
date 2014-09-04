@@ -1,0 +1,281 @@
+{% extends 'base.jinja' %}
+
+{% macro translate_status(status) -%}
+    {% if status == 0 %}
+        草稿
+    {% elif status == 1 %}
+        等待审核
+    {% elif status == 2 %}
+        审核失败
+    {% elif status == 3 %}
+        进行中
+    {% elif status == 4 %}
+        已成功
+    {% elif status == 5 %}
+        已结束
+    {% elif status == 6 %}
+        停滞中
+    {% endif %}
+{%- endmacro %}
+
+{% block head %}
+    <meta charset="UTF-8">
+    <title>明食馆</title>
+    <link rel="stylesheet" href="{{ 'css/base.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/module.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/animate.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/slider.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/info.css'|static }}">
+    <script src="{{ 'js/lib/require.js'|static }}"></script>
+    <script>
+        require(['/static/js/common.js'], function (common) {
+            require(['app/info']);
+        })
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="project-info">
+        <div class="auto clear project-info-wrap">
+            <div class="left">
+                <div class="section-title">
+                    <div class="clear section-title-wrap title-large">
+                        <h2 class="left">{{ object.name }}</h2>
+                        <span class="project-tip left bg-pink white">{{ translate_status(object.status) }}</span>
+                    </div>
+                </div>
+                <div>
+                    <dl>
+                        <div class="inline-block">
+                            <dt class="inline-block">发布时间:</dt>
+                            <dd class="inline-block">{{ object.post_datetime.strftime('%Y-%m-%d') }}</dd>
+                        </div>
+                        <div class="inline-block">
+                            <dt class="inline-block">项目地点:</dt>
+                            <dd class="inline-block">湖北省,武汉市</dd>
+                        </div>
+                    </dl>
+                    <ul class="project-info-num">
+                        {% for tag in object.tags.all() %}
+                            <li class="inline-block mr-12 tag">{{ tag.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="right">
+                <div class="section-title left">
+                    <div class="user-info clear section-title-wrap title-large">
+                        <h2 class="right large">{{ object.user.nickname }}</h2>
+
+                        <p>浙江,绍兴,人<br/>{{ object.user.detailinfo.profession }}</p>
+                    </div>
+                </div>
+                <div class="user-icon round-icon left">
+                    <div class="round-icon">
+                        <img src="{{ user_image }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrap pt-40 bg-grey info">
+        <div class="wrap-inner auto">
+            <div class="main text bg-white">
+                <div class="main-content">
+                    <h1 style="font-size:30px">{{ object.name }}</h1>
+
+                    {{ object.content }}
+                </div>
+            </div>
+            <div class="info-action">
+                <div>
+                    <div class="inline-block info-like center">
+                        <dl class="clear">
+                            <dt class="left">关注</dt>
+                            <dd class="right">{{ object.attention_count }}人</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="info-social left">
+                </div>
+            </div>
+        </div>
+        <div class="info-function bg-white">
+            <div class="info-function-wrap auto clear">
+                <div class="info-function-fund right">
+                    <div class="clear">
+                        <span class="project-tip right bg-pink white">{{ translate_status(object.status) }}</span>
+
+                        <h3 class="medium title-large">目前累计金额</h3>
+                    </div>
+                    <div class="info-function-fund-schedule">
+                        <em class="medium">￥{{ object.now_money }}</em>
+
+                        <div>
+                            <span class="right mr-12">{{ '%.1f'|format(object.now_money/object.total_money*100|float) }}%</span>
+
+                            <div class="project-percentage clear">
+                                <div class="project-percentage">
+                                    <div class="bg-yellow" style="width: {{ '%.1f'|format(object.now_money/object.total_money*100|float) }}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <p>此项目必须在<em>2014年08月02日</em>前得到<em>¥{{ object.total_money }}</em>的支持才可成功！</p>
+                    </div>
+                    <div class="clear info-more">
+                        <div class="left"><a href="#"><img src="{{ 'img/test1.jpg'|static }}" alt=""></a></div>
+                        <div class="right"><a href="#"><img src="{{ 'img/test1.jpg'|static }}" alt=""></a></div>
+                        <div class="left"><a href="#"><img src="{{ 'img/test1.jpg'|static }}" alt=""></a></div>
+                    </div>
+                </div>
+                <div class="info-function-comment">
+                    <h3 class="medium title-large">最近支持者</h3>
+
+                    <div class="text info-function-supporter">
+                        <ul class="clear center mb-20">
+                            <li class="round-icon left info-function-supporter-first">
+                                <div class="round-icon-wrap"><a href="#" class="medium white round">支持</a></div>
+                            </li>
+                            <li class="round-icon left">
+                                <div class="round-icon-wrap"><a href="#" class="round"></a></div>
+                            </li>
+                            <li class="round-icon left">
+                                <div class="round-icon-wrap"><a href="#" class="round"></a></div>
+                            </li>
+                            <li class="round-icon left">
+                                <div class="round-icon-wrap"><a href="#" class="round"></a></div>
+                            </li>
+                            <li class="round-icon left">
+                                <div class="round-icon-wrap"><a href="#" class="round"></a></div>
+                            </li>
+
+                        </ul>
+                        <div class="panel" data-animate="slide">
+                            <div class="panel-header relative">
+                                <div class="close absolute" data-dismiss="panel">&times;</div>
+                                <div class="clear">
+                                    <div class="left round-icon">
+                                        <div class="round-icon-wrap">
+                                            <div class="round"></div>
+                                        </div>
+                                    </div>
+                                    <div class="left">
+                                        <select class="select left">
+                                            <option value="50" data-target="#first">$50</option>
+                                            <option value="100" data-target="#second">$100</option>
+                                            </a>
+                                            <option value="200" data-target="#third">$200</option>
+                                            </a>
+                                        </select>
+                                    </div>
+                                    <div class="right"><p>已有0位支持者 / 限额10位</p></div>
+                                </div>
+                            </div>
+                            <div class="panel-body clear">
+                                <div class="clear relative tab-content">
+                                    <div class="panel-text tab-pane active" id="first">
+                                        <p>红橡木盒子，表面涂木蜡油。 直径约12.5厘米，可存放直径2厘米珠子的手串。 因手工制作 所以每个盒子都会是独一无二的存在。</p>
+
+                                        <p>仅大陆地区包邮</p>
+
+                                        <p>配送费用：免运费</p>
+
+                                        <p>预计回报发送时间：项目成功结束后25天内 </p>
+                                    </div>
+                                    <div class="panel-text tab-pane" id="second">
+                                        <p>仅大陆地区包邮</p>
+
+                                        <p>配送费用：免运费</p>
+
+                                        <p>预计回报发送时间：项目成功结束后25天内 </p>
+                                    </div>
+                                    <div class="panel-text tab-pane" id="third">
+                                        <p>配送费用：免运费</p>
+
+                                        <p>预计回报发送时间：项目成功结束后25天内 </p>
+                                    </div>
+                                </div>
+                                <div class="right">
+                                    <button class="mr-12 btn bg-green-light white" id="previous">去付款</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info-function-comment-list">
+                            <div class="info-function-comment-list-wrap">
+                                <ul>
+                                    <li class="comment-list">
+                                        <div class="comment-list-wrap clear">
+                                            <div class="left round-icon">
+                                                <div class="round-icon-wrap">
+                                                    <div class="round"></div>
+                                                </div>
+                                            </div>
+                                            <div class="comment-form comment-text clear">
+                                                <textarea class="text" name="" id="js-comment" rows="4"
+                                                          placeholder="添加评论或者把该项目@给好友"></textarea>
+                                                <button class="right btn bg-green-light white" form="sign"
+                                                        id="submit">提交
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="comment-list">
+                                        <div class="comment-list-wrap clear relative">
+                                            <div class="left round-icon">
+                                                <div class="round-icon-wrap">
+                                                    <div class="round"></div>
+                                                </div>
+                                            </div>
+                                            <div class="comment-text clear">
+                                                <dl>
+                                                    <dt>yoooooo</dt>
+                                                    <dd>好隐晦，棒。</dd>
+                                                </dl>
+                                            </div>
+                                            <p class="title-small comment-time absolute">7-7 15:08</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="page">
+                            <div class="page-wrap">
+                                <ul class="clear medium title-large">
+                                    <li class="last-page left round-icon">
+                                        <div class="round-icon-wrap"><a class="title-large round" href="#">&lt;</a>
+                                        </div>
+                                    </li>
+                                    <li class="left round-icon">
+                                        <div class="round-icon-wrap"><a class="title-large round" href="#">1</a>
+                                        </div>
+                                    </li>
+                                    <li class="current-page left round-icon">
+                                        <div class="round-icon-wrap"><a class="title-large round" href="#">2</a>
+                                        </div>
+                                    </li>
+                                    <li class="left round-icon">
+                                        <div class="round-icon-wrap"><a class="title-large round" href="#">3</a>
+                                        </div>
+                                    </li>
+                                    <li class="left round-icon">
+                                        <div class="round-icon-wrap"><a class="title-large round" href="#">4</a>
+                                        </div>
+                                    </li>
+                                    <li class="the-last-page left round-icon">
+                                        <div class="round-icon-wrap"><a class="title-large round"
+                                                                        href="#">...233</a></div>
+                                    </li>
+                                    <li class="next-page left round-icon">
+                                        <div class="round-icon-wrap"><a class="title-large round" href="#">&gt;</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ super() }}
+        </div>
+    </div>
+{% endblock %}
