@@ -24,6 +24,7 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 from rest_framework.renderers import JSONRenderer
+from sorl.thumbnail import get_thumbnail
 
 from apps.crowdfunding.models import Project, ProjectPackage
 from apps.image.models import Image
@@ -365,6 +366,7 @@ class ProfileView(TemplateView):
             else:
                 trade.project_info = None
         context['trades'] = trades
+        context['user_image'] = get_thumbnail(self.request.user.detailinfo.avatar.image, '100x100', crop='center', quality=99).url
         return context
 
     @method_decorator(login_required)

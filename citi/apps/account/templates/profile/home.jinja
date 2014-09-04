@@ -65,12 +65,9 @@
 			<div class="main pt-40 clear">
 				<div class="account-sidebar bg-white left">
 					<div class="round-icon">
-						<div class="round-icon-wrap">
-							<div class="round relative">
-								<div class="user absolute"></div>
-							</div>
-						</div>
+                        <img src="{{ user_image }}">
 					</div>
+
 					<ul class="normal pb-20 clear center">
 						<li class="active"><a class="block title-small" href="#" data-toggle="tab" data-target="#brief">账户总览</a></li>
 						<li><a class="block title-small" href="#" data-toggle="tab" data-target="#question">我的问答</a></li>
@@ -108,9 +105,9 @@
                                     {% for trade in trades %}
 									<tr>
                                         {% if trade.project_info %}
-                                            <td>{{ trade.project_info.name }}</td>
+                                        <td>{{ trade.project_info.name }}</td>
                                         {% else %}
-                                            <td>无</td>
+                                        <td>无</td>
                                         {% endif %}
 										<td>{{ trade.money }}</td>
 										<td>{{ trade.datetime }}</td>
