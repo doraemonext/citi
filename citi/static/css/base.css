@@ -103,7 +103,11 @@ svg {
 .user {
     width: 22px;
     height: 22px;
-    margin-top: 7px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
     cursor: pointer;
 }
 .field {
@@ -245,4 +249,13 @@ svg {
 }
 .tab-content .tab-pane.active {
     display: block;
+}
+
+/* tag */
+.tag:before {
+    width: 14px;
+    height: 14px;
+    content: url('../img/tag.png');
+    margin-right: 5px;
+    background-size: 14px 14px;
 }

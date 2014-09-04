@@ -62,12 +62,8 @@
     margin: 100px auto 0;
 }
 .person-info .user {
-    top: 50%;
-    left: 50%;
     width: 100px;
     height: 100px;
-    margin-top: -50px;
-    margin-left: -50px;
 }
 .person-info .round-icon-wrap {
     width: 200px;

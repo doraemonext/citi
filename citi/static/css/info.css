@@ -12,12 +12,6 @@
 .project-info-wrap .section-title-wrap {
     margin-bottom: 12px;
 }
-.project-info-num > li:before {
-    width: 43px;
-    height: 35px;
-    content: url('');
-    background-size: 43px 35px;
-}
 .project-info .right {
     text-align: right;
 }
@@ -118,6 +112,7 @@
     font-size: 14px;
 }
 .info-function-supporter .panel-body {
+    font-size: 14px;
     padding-bottom: 40px;
 }
 .info-function-supporter .panel-text {
@@ -155,12 +150,8 @@
     bottom: 20px;
 }
 .round .user {
-    top: 50%;
-    left: 50%;
     width: 60px;
     height: 60px;
-    margin-top: -30px;
-    margin-left: -30px;
 }
 .project-info .section-title-wrap {
     border-bottom: none;

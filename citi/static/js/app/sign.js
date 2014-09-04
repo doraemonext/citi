@@ -1,9 +1,9 @@
 'use strict';
-require(['jquery', 'jquery.cropbox', 'app/form'], function ($) {
+require(['jquery', 'jquery.cropbox', 'app/form', 'imageUpload'], function ($, _, __, ImageUpload) {
 	$(document).ready(function () {
 		
 		// sign content
-		var form = $('#sign'),
+		var form = $(sign),
 			submit = $('#submit'),
 			skip = $('#skip'),
 			email,
@@ -18,9 +18,9 @@ require(['jquery', 'jquery.cropbox', 'app/form'], function ($) {
 					required: true,
 					equalTo: '#password'
 				},
-				// nickname: 'required',
-				// 'native': 'required',
-				// occupation: 'required',
+				nickname: 'required',
+				'native': 'required',
+				occupation: 'required',
 			};
 
 		// form validate
@@ -53,27 +53,25 @@ require(['jquery', 'jquery.cropbox', 'app/form'], function ($) {
 				form.valid();
 			}
 		})
-
-		var imageWrap = $('.imageWrap'),
-			imageInput = $('#image'),
-			imageTrigger = imageWrap.find('img').eq(0),
-			imagePreview = imageWrap.find('.imagePreview'),
-			upload = $('#imageUpload'),
-			cancel = $('#imageCancel'),
-			imageInputFunc = function () {
-				var file = this.files[0];
-				if (!/image\/\w+/.test(file.type)) {
-					alert('文件必须为图片');
-					return false;
-				}
-				var reader = new FileReader();
-				reader.readAsDataURL(file);
-				reader.onload = function () {
-					upload.show();
-					cancel.show();
-					imageTrigger.hide();
-					$('<img src="' + this.result + '" alt=""/>')
-					.appendTo(imagePreview)
+		var first = $('.imageWrap'),
+			imageUpload = new ImageUpload.ImageUpload({
+				input: first.find('input[type=file]'),
+				readTrigger: first.find('img'),
+				uploadTrigger: first.find('#imageUpload'),
+				imagePreview: first.find('.imagePreview'),
+				cancelTrigger: first.find('#imageCancel'),
+				url: 'http://citi.oott.me/api/image/',
+				data: {
+					'type': 0,
+					'image': function () {
+						return this.imagePreview.find('img').data('cropbox').getBlob();
+					}
+				},
+				imageModify: function () {
+					this.readTrigger.hide();
+					this.uploadTrigger.show();
+					this.cancelTrigger.show();
+					this.imagePreview.find('img')
 					.cropbox({
 						width: 300,
 						height: 200,
@@ -87,46 +85,25 @@ require(['jquery', 'jquery.cropbox', 'app/form'], function ($) {
 					}).parent().find('button').on('click', function () {
 						return false;
 					});
-				}
-			};
-		imageTrigger.on('click', function () {
-			imageInput.trigger('click');
-		})
-		imageInput.on('change', imageInputFunc)
-		upload.on('click', function () {
-			var formdata = new FormData(),
-				imgdata = imagePreview.data('cropbox').getBlob(),
-				xhr = new XMLHttpRequest(),
-				callback = function () {
-					var data = $.parseJSON(xhr.responseText);
-					if (xhr.readyState === 4) {
-						if (xhr.status === 201) {
-							img.attr({
-								width: 200,
-								height: 300, 
-								src: data.url
-							})
-							$('#imageId').val(data.id);
-						}
+				},
+				callbacks: {
+					201: function (response) {
+						this.imagePreview.find('img').attr({
+							width: 200,
+							height: 300, 
+							src: response.url
+						}).data('cropbox').remove();
+						$('#imageId').val(response.id);
 					}
-				};
-			formdata.append('type', 0);
-			formdata.append('image', imgdata);
-			xhr.onreadystatechange = callback;
-			xhr.open('post', '/api/image/');
-			xhr.send(formdata);
-			return false;
-		})
-		cancel.on('click', function () {
-			imageInput.replaceWith(imageInput.clone());
-			imageInput.on('click', imageInputFunc);
-			upload.hide();
-			cancel.hide();
-			imageTrigger.show();
-			imagePreview.find('img').data('cropbox').remove();
-			imagePreview.empty();
-			return false;
-		})
+				},
+				cancel: function () {
+					this.uploadTrigger.hide();
+					this.cancelTrigger.hide();
+					this.readTrigger.show();
+					this.imagePreview.find('img').data('cropbox').remove();
+				}
+		});
+
 		submit.on('click', function () {
 			if (!form.valid()) {
 				return false;
@@ -135,11 +112,8 @@ require(['jquery', 'jquery.cropbox', 'app/form'], function ($) {
 			var data = form.serialize();
 			$.ajax({
 				type: 'post',
-				url: '/accounts/register/',
+				url: '?next=/accounts/register',
 				data: data,
-                beforeSend: function (request) {
-                    request.setRequestHeader("X-CSRFToken", $('input[name="csrfmiddlewaretoken"]').val());
-                }
 			}).then(
 				function (data) {
 					submit.hide();
@@ -149,16 +123,16 @@ require(['jquery', 'jquery.cropbox', 'app/form'], function ($) {
 						data.direct_url + '" class="white">去邮箱</a></button>')
 					.appendTo(submit.parent()).siblings().hide();
 				},
-                function (data) {
-                    var response = data.responseJSON,
-                        errorInInfo = $.map(response, function (v, i) {
-                            return i in rules ? i : null;
-                        })
-                    form.validate().showErrors(response);
-                    if (errorInInfo.length > 0) {
-                        $('#previous').trigger('click');
-                    }
-                }
+				function (data) {
+					var response = data.responseJSON,
+						errorInInfo = $.map(response, function (v, i) {
+							return i in rules ? i : null;
+						})
+					form.validate().showErrors(response);
+					if (errorInInfo.length > 0) {
+						$('#previous').trigger('click');
+					}
+				}
 			)
 			return false;
 		})
@@ -166,4 +140,4 @@ require(['jquery', 'jquery.cropbox', 'app/form'], function ($) {
 			submit.trigger('click');
 		})
 	})
-}	)
+})

@@ -15,11 +15,15 @@
 .sex {
 	line-height: 40px;
 }
-.imgupload img {
+.imageWrap > img {
 	cursor: pointer;
 }
-#upload {
+.imageWrap > button {
 	display: none;
 	margin-bottom: 12px;
 	margin-left: 20px;
+}
+#imageId {
+	visibility: hidden;
+	position: absolute;
 }
