@@ -102,13 +102,18 @@ class PublishContentView(AjaxResponseMixin, FormView):
     发布项目 - 填写项目基本信息
 
     """
-    template_name = 'crowdfunding/publish_content.html'
+    template_name = 'crowdfunding/publish_content.jinja'
     http_method_names = ['get', 'post']
     form_class = ProjectForm
 
     def __init__(self):
         self.object = None
         super(PublishContentView, self).__init__()
+
+    def get_context_data(self, **kwargs):
+        context = super(PublishContentView, self).get_context_data(**kwargs)
+        context['config'] = Settings.manager.get_setting_dict()
+        return context
 
     def form_valid(self, form):
         self.object = form.save(commit=False)

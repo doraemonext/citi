@@ -117,9 +117,9 @@ require(['jquery', 'app/form', 'imageUpload'], function($, _, ImageUpload) {
                     uploadTrigger: first.find('#imageUpload'),
                     imagePreview: first.find('.imagePreview'),
                     cancelTrigger: first.find('#imageCancel'),
-                    url: 'http://citi.oott.me/api/image/',
+                    url: '/api/image/',
                     data: {
-                        'type': 0,
+                        'type': 2
                     },
                     imageModify: function() {
                         this.readTrigger.hide();

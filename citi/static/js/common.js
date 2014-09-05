@@ -136,11 +136,39 @@ require(['jquery', 'jquery.validate'], function ($) {
 		// fix the problem of the modal animation in chrome
 		$('.modal').show();
 
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
 			// province & city
-		var province = $('#province'),
-			city = $('#city'),
+		var province = $('.province'),
+			city = $('.city'),
 			vacant = $('<option value=""></option>');
-		$.getJSON('js/province.json').success(function (data) {
+		$.getJSON('/api/location/province/').success(function (data) {
 			var provinceHtml = '';
 			for (var i = 0, len = data.length; i < len; i = i + 1) {
 				provinceHtml += '<option value="' + data[i].id +'">' + data[i].name + '</option>';
@@ -150,7 +178,7 @@ require(['jquery', 'jquery.validate'], function ($) {
 		province.on('change', function () {
 			vacant.remove();
 
-			$.getJSON('js/' + province.val() + '.json').success(function (data) {
+			$.getJSON('/api/location/city/' + province.val() + '/').success(function (data) {
 				var cityHtml = '';
 				for (var i = 0, len = data.length; i < len; i = i + 1) {
 					cityHtml += '<option value="' + data[i].id +'">' + data[i].name + '</option>';
