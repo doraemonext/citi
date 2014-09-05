@@ -366,7 +366,10 @@ class ProfileView(TemplateView):
             else:
                 trade.project_info = None
         context['trades'] = trades
-        context['user_image'] = get_thumbnail(self.request.user.detailinfo.avatar.image, '100x100', crop='center', quality=99).url
+        if self.request.user.detailinfo.avatar:
+            context['user_image'] = get_thumbnail(self.request.user.detailinfo.avatar.image, '100x100', crop='center', quality=99).url
+        else:
+            context['user_image'] = None
         return context
 
     @method_decorator(login_required)
