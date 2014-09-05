@@ -22,7 +22,17 @@
 			<div class="main pt-40 clear">
 				<div class="account-sidebar bg-white left">
 					<div class="round-icon">
-                        <img src="{{ user_image }}">
+                        <div class="round-icon-wrap">
+                            <div class="round relative">
+                                {% if user_image %}
+                                    <div class="">
+                                        <img src="{{ user_image }}">
+                                    </div>
+                                {% else %}
+                                    <div class="user"></div>
+                                {% endif %}
+							</div>
+						</div>
 					</div>
 
 					<ul class="normal pb-20 clear center">
