@@ -1,0 +1,266 @@
+{% extends 'base.jinja' %}
+
+{% block head %}
+    <meta charset="UTF-8">
+    <title>{{ config.title }}</title>
+    <link rel="stylesheet" href="{{ 'css/base.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/module.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/animate.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/slider.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/index.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/cmxform.css'|static }}">
+    <script src="{{ 'js/lib/require.js'|static }}"></script>
+    <script>
+        require(['/static/js/common.js'], function (common) {
+            require(['app/index']);
+        })
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="wrap pt-40 bg-grey">
+        <div id="slider" class="slider">
+		</div>
+        <div class="wrap-inner auto">
+            <div class="main">
+                <section id="location" class="section pt-40">
+                    <div class="section-title mb-26">
+                        <div class="section-title-wrap relative title-large">
+                            <h2 class="relative">湖北, 武汉</h2>
+                            <a class="title-large absolute normal" href="{{ url('crowdfunding.project.list') }}">浏览更多...</a>
+                        </div>
+                    </div>
+                    <div class="project-list clear">
+                        {% for project in local_projects %}
+                        <div class="project-wrap left">
+                            <div class="project project-first bg-white">
+                                <div class="relative project-thumb">
+                                    <a href="{{ url('crowdfunding.project.detail', pk=project.pk) }}" class="block">
+                                        <img src="{{ project.image }}" alt="">
+
+                                        <div class="absolute project-info"><h3 class="white medium">{{ project.name }}</h3></div>
+                                        <span class="project-tip right bg-pink absolute white">{{ translate_status(project.status) }}</span>
+                                    </a></div>
+                                <div class="project-card text small">
+                                    <div class="project-info pb-18">
+                                        <a href="##" class="simsun data position">{{ project.location.translate }}</a>
+                                    </div>
+                                    <div class="project-percentage">
+                                        <div class="bg-green" style="width: {{ percentage(project.now_money, project.total_money) }}%"></div>
+                                    </div>
+                                    <div class="project-schedule">
+                                        <dl class="clear">
+                                            <div class="left project-schedule-wrap">
+                                                <dd class="data">{{ '%.1f'|format(project.now_money/project.total_money*100|float) }}%</dd>
+                                                <dt class="title-small right">已达</dt>
+                                            </div>
+                                            <div class="center left project-schedule-wrap">
+                                                <dd class="data">￥{{ project.now_money }}</dd>
+                                                <dt class="title-small right">已筹资</dt>
+                                            </div>
+                                            <div class="text-right left project-schedule-wrap">
+                                                <dd class="data">{{ project.get_remaining_days }}天</dd>
+                                                <dt class="title-small right">剩余时间</dt>
+                                            </div>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+                <section id="best-of-today" class="section pt-40">
+                    <div class="section-title mb-26">
+                        <div class="section-title-wrap relative title-large">
+                            <h2 class="relative">今日最佳</h2>
+                            <a class="title-large absolute normal" href="{{ url('crowdfunding.project.list') }}">浏览更多...</a>
+                        </div>
+                    </div>
+                    <div class="project-list relative">
+                        <div class="project-single-sidebar right bg-white">
+                            <div class="project-sidebar-lace-up">
+                                <div class="bg-green-light"></div>
+                            </div>
+                            <div class="project-single-type">
+                                <ul id="project-single-tab" class="tab-nav">
+                                    {% for category in categories %}
+                                        {% if loop.first %}
+                                        <li class="active relative">
+                                            <span class="triangle triangle-left js-tab-triangle"></span>
+                                            <a class="block center" href="#category{{ loop.index }}">{{ category.name }}</a>
+                                        </li>
+                                        {% else %}
+                                            <li class="relative"><a href="#category{{ loop.index }}" class="block center">{{ category.name }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="project-sidebar-lace-down">
+                                <div class="bg-green-light"></div>
+                            </div>
+                        </div>
+                        <div class="project-single tab-content">
+                            {% for project in today_best %}
+                            <div id="category{{ loop.index }}" class="{% if loop.first %}active{% endif %}">
+                                <div class="project-single-img left">
+                                    <a href="{{ url('crowdfunding.project.detail', pk=project.pk) }}"><img src="{{ project.image }}" alt=""></a>
+                                </div>
+                                <div class="project-single-card relative">
+                                    <div class="project-single-card-wrap text bg-white">
+                                        <div class="project-single-info">
+                                            <h3 class="title-large medium"><a href="{{ url('crowdfunding.project.detail', pk=project.pk) }}">{{ project.name }}</a></h3>
+                                            <span class="project-tip right bg-pink white">{{ translate_status(project.status) }}</span>
+                                            <a href="##" class="small simsun data position">{{ project.location.translate }}</a>
+                                        </div>
+                                        <div class="project-single-text-wrap"><p class="simsun js-text-overflow">
+                                            {{ project.content|truncate(80, True) }}
+                                        </div>
+                                        <div class="project-single-percentage clear">
+                                            <span class="left">完成度 :</span>
+
+                                            <div class="project-percentage">
+                                                <div class="bg-yellow" style="width: {{ percentage(project.now_money, project.total_money) }}%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="project-single-percentage clear">
+                                            <span class="left">增&nbsp;&nbsp;&nbsp;&nbsp;长 :</span>
+
+                                            <div class="project-percentage">
+                                                <div class="bg-orange" style="width: 30%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="project-single-percentage clear">
+                                            <span class="left">日&nbsp;&nbsp;&nbsp;&nbsp;期 :</span>
+
+                                            <div class="project-percentage">
+                                                <div class="bg-green" style="width: {{ '%.1f'|format(100-project.get_remaining_days/project.total_days*100|float) }}%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="project-schedule absolute">
+                                        <dl class="clear small">
+                                            <div class="left project-schedule-wrap">
+                                                <dd class="data">{{ '%.1f'|format(project.now_money/project.total_money*100|float) }}%</dd>
+                                                <dt class="title-small">已达</dt>
+                                            </div>
+                                            <div class="left center project-schedule-wrap">
+                                                <dd class="data center">￥{{ project.now_money }}</dd>
+                                                <dt class="title-small">已筹资</dt>
+                                            </div>
+                                            <div class="left text-right project-schedule-wrap">
+                                                <dd class="data">{{ project.get_remaining_days }}天</dd>
+                                                <dt class="title-small">剩余时间</dt>
+                                            </div>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+                <section id="hot" class="section pt-40">
+                    <div class="section-title mb-26">
+                        <div class="section-title-wrap relative title-large">
+                            <h2 class="relative">热门项目</h2>
+                            <a class="title-large absolute normal" href="{{ url('crowdfunding.project.list') }}">浏览更多...</a>
+                        </div>
+                    </div>
+                    <div class="project-list clear">
+                        {% for project in hot_projects %}
+                        <div class="project-wrap left">
+                            <div class="project project-first bg-white">
+                                <div class="relative project-thumb">
+                                    <a href="{{ url('crowdfunding.project.detail', pk=project.pk) }}" class="block">
+                                        <img src="{{ project.image }}" alt="">
+
+                                        <div class="absolute project-info"><h3 class="white medium">{{ project.name }}</h3></div>
+                                        <span class="project-tip right bg-pink absolute white">{{ translate_status(project.status) }}</span>
+                                    </a>
+                                </div>
+                                <div class="project-card text small">
+                                    <div class="project-info pb-18">
+                                        <a href="project-location" class="simsun data position">{{ project.location.translate }}</a>
+                                    </div>
+                                    <div class="project-percentage">
+                                        <div class="bg-green" style="width: {{ percentage(project.now_money, project.total_money) }}%"></div>
+                                    </div>
+                                    <div class="project-schedule">
+                                        <dl class="clear">
+                                            <div class="left project-schedule-wrap">
+                                                <dd class="data">{{ '%.1f'|format(project.now_money/project.total_money*100|float) }}%</dd>
+                                                <dt class="title-small right">已达</dt>
+                                            </div>
+                                            <div class="center left project-schedule-wrap">
+                                                <dd class="data">￥{{ project.now_money }}</dd>
+                                                <dt class="title-small right">已筹资</dt>
+                                            </div>
+                                            <div class="text-right left project-schedule-wrap">
+                                                <dd class="data">{{ project.get_remaining_days }}天</dd>
+                                                <dt class="title-small right">剩余时间</dt>
+                                            </div>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+                <section id="new" class="section pt-40">
+                    <div class="section-title mb-26">
+                        <div class="section-title-wrap relative title-large">
+                            <h2 class="relative">最新项目</h2>
+                            <a class="title-large absolute normal" href="{{ url('crowdfunding.project.list') }}">浏览更多...</a>
+                        </div>
+                    </div>
+                    <div class="project-list clear">
+                        {% for project in hot_projects %}
+                        <div class="project-wrap left">
+                            <div class="project project-first bg-white">
+                                <div class="relative project-thumb">
+                                    <a href="{{ url('crowdfunding.project.detail', pk=project.pk) }}" class="block">
+                                        <img src="{{ project.image }}" alt="">
+
+                                        <div class="absolute project-info"><h3 class="white medium">{{ project.name }}</h3></div>
+                                        <span class="project-tip right bg-pink absolute white">{{ translate_status(project.status) }}</span>
+                                    </a>
+                                </div>
+                                <div class="project-card text small">
+                                    <div class="project-info pb-18">
+                                        <a href="##" class="simsun data position">{{ project.location.translate }}</a>
+                                    </div>
+                                    <div class="project-percentage">
+                                        <div class="bg-green" style="width: {{ percentage(project.now_money, project.total_money) }}%"></div>
+                                    </div>
+                                    <div class="project-schedule">
+                                        <dl class="clear">
+                                            <div class="left project-schedule-wrap">
+                                                <dd class="data">{{ '%.1f'|format(project.now_money/project.total_money*100|float) }}%</dd>
+                                                <dt class="title-small right">已达</dt>
+                                            </div>
+                                            <div class="center left project-schedule-wrap">
+                                                <dd class="data">￥{{ project.now_money }}</dd>
+                                                <dt class="title-small right">已筹资</dt>
+                                            </div>
+                                            <div class="text-right left project-schedule-wrap">
+                                                <dd class="data">{{ project.get_remaining_days }}天</dd>
+                                                <dt class="title-small right">剩余时间</dt>
+                                            </div>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+                <div class="find-more normal bg-white center auto">
+                    <a class="title-large inline-block" href="{{ url('crowdfunding.project.list') }}">浏览全部+</a>
+                </div>
+            </div>
+        </div>
+        {{ super() }}
+    </div>
+{% endblock %}

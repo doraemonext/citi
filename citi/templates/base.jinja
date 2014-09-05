@@ -85,7 +85,7 @@
     {% block nav %}
 	<nav class="nav bg-green-light clear">
 		<div class="nav-wrap auto">
-			<div class="logo left bg-yellow"></div>
+			<div class="logo left"></div>
 			<div class="search right">
 				<form action="" class="left">
 					<div class="field clear mr-12">
@@ -93,7 +93,7 @@
 						<input class="input-search left block" type="text" placeholder="请输入您要搜索的内容"/>
 					</div>
 				</form>
-				<div class="user left"></div>
+				<div class="user left" data-toggle="modal" data-target="#loginModal"></div>
 			</div>
 			<ul class="normal nav-link clear center">
 				<li class="left"><a class="block white" href="{{ url('home') }}">首页</a></li>
@@ -219,28 +219,31 @@
             </div>
         </footer>
     {% endblock %}
-    <div class="login modal">
+    <div class="login modal" id="loginModal">
         <div class="modal-dialog">
-            <div class="modal-header center clear bg-green-light">
-                <div class="modal-close">×</div>
+            <div class="modal-header center clear bg-green-light relative">
+                <div class="close absolute" data-dismiss="modal">×</div>
                 <h4 class="modal-title white">欢迎登陆</h4>
             </div>
             <div class="modal-body">
                 <div class="modal-body-wrap auto">
-                    <form action="/css" method="post" id="login">
-                        <div class="login-item bg-green-light clear login-accout">
-                            <label class="login-input-icon left bg-green-light" for="account">account</label>
-                            <input class="input right" type="text" id="account" name="account" placeholder="请输入邮箱">
+                    <form action="?next=/accounts/profile/" method="post" id="login">
+                        <div class="login-item clear login-accout">
+                            <label class="left login-input-icon left" for="account">account</label>
+                            <input class="input left" type="text" id="account" name="account" placeholder="请输入邮箱">
                         </div>
-                        <div class="login-item bg-green-light clear login-password">
-                            <label class="login-input-icon left bg-green-light" for="password">password</label>
-                            <input class="input right" type="password" name="password" id="password" placeholder="请输入密码">
+                        <div class="login-item clear login-password">
+                            <label class="left login-input-icon left" for="password">password</label>
+                            <input class="input left" type="password" name="password" id="password" placeholder="请输入密码">
                         </div>
-                        <div class="login-opt title-small">
-                            <p class="right">还没有帐号？立即<em><a href="#">免费注册</a></em></p>
-                            <input type="checkbox" name="auto" id="auto"><label for="auto">自动登录</label>
+                        <div class="login-opt title-small clear">
+                            <p class="right text-right">
+                                还没有帐号？立即<em><a href="/accounts/register">免费注册</a></em><br>
+                                <a href="/account/password_reset" class="title-small">找回密码</a>
+                            </p>
+                            <input type="checkbox" name="autologin" id="autologin"><label for="autologin">自动登录</label>
                         </div>
-                        <div class="clear"><button type="submit" form="login" class="white right login-submit btn normal">登录</button></div>
+                        <div class="clear"><button type="submit" form="login" class="white right login-submit btn normal">登&nbsp;&nbsp;录</button></div>
                     </form>
                 </div>
             </div>

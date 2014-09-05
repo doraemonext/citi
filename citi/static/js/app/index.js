@@ -2,7 +2,7 @@
 require(['jquery', 'slider', 'jquery.validate'], function ($, slider) {
 	$(document).ready(function () {
 		// slider init
-		var newSlider = new slider.Slider(['img/test1.jpg', 'img/test2.jpg', 'img/test3.jpg', 'img/test4.jpg'], {
+		var newSlider = new slider.Slider(['/static/img/test1.jpg', '/static/img/test2.jpg', '/static/img/test3.jpg', '/static/img/test4.jpg'], {
 			width: 980,
 			height: 400,
 			interval: 3000,
