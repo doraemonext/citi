@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import datetime
 
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 from mptt.models import MPTTModel, TreeForeignKey
 from annoying.functions import get_config
 from DjangoUeditor.models import UEditorField
@@ -93,6 +95,15 @@ class Project(models.Model):
         if self.status == self.STATUS_DRAFT:
             self.status = self.STATUS_PENDING
             self.save()
+
+    @property
+    def get_remaining_days(self):
+        datetime_end = self.post_datetime + datetime.timedelta(days=self.total_days)
+        remaining_days = (datetime_end - timezone.now()).days
+        if remaining_days > 0:
+            return remaining_days
+        else:
+            return 0
 
     class Meta:
         verbose_name = u'项目'
