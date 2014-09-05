@@ -83,7 +83,7 @@ class RegistrationView(AjaxableResponseMixin, BaseRegistrationView):
     注册页面相关内容
 
     """
-    template_name = 'registration_form.html'
+    template_name = 'registration_form.jinja'
     form_class = RegistrationForm
 
     def get(self, request, *args, **kwargs):
@@ -94,6 +94,11 @@ class RegistrationView(AjaxableResponseMixin, BaseRegistrationView):
         form_class = self.get_form_class(request)
         form = self.get_form(form_class)
         return self.render_to_response(self.get_context_data(form=form))
+
+    def get_context_data(self, **kwargs):
+        context = super(RegistrationView, self).get_context_data(**kwargs)
+        context['config'] = Settings.manager.get_setting_dict()
+        return context
 
     def register(self, request, **cleaned_data):
         """
