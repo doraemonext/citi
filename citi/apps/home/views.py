@@ -24,8 +24,11 @@ class HomeView(TemplateView):
             project.image = get_thumbnail(Image.objects.get(pk=project.cover).image, '239x200', crop='center').url
         context['today_best'] = []
         for category in context['categories']:
-            context['today_best'].append(Project.objects.filter(category=category).order_by('-attention_count')[0])
-            context['today_best'][-1].image = get_thumbnail(Image.objects.get(pk=context['today_best'][-1].cover).image, '560x400', crop='center').url
+            try:
+                context['today_best'].append(Project.objects.filter(category=category).order_by('-attention_count')[0])
+                context['today_best'][-1].image = get_thumbnail(Image.objects.get(pk=context['today_best'][-1].cover).image, '560x400', crop='center').url
+            except IndexError:
+                pass
         context['hot_projects'] = Project.objects.order_by('-attention_count')[:4]
         for project in context['hot_projects']:
             project.image = get_thumbnail(Image.objects.get(pk=project.cover).image, '239x200', crop='center').url
