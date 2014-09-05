@@ -1,0 +1,108 @@
+{% extends 'base.jinja' %}
+
+{% block head %}
+	<meta charset="UTF-8">
+	<title>{{ config.title }}</title>
+	<link rel="stylesheet" href="{{ 'css/base.css'|static }}">
+	<link rel="stylesheet" href="{{ 'css/module.css'|static }}">
+	<link rel="stylesheet" href="{{ 'css/animate.css'|static }}">
+	<link rel="stylesheet" href="{{ 'css/slider.css'|static }}">
+	<link rel="stylesheet" href="{{ 'css/index.css'|static }}">
+	<link rel="stylesheet" href="{{ 'css/search.css'|static }}">
+	<script src="{{ 'js/lib/require.js'|static }}"></script>
+	<script>
+		require(['/static/js/common.js'], function (common) {
+			require(['app/search']);
+		})
+	</script>
+{% endblock %}
+
+{% block content %}
+	<div class="wrap pt-40 bg-grey">
+		<div class="wrap-inner auto">
+			<div class="main">
+				<section class="search-parameter pt-40">
+					<div class="section-title mb-26">
+						<div class="section-title-wrap relative title-large">
+							<h2 class="relative">筛选条件</h2>
+						</div>
+					</div>
+					<div>
+                        <ul class="normal search-box">
+							<li class="bg-white">
+								<div class="clear">
+									<span class="left mr-12">菜系分类:</span>
+									<ul class="clear left">
+										<li class="left mr-12"><a class="title-large {% if not category_parameter %}green{% endif %}" href="{{ url('crowdfunding.project.list') }}">全部</a></li>
+                                        {% for category in categories %}
+                                            <li class="left mr-12"><a class="title-large {% if category_parameter==category.pk %}green{% endif %}" href="?category={{ category.pk }}">{{ category.name }}</a></li>
+                                        {% endfor %}
+									</ul>
+								</div>
+							</li>
+							<li class="bg-white">
+								<div class="clear">
+									<span class="left mr-12">状态分类:</span>
+									<ul class="clear left">
+										<li class="left mr-12"><a class="title-large {% if not status_parameter %}green{% endif %}" href="{{ url('crowdfunding.project.list') }}">全部</a></li>
+										<li class="left mr-12"><a class="title-large {% if status_parameter==4 %}green{% endif %}" href="?status=4">已完成</a></li>
+										<li class="left mr-12"><a class="title-large {% if status_parameter==3 %}green{% endif %}" href="?status=3">进行中</a></li>
+										<li class="left mr-12"><a class="title-large {% if status_parameter==6 %}green{% endif %}" href="?status=6">停滞中</a></li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="search-result">
+					<div class="section-title mb-26">
+						<div class="section-title-wrap relative title-large">
+							<h2 class="relative">众筹项目<span class="medium"><span></h2>
+						</div>
+					</div>
+					<div class="project-list clear">
+                        {% for project in projects %}
+						<div class="project-wrap left">
+							<div class="project project-first bg-white">
+								<div class="relative project-thumb">
+									<a href="{{ url('crowdfunding.project.detail', pk=project.pk) }}" class="block">
+										<img src="{{ project.image }}" alt="">
+										<div class="absolute project-info"><h3 class="white medium">{{ project.name }}</h3></div>
+										<span class="project-tip right bg-pink absolute white">{{ translate_status(project.status) }}</span>
+									</a>
+								</div>
+								<div class="project-card text small">
+									<div class="project-info pb-18">
+										<a href="project-location" class="simsun data position">{{ project.location.translate }}</a>
+									</div>
+									<div class="project-percentage">
+										<div class="bg-green" style="width: {{ percentage(project.now_money, project.total_money) }}%"></div>
+									</div>
+									<div class="project-schedule">
+										<dl class="clear">
+											<div class="left project-schedule-wrap">
+												<dd class="data">{{ '%.1f'|format(project.now_money/project.total_money*100|float) }}%</dd>
+												<dt class="title-small right">已达</dt>
+											</div>
+											<div class="center left project-schedule-wrap">
+												<dd class="data">￥{{ project.now_money }}</dd>
+												<dt class="title-small right">已筹资</dt>
+											</div>
+											<div class="text-right left project-schedule-wrap">
+												<dd class="data">29天</dd>
+												<dt class="title-small right">剩余时间</dt>
+											</div>
+										</dl>
+									</div>
+								</div>
+							</div>
+						</div>
+                        {% endfor %}
+					</div>
+                    {{ paginator() }}
+                </section>
+            </div>
+        </div>
+        {{ super() }}
+    </div>
+{% endblock %}

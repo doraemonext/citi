@@ -1,19 +1,5 @@
 {% extends 'base.jinja' %}
 
-{% macro translate_trade_type(type) -%}
-    {% if type == 0 %}
-        充值
-    {% elif type == 1 %}
-        提现
-    {% elif type == 2 %}
-        项目支持
-    {% elif type == 3 %}
-        项目支持失败，资金退回
-    {% elif type == 4 %}
-        项目支持成功，资金转入发起人账户
-    {% endif %}
-{%- endmacro %}
-
 {% block head %}
 	<meta charset="UTF-8">
 	<title>{{ config.title }}</title>

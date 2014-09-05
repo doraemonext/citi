@@ -1,3 +1,70 @@
+{% macro translate_trade_type(type) -%}
+    {% if type == 0 %}
+        充值
+    {% elif type == 1 %}
+        提现
+    {% elif type == 2 %}
+        项目支持
+    {% elif type == 3 %}
+        项目支持失败，资金退回
+    {% elif type == 4 %}
+        项目支持成功，资金转入发起人账户
+    {% endif %}
+{%- endmacro %}
+
+{% macro translate_status(status) -%}
+    {% if status == 0 %}
+        草稿
+    {% elif status == 1 %}
+        等待审核
+    {% elif status == 2 %}
+        审核失败
+    {% elif status == 3 %}
+        进行中
+    {% elif status == 4 %}
+        已成功
+    {% elif status == 5 %}
+        已结束
+    {% elif status == 6 %}
+        停滞中
+    {% endif %}
+{%- endmacro %}
+
+{% macro percentage(now, total) -%}
+    {% if now/total*100 > 100 %}100{% else %}{{ '%.1f'|format(now/total*100|float) }}{% endif %}
+{%- endmacro %}
+
+{% macro paginator_shortcuts_parameter() -%}
+    {% for key,value in request.GET.items() %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}
+{%- endmacro %}
+
+{% macro paginator() -%}
+    {% if is_paginated %}
+    <div class="page">
+        <div class="page-wrap">
+            <ul class="clear medium title-large">
+                {% if page_obj.has_previous() %}
+                    <li class="last-page left round-icon"><div class="round-icon-wrap"><a class="title-large round" href="?page={{ page_obj.previous_page_number() }}{{ paginator_shortcuts_parameter() }}">&lt;</a></div></li>
+                {% endif %}
+                {% for i in range(page_obj.number-2, page_obj.number) if i > 0 %}
+                    <li class="left round-icon"><div class="round-icon-wrap"><a class="title-large round" href="?page={{ i }}{{ paginator_shortcuts_parameter() }}">{{ i }}</a></div></li>
+                {% endfor %}
+                <li class="current-page left round-icon"><div class="round-icon-wrap"><a class="title-large round" href="##">{{ page_obj.number }}</a></div></li>
+                {% for i in range(page_obj.number+1, page_obj.number+3) if i <= page_obj.paginator.num_pages %}
+                    <li class="left round-icon"><div class="round-icon-wrap"><a class="title-large round" href="?page={{ i }}{{ paginator_shortcuts_parameter() }}">{{ i }}</a></div></li>
+                {% endfor %}
+                {% if page_obj.number+2 < page_obj.paginator.num_pages %}
+                    <li class="the-last-page left round-icon"><div class="round-icon-wrap"><a class="title-large round" href="?page={{ page_obj.paginator.num_pages }}{{ paginator_shortcuts_parameter() }}">...{{ page_obj.paginator.num_pages }}</a></div></li>
+                {% endif %}
+                {% if page_obj.has_next() %}
+                    <li class="next-page left round-icon"><div class="round-icon-wrap"><a class="title-large round" href="?page={{ page_obj.next_page_number() }}{{ paginator_shortcuts_parameter() }}">&gt;</a></div></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+{%- endmacro %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +97,7 @@
 			</div>
 			<ul class="normal nav-link clear center">
 				<li class="left"><a class="block white" href="{{ url('home') }}">首页</a></li>
-				<li class="left"><a class="block white" href="">众筹项目</a></li>
+				<li class="left"><a class="block white" href="{{ url('crowdfunding.project.list') }}">众筹项目</a></li>
 				<li class="left"><a class="block white" href="#">问答讨论</a></li>
 				<li class="left"><a class="block white" href="#">新手帮助</a></li>
 				<li class="left"><a class="block white" href="{{ url('crowdfunding.publish.content') }}">发起项目</a></li>
@@ -152,5 +219,33 @@
             </div>
         </footer>
     {% endblock %}
+    <div class="login modal">
+        <div class="modal-dialog">
+            <div class="modal-header center clear bg-green-light">
+                <div class="modal-close">×</div>
+                <h4 class="modal-title white">欢迎登陆</h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body-wrap auto">
+                    <form action="/css" method="post" id="login">
+                        <div class="login-item bg-green-light clear login-accout">
+                            <label class="login-input-icon left bg-green-light" for="account">account</label>
+                            <input class="input right" type="text" id="account" name="account" placeholder="请输入邮箱">
+                        </div>
+                        <div class="login-item bg-green-light clear login-password">
+                            <label class="login-input-icon left bg-green-light" for="password">password</label>
+                            <input class="input right" type="password" name="password" id="password" placeholder="请输入密码">
+                        </div>
+                        <div class="login-opt title-small">
+                            <p class="right">还没有帐号？立即<em><a href="#">免费注册</a></em></p>
+                            <input type="checkbox" name="auto" id="auto"><label for="auto">自动登录</label>
+                        </div>
+                        <div class="clear"><button type="submit" form="login" class="white right login-submit btn normal">登录</button></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop"></div>
 </body>
 </html>

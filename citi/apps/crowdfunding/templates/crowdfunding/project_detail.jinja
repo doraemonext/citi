@@ -1,23 +1,5 @@
 {% extends 'base.jinja' %}
 
-{% macro translate_status(status) -%}
-    {% if status == 0 %}
-        草稿
-    {% elif status == 1 %}
-        等待审核
-    {% elif status == 2 %}
-        审核失败
-    {% elif status == 3 %}
-        进行中
-    {% elif status == 4 %}
-        已成功
-    {% elif status == 5 %}
-        已结束
-    {% elif status == 6 %}
-        停滞中
-    {% endif %}
-{%- endmacro %}
-
 {% block head %}
     <meta charset="UTF-8">
     <title>明食馆</title>

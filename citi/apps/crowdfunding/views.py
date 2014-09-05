@@ -8,16 +8,47 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import TemplateView, FormView, DetailView
+from django.views.generic import TemplateView, FormView, DetailView, ListView
 from sorl.thumbnail import get_thumbnail
+from django_filters.views import FilterView
 
+from apps.image.models import Image
+from system.settings.models import Settings
 from system.settings.views import get_setting_dict
 from libs.ajax.views import AjaxResponseMixin
 from .forms import ProjectForm
-from .models import Project, ProjectPackage, ProjectSupport
+from .models import Project, ProjectPackage, ProjectSupport, ProjectCategory
+from .filter import ProjectFilter
 
 
 logger = logging.getLogger(__name__)
+
+
+class ProjectListView(FilterView):
+    """
+    显示项目列表页
+
+    """
+    model = Project
+    filterset_class = ProjectFilter
+    template_name = 'crowdfunding/project_list.jinja'
+    context_object_name = 'projects'
+    paginate_by = 16
+
+    def get_context_data(self, **kwargs):
+        context = super(ProjectListView, self).get_context_data(**kwargs)
+        context['config'] = Settings.manager.get_setting_dict()
+        context['categories'] = ProjectCategory.objects.filter(parent=None)
+        for project in context['projects']:
+            project.image = get_thumbnail(Image.objects.get(pk=project.cover).image, '239x200', crop='center').url
+
+        context['category_parameter'] = self.request.GET.get('category', None)
+        if context['category_parameter']:
+            context['category_parameter'] = int(context['category_parameter'])
+        context['status_parameter'] = self.request.GET.get('status', None)
+        if context['status_parameter']:
+            context['status_parameter'] = int(context['status_parameter'])
+        return context
 
 
 class ProjectDetailView(DetailView):
@@ -30,6 +61,7 @@ class ProjectDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
+        context['config'] = Settings.manager.get_setting_dict()
         if self.request.user.detailinfo.avatar:
             context['user_image'] = get_thumbnail(self.request.user.detailinfo.avatar.image, '100x100', crop='center').url
         else:
