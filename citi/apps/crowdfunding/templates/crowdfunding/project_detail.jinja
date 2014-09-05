@@ -192,9 +192,11 @@
                                             <div class="left round-icon">
                                                 <div class="round-icon-wrap">
                                                     {% if user_image %}
-                                                    <div class="round">
-                                                        <img src="{{ user_image }}">
-                                                    </div>
+                                                        <div class="round">
+                                                            <img src="{{ user_image }}">
+                                                        </div>
+                                                    {% else %}
+                                                        <div class="round"></div>
                                                     {% endif %}
                                                 </div>
                                             </div>

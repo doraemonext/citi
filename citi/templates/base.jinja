@@ -227,10 +227,11 @@
             </div>
             <div class="modal-body">
                 <div class="modal-body-wrap auto">
-                    <form action="?next=/accounts/profile/" method="post" id="login">
+                    <form action="/accounts/login/" method="post" id="login">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                         <div class="login-item clear login-accout">
                             <label class="left login-input-icon left" for="account">account</label>
-                            <input class="input left" type="text" id="account" name="account" placeholder="请输入邮箱">
+                            <input class="input left" type="text" id="account" name="email" placeholder="请输入邮箱">
                         </div>
                         <div class="login-item clear login-password">
                             <label class="left login-input-icon left" for="password">password</label>
@@ -238,8 +239,8 @@
                         </div>
                         <div class="login-opt title-small clear">
                             <p class="right text-right">
-                                还没有帐号？立即<em><a href="/accounts/register">免费注册</a></em><br>
-                                <a href="/account/password_reset" class="title-small">找回密码</a>
+                                还没有帐号？立即<em><a href="/accounts/register/">免费注册</a></em><br>
+                                <a href="/accounts/password_reset/" class="title-small">找回密码</a>
                             </p>
                             <input type="checkbox" name="autologin" id="autologin"><label for="autologin">自动登录</label>
                         </div>

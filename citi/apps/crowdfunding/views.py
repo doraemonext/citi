@@ -62,7 +62,7 @@ class ProjectDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
         context['config'] = Settings.manager.get_setting_dict()
-        if self.request.user.detailinfo.avatar:
+        if self.request.user.is_authenticated() and self.request.user.detailinfo.avatar:
             context['user_image'] = get_thumbnail(self.request.user.detailinfo.avatar.image, '100x100', crop='center').url
         else:
             context['user_image'] = None
