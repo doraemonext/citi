@@ -114,7 +114,7 @@
                                             <a href="##" class="small simsun data position">{{ project.location.translate }}</a>
                                         </div>
                                         <div class="project-single-text-wrap"><p class="simsun js-text-overflow">
-                                            {{ project.content|truncate(80, True) }}
+                                            {{ project.content|truncate(80, True)|e }}
                                         </div>
                                         <div class="project-single-percentage clear">
                                             <span class="left">完成度 :</span>

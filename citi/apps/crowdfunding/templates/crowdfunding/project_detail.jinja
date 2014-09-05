@@ -113,7 +113,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p>此项目必须在<em>2014年08月02日</em>前得到<em>¥{{ object.total_money }}</em>的支持才可成功！</p>
+                        <p>此项目必须在<em>{{ object.get_remaining_days }}</em>天内得到<em>¥{{ object.total_money }}</em>的支持才可成功！</p>
                     </div>
                     <div class="clear info-more">
                         <div class="left"><a href="#"><img src="{{ 'img/test1.jpg'|static }}" alt=""></a></div>
