@@ -110,6 +110,7 @@ require(['jquery', 'jquery.cropbox', 'app/form', 'imageUpload'], function ($, _,
 			}
 			email = $('#email').val();
 			var data = form.serialize();
+			$(this).prop('disabled', true);
 			$.ajax({
 				type: 'post',
 				url: '?next=/accounts/register',
@@ -117,10 +118,11 @@ require(['jquery', 'jquery.cropbox', 'app/form', 'imageUpload'], function ($, _,
 			}).then(
 				function (data) {
 					submit.hide();
-					nextaction();
+					form.trigger('next');
+					form.find('#sign-panel-foot').find('button, span').hide();
 					$('.success a').text(email);
 					$('<button class="btn bg-green-light" type="button"><a href="' +
-						data.direct_url + '" class="white">去邮箱</a></button>')
+						data.redirect_url + '" class="white">去邮箱</a></button>')
 					.appendTo(submit.parent()).siblings().hide();
 				},
 				function (data) {

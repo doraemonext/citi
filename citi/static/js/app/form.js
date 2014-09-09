@@ -73,8 +73,7 @@ require(['jquery'], function ($) {
 			skip.show();
 			submit.show();
 			next.hide();
-		} else {
-			form.trigger('next');
-		}
+		} 
+		form.trigger('next');
 	})
 })
