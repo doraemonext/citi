@@ -26,7 +26,8 @@
     margin-top: 10px;
 }
 .project-info .user-info > h2 {
-    padding: 0; margin-bottom: 5px;
+    padding: 0;
+    margin-bottom: 5px;
 }
 .info-type > ul > li {
     margin-right: 20px;
@@ -35,7 +36,8 @@
     background-color: #ddeadd;
 }
 .info-action dt {
-    margin-left: 30px; font-size: 40px;
+    margin-left: 30px;
+    font-size: 32px;
 }
 .info-action dd {
     margin-right: 40px;
@@ -157,5 +159,9 @@
     border-bottom: none;
 }
 .project-info .section-title-wrap > h2 {
+    line-height: 1.4;
     border-bottom: none;
+}
+.project-info .section-title-wrap > p {
+    clear: both;
 }

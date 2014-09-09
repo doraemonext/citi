@@ -54,7 +54,6 @@ img {
 svg {
     width: 100%;
     height: 100%;
-
     fill: #b5b5b6;
 }
 .position-icon svg {
@@ -108,6 +107,12 @@ svg {
     right: 0;
     bottom: 0;
     margin: auto;
+    cursor: pointer;
+    margin-top: 7px;
+}
+.logout {
+    line-height: 36px;
+    margin-left: 15px;
     cursor: pointer;
 }
 .field {
@@ -179,22 +184,18 @@ svg {
 }
 .sina:hover > svg {
     transition: fill .4s;
-
     fill: #de3301;
 }
 .qqzone:hover > svg {
     transition: fill .4s;
-
     fill: #ffc028;
 }
 .douban:hover > svg {
     transition: fill .4s;
-
     fill: #22a049;
 }
 .renren:hover > svg {
     transition: fill .4s;
-
     fill: #2a9cd5;
 }
 .platform > div {
@@ -242,7 +243,6 @@ svg {
 .panel .close {
     color: #7abe9f;
 }
-
 /* tab */
 .tab-content .tab-pane {
     display: none;

@@ -1,10 +1,10 @@
 'use strict';
-define(['jquery'], function () {
-	var ImageUpload = function (data) {
+define(['jquery'], function() {
+	var ImageUpload = function(data) {
 		// data = {input, readTrigger, uploadTrigger, cancel, imagePreview, url, imageModify, callbacks, uploadOnRead}
 		var that = this,
 			url = data.url,
-			imageRead = function () {
+			imageRead = function() {
 				if (data.imageRead) {
 					data.imageRead.call(that);
 				}
@@ -15,17 +15,17 @@ define(['jquery'], function () {
 				}
 				return false;
 			},
-			imageModify = function () {
+			imageModify = function() {
 				if (data.imageModify) {
 					data.imageModify.call(that);
 				}
 				return false;
 			},
-			imageUpload = function (file) {
+			imageUpload = function(file) {
 				that.upload(data.data, data.callbacks, url, file);
 				return false;
 			},
-			imageCancel = function () {
+			imageCancel = function() {
 				data.cancel.call(that);
 				that.input.replaceWith(that.input.clone());
 				that.input.on('change', imageRead);
@@ -40,7 +40,7 @@ define(['jquery'], function () {
 		this.imagePreview = $(data.imagePreview);
 		this.cancelTrigger = $(data.cancelTrigger);
 
-		this.readTrigger.on('click', function () {
+		this.readTrigger.on('click', function() {
 			that.input.trigger('click');
 			return false
 		});
@@ -49,11 +49,11 @@ define(['jquery'], function () {
 		this.cancelTrigger.on('click', imageCancel);
 	};
 	ImageUpload.prototype = {
-		constructor: ImageUpload,	
-		createImagePreview: function (src) {
+		constructor: ImageUpload,
+		createImagePreview: function(src) {
 			this.imagePreview.append('<img src="' + src + '" alt=""/>')
 		},
-		createFileReader: function (imageModify, imageUpload) {
+		createFileReader: function(imageModify, imageUpload) {
 			var file = this.input[0].files[0],
 				that = this;
 			if (!/image\/\w+/.test(file.type)) {
@@ -62,7 +62,7 @@ define(['jquery'], function () {
 			}
 			var reader = new FileReader();
 			reader.readAsDataURL(file);
-			reader.onload = function () {
+			reader.onload = function() {
 				that.createImagePreview(this.result);
 				if (that.uploadOnRead) {
 					imageUpload(file);
@@ -71,21 +71,21 @@ define(['jquery'], function () {
 				}
 			};
 		},
-		createXMLHttpRequest: (function () {
+		createXMLHttpRequest: (function() {
 			if (window.ActiveObject) {
-				return function () {
+				return function() {
 					return new ActiveObject('Microsoft.XMLHTTP');
 				}
 			} else if (window.XMLHttpRequest) {
-				return function () {
+				return function() {
 					return new XMLHttpRequest();
 				}
 			}
 		})(),
-		createFormData: function (data, file) {
+		createFormData: function(data, file) {
 			var that = this,
 				formData = new FormData();
-			$.each(data, function (i, v) {
+			$.each(data, function(i, v) {
 				if ($.type(v) === 'function') {
 					formData.append(i, v.call(that));
 				}
@@ -93,15 +93,19 @@ define(['jquery'], function () {
 			})
 			return formData;
 		},
-		upload: function (data, callbacks, url, file) {
+		upload: function(data, callbacks, url, file) {
 			var that = this,
 				xhr = this.createXMLHttpRequest(),
 				formData = this.createFormData(data),
-				callback = function () {
+				callback = function() {
 					window.response = xhr;
-					var response = $.parseJSON(xhr.responseText);	
-					if (xhr.readyState === 4) {
-						$.each(callbacks, function (i, v) {
+					var response = $.parseJSON(xhr.responseText);
+					if (xhr.readyState === 1) {
+						if (!csrfSafeMethod('post') && !(url.indexOf('http') !== -1)) {
+							xhr.setRequestHeader('X-CSRFToken', csrftoken);
+						}
+					} else if (xhr.readyState === 4) {
+						$.each(callbacks, function(i, v) {
 							if (xhr.status === parseInt(i)) {
 								v.call(that, response);
 							}
