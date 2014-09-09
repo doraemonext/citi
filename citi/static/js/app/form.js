@@ -69,11 +69,15 @@ require(['jquery'], function ($) {
 				return false;
 			}
 		}
+		if (form.attr('id') === 'create') {
+			status < 1 && form.trigger('next');
+		} else {
+			status <= 2 && form.trigger('next');
 		if (status === 1) {
 			skip.show();
 			submit.show();
 			next.hide();
 		} 
-		form.trigger('next');
+		}
 	})
 })

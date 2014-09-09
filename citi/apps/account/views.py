@@ -230,20 +230,20 @@ def logout(request, template_name='logout.html'):
         auth_logout(request)
         logger.info('The user %(user)s has successfully signed out', {'user': email})
 
-    redirect_to = None
-    if 'next' in request.REQUEST:
-        redirect_to = request.REQUEST['next']
-        # 确保重定向链接安全, 否则直接删除所有GET参数并刷新logout页面
-        if not is_safe_url(url=redirect_to, host=request.get_host()):
-            redirect_to = request.path
-
-    if redirect_to:
-        # 如果存在跳转链接, 直接进行跳转
-        return HttpResponseRedirect(redirect_to)
-    else:
-        # 显示登出页面，提示登出成功
-        context = {}
-        return TemplateResponse(request, template_name, context)
+    return HttpResponseRedirect(reverse('home'))
+    # if 'next' in request.REQUEST:
+    #     redirect_to = request.REQUEST['next']
+    #     # 确保重定向链接安全, 否则直接删除所有GET参数并刷新logout页面
+    #     if not is_safe_url(url=redirect_to, host=request.get_host()):
+    #         redirect_to = request.path
+    #
+    # if redirect_to:
+    #     # 如果存在跳转链接, 直接进行跳转
+    #     return HttpResponseRedirect(redirect_to)
+    # else:
+    #     # 显示登出页面，提示登出成功
+    #     context = {}
+    #     return TemplateResponse(request, template_name, context)
 
 
 @anonymous_required

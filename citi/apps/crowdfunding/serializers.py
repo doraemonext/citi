@@ -49,7 +49,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     support_count = SerializerMethodField('get_support_count')
     normal_support_count = SerializerMethodField('get_normal_support_count')
     partner_support_count = SerializerMethodField('get_partner_support_count')
-    tags = fields.CustomTagField(required=False)
+    #tags = fields.CustomTagField(required=False)
     post_datetime = fields.CustomDateTimeField(read_only=True)
     modify_datetime = fields.CustomDateTimeField(read_only=True)
     feedback = SerializerMethodField('get_feedback')
@@ -61,7 +61,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'user', 'name', 'cover', 'location', 'location_detail', 'category',
             'total_money', 'total_days', 'remaining_days', 'summary', 'content', 'now_money', 'status',
-            'attention_count', 'support_count', 'normal_support_count', 'partner_support_count', 'tags', 'post_datetime', 'modify_datetime',
+            'attention_count', 'support_count', 'normal_support_count', 'partner_support_count', 'post_datetime', 'modify_datetime',
             'feedback', 'package', 'personal_information'
         )
 

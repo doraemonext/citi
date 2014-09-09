@@ -1,6 +1,27 @@
 'use strict';
 define(['jquery'], function() {
-	var ImageUpload = function(data) {
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+    var ImageUpload = function(data) {
 		// data = {input, readTrigger, uploadTrigger, cancel, imagePreview, url, imageModify, callbacks, uploadOnRead}
 		var that = this,
 			url = data.url,
@@ -99,12 +120,12 @@ define(['jquery'], function() {
 				formData = this.createFormData(data),
 				callback = function() {
 					window.response = xhr;
-					var response = $.parseJSON(xhr.responseText);
 					if (xhr.readyState === 1) {
 						if (!csrfSafeMethod('post') && !(url.indexOf('http') !== -1)) {
 							xhr.setRequestHeader('X-CSRFToken', csrftoken);
 						}
 					} else if (xhr.readyState === 4) {
+                        var response = $.parseJSON(xhr.responseText);
 						$.each(callbacks, function(i, v) {
 							if (xhr.status === parseInt(i)) {
 								v.call(that, response);

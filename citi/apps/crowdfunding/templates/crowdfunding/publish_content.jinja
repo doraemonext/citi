@@ -84,20 +84,23 @@
 								<div>
 									<div class="sign-panel-content bg-white">
 										<div class="basic-info-list mb-20 clear">
-											<label class="mr-12 green left" for="project-name">项目名称:</label><input type="text" id="project-name" name="project-name" class="input">
+											<label class="mr-12 green left" for="project-name">项目名称:</label><input type="text" id="project-name" name="name" class="input">
 										</div>
 										<div class="basic-info-list mb-20 clear">
 											<label class="mr-12 green left" for="project-province">项目地点:</label>
-											<select name="project-province" id="project-province" class="select left province">
+											<select id="project-province" class="select left province">
 											</select>
-											<select name="project-city" id="project-city" class="select left city"></select>
+											<select name="location" id="project-city" class="select left city"></select>
 										</div>
 										<div class="basic-info-list mb-20 clear">
-											<label class="mr-12 green left" for="project-location">详细位置:</label><input type="text" id="project-location" name="project-location" class="input">
+											<label class="mr-12 green left" for="project-location">详细位置:</label><input type="text" id="project-location" name="location_detail" class="input">
 										</div>
 										<div class="basic-info-list mb-20 clear">
-											<label class="mr-12 green left" for="project-time">筹集时间:</label><input type="text" id="project-time" name="project-time" class="input mr-12">天
+											<label class="mr-12 green left" for="project-time">筹集时间:</label><input type="text" id="project-time" name="total_days" class="input mr-12">天
 										</div>
+                                        <div class="basic-info-list mb-20 clear">
+                                            <label class="mr-12 green left" for="project-money">筹集金额:</label><input type="text" id="project-money" name="total_money" class="input mr-12">元
+                                        </div>
 										<div class="basic-info-list mb-20 clear imageWrap">
 											<label class="mr-12 green left" for="project-img">项目封面:</label>
 											<button type="button" class="btn bg-green-light project-img-upload readTrigger">&nbsp;</button>
@@ -105,13 +108,13 @@
 											<input type="file" id="image" class="input">
 											<button class="btn bg-green-light white hide" type="button" id="imageUpload">上传</button>
 											<button class="btn bg-green-light white hide" type="button" id="imageCancel">取消</button>
-											<input type="text" id="imageId" name="idcard_image">
+											<input type="text" id="imageId" name="cover">
 										</div>
 										<div class="basic-info-list mb-20 clear">
 											<label class="mr-12 green left" for="project-type">包含关系:</label>
 											<ul class="project-type clear">
                                                 {% for category in categories %}
-                                                    <li class="left"><input name="category" value="{{ category }}" class="mr-12" type="radio">闽菜</li>
+                                                    <li class="left"><input name="category" value="{{ category.pk }}" class="mr-12" type="radio">{{ category.name }}</li>
                                                 {% endfor %}
 											</ul>
 										</div>
@@ -122,12 +125,16 @@
 													<div class="mr-12 relative white green js-add-tag">添加+</div>
 												</li>
 											</ul>
-											<input type="text" id="project-tag" name="project-tag" class="input">
+											<input type="text" id="project-tag" name="tags" class="input">
 										</div>
-										<div class="basic-info-list mb-20 clear">
-											<label class="mr-12 green left" for="project-info">项目简介:</label>
-											<textarea name="project-info" id="project-info" cols="50" rows="6" class="text bg-grey"></textarea>
-										</div>
+                                        <div class="basic-info-list mb-20 clear">
+                                            <label class="mr-12 green left" for="project-sum">项目简介:</label>
+                                            <textarea name="summary" id="project-sum" cols="50" rows="2" class="text bg-grey"></textarea>
+                                        </div>
+                                        <div class="basic-info-list mb-20 clear">
+                                            <label class="mr-12 green left" for="project-info">项目内容:</label>
+                                            <textarea name="content" id="project-info" cols="50" rows="6" class="text bg-grey"></textarea>
+                                        </div>
 									</div>
 								</div>
 								<div>

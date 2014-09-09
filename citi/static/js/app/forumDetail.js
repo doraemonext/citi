@@ -110,7 +110,7 @@ require(['jquery'], function ($) {
 			elem.find('.forum-main-reply').remove();
 			return elem;
 		};
-		$(document).on('click', '.comment-reply', function () {
+		$(document).on('click', '.comment-reply', function (e) {
 			var $this = $(this),
 				main = $this.parents('.right').siblings().filter('.list-main'),
 				isOdd = $this.parents('ul').eq(0).hasClass('odd');
@@ -120,17 +120,17 @@ require(['jquery'], function ($) {
 			}).slideDown(function () {
 				var $this = $(this),
 					func = function (e) {
-					if ($(e.target).parents('.forum-main-reply').length === 0) {
-						$this.slideUp(function () {
-							$(document).off('click', func);
-							$(this).remove();
-						})
-					}
-				};
+						if ($(e.target).parents('.forum-main-reply').eq(0) !== $this) {
+							$this.slideUp(function () {
+								$(document).off('click', func);
+								$(this).remove();
+							})
+						}
+					};
 				$this.find('textarea').focus();
 				$(document).on('click', func);
 			});
-			return false;
+			e.preventDefault();
 		})
 		$(document).on('click', '.submitReply', function () {
 			var $this = $(this),

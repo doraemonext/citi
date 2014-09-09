@@ -113,6 +113,7 @@ class PublishContentView(AjaxResponseMixin, FormView):
     def get_context_data(self, **kwargs):
         context = super(PublishContentView, self).get_context_data(**kwargs)
         context['config'] = Settings.manager.get_setting_dict()
+        context['categories'] = ProjectCategory.objects.all()
         return context
 
     def form_valid(self, form):
