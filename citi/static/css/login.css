@@ -1,0 +1,148 @@
+.login{
+	margin:50px auto 0 auto;
+	width:410px;
+	background: #fff; 
+}
+.login_top{
+	width: 100%;
+	height: 60px;
+	background: #7abe9f;
+	position: relative;
+}
+.login_top_inner{
+	height: 60px;
+	width: 410px;
+	top: 17px;
+	font-size: 26px;
+	font-family: "幼圆","微软雅黑";
+	color: #fff;
+	cursor: default;
+	text-align: center;
+	line-height: 60px;
+}
+.close{
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	transition:transform 0.4s;
+	cursor: pointer;
+	width: 20px;
+	height: 20px;
+	font-size: 20px;
+}
+.close:hover{
+	transform: rotate(180deg);
+}
+.close>svg{
+	fill: #fff;
+}
+.login_top_main{
+	padding: 50px 45px;
+	width: 320px;
+	height: 100%;
+}
+.email,.password{
+	height: 44px;
+	width: 100%;
+	background: #f4f4f4;
+}
+.password{
+	margin-top: 15px;
+}
+.email>input,.password>input{
+	margin-top: 11px;
+	margin-right: 11px;
+	float: right;
+	font:14px/22px arial;
+	height: 22px;
+	width: 259px;
+	border: none;
+	outline: none;
+	color: #515151;
+	background: transparent;
+}
+.password>input{
+	width: 223px;
+}
+.login_ico{
+	margin-top: 10px;
+	margin-left: 12px;
+	float: left;
+	width: 25px;
+	height: 25px;
+}
+.login_ico>svg{
+	fill:#cfcfcf;
+}
+.password_reset{
+	margin-top: 11px;
+	margin-right: 14px;
+	float: right;
+	width: 22px;
+	height: 19px;
+	border-radius: 50%;
+	background: #cfcfcf;
+	padding-top: 3px;
+	text-align: center;
+	color: #fff;
+	font-family: arial;
+	cursor: pointer;
+}
+.password_reset:hover{
+	background:#7abe9f;
+}
+.login_others{
+	height: 60px;
+	width: 100%;
+	display: table;
+}
+.chkbox{
+	margin-top: 20px;
+	width: 20px;
+	height: 20px;
+	background: #f4f4f4;
+	border-radius: 4px;
+	cursor: pointer;
+	float: left;
+	position: relative;
+}
+.login_others>p{
+	line-height: 60px;
+	font-family: "微软雅黑";
+	font-size: 16px;
+	color: #999;
+	float: right;
+	cursor: default;
+}
+.chkbox>p{
+	right: -70px;
+	top: -20px;
+	line-height: 60px;
+	font-family: "微软雅黑";
+	font-size: 16px;
+	color: #999;
+	position: absolute;
+}
+.login_others>p>a:link{
+	color: #7abe9f;
+	text-decoration:none;
+}
+.login_others>p>a:hover{
+	color: #7abe9f;
+	text-decoration:none;
+}
+.login_others>p>a:visited{
+	color: #7abe9f;
+	text-decoration:none;
+}
+.submit{
+	width: 100%;
+	height: 44px;
+	background: #7abe9f;
+	border: none;
+	color:#fff;
+	font-family: "微软雅黑";
+	font-size: 20px;
+	cursor: pointer;
+	outline: none;
+}

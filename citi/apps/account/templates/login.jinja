@@ -1,0 +1,59 @@
+{% extends 'base.jinja' %}
+
+{% block head %}
+    <meta charset="UTF-8">
+    <title>{{ config.title }}</title>
+    <link rel="stylesheet" href="{{ 'css/base.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/module.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/animate.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/slider.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/login.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/cmxform.css'|static }}">
+    <script src="{{ 'js/lib/require.js'|static }}"></script>
+    <script>
+        require(['/static/js/common.js'], function (common) {
+            require(['app/login']);
+        })
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class="wrap pt-40 bg-grey">
+    <div id="slider" class="slider">
+    </div>
+    <div class="wrap-inner auto">
+        <div class="main">
+            <div class="login">
+                <div class="login_top">
+                    <div class="login_top_inner">欢迎登录</div>
+                </div>
+                <div class="login_top_main">
+                    <form action="?next=/accounts/profile/" method="post">
+                        <div class="email">
+                            <div id="ico_email" class="login_ico"></div>
+                            <input maxlength="255" name="email" type="text" placeholder="请输入邮箱" value="">
+                        </div>
+                        <div id="password" class="password">
+                            <div id="ico_password" class="login_ico"></div>
+                            <a href="#">
+                                <div class="password_reset" title="忘记密码？">?</div>
+                            </a>
+                            <input name="password" type="password" placeholder="请输入密码" value="">
+                        </div>
+                        <div class="login_others">
+                            <div id="chkbox" class="chkbox">
+                                <p>自动登录</p>
+                            </div>
+                            <input id="real_chkbox" name="remenber" type="checkbox" style="display:none">
+
+                            <p>还没有账号？立即<a href="#">免费注册</a></p>
+                        </div>
+                        <button class="submit" type="submit">登&nbsp&nbsp录</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ super() }}
+</div>
+{% endblock %}

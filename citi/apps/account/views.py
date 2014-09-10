@@ -182,7 +182,7 @@ class ActivationView(TemplateView):
 
 
 @anonymous_required
-def login(request, template_name='login.html', authentication_form=LoginForm):
+def login(request, template_name='login.jinja', authentication_form=LoginForm):
     """
     显示登陆页面并处理登陆请求, 当用户已经登陆时, 直接跳转到next所指向的页面
 
@@ -216,6 +216,7 @@ def login(request, template_name='login.html', authentication_form=LoginForm):
     context = {
         'form': form,
         'next': redirect_to,
+        'config': Settings.manager.get_setting_dict(),
     }
     return TemplateResponse(request, template_name, context)
 

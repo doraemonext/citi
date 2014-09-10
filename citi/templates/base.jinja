@@ -94,9 +94,10 @@
 					</div>
 				</form>
                 {% if not request.user.is_authenticated() %}
-				<div class="user left" data-toggle="modal" data-target="#loginModal"></div>
+                    <div class="user left" data-toggle="modal" data-target="#loginModal"></div>
                 {% else %}
-                <span class="logout"><a href="{{ url('logout') }}" class="white">登出</a></span>
+                    <span class="logout"><a href="{{ url('account.profile') }}" class="white">{{ request.user.nickname }}</a></span>
+                    <span class="logout"><a href="{{ url('logout') }}" class="white">登出</a></span>
                 {% endif %}
 			</div>
 			<ul class="normal nav-link clear center">
