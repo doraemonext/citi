@@ -126,6 +126,7 @@ require(['jquery', 'jquery.cropbox', 'app/form', 'imageUpload'], function ($, _,
 					.appendTo(submit.parent()).siblings().hide();
 				},
 				function (data) {
+                    submit.prop('disabled', false);
 					var response = data.responseJSON,
 						errorInInfo = $.map(response, function (v, i) {
 							return i in rules ? i : null;

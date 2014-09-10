@@ -1,0 +1,42 @@
+{% extends 'base.jinja' %}
+
+{% block head %}
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <meta charset="UTF-8">
+    <title>好味道众筹</title>
+    <link rel="stylesheet" href="{{ 'css/base.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/module.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/animate.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/slider.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/sign.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/cmxform.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/jquery.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/static_page.css'|static }}">
+    <script src="{{ 'js/lib/require.js'|static }}"></script>
+    <script>
+        require(['/static/js/common.js'], function (common) {
+            require(['app/sign']);
+        })
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="wrap pt-40 bg-grey">
+        <div class="wrap-inner auto">
+            <div class="main pt-40">
+                <div class="activatemiddle">
+                    <li class="white">
+                        <h2>恭喜您激活成功</h2>
+                    </li>
+                    <li class="medium white">
+                        <div>
+                            请去看一看我们的项目吧<a href="http://citi.oott.me">点我跳转</a>
+                        </div>
+                    </li>
+                </div>
+            </div>
+        </div>
+        {{ super() }}
+    </div>
+{% endblock %}

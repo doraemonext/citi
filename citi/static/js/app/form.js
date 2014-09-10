@@ -73,7 +73,7 @@ require(['jquery'], function ($) {
 			status < 1 && form.trigger('next');
 		} else {
 			status <= 2 && form.trigger('next');
-		if (status === 1) {
+		if (status === 2) {
 			skip.show();
 			submit.show();
 			next.hide();

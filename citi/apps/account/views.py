@@ -142,7 +142,7 @@ class ActivationView(TemplateView):
 
     """
     http_method_names = ['get']
-    template_name = 'registration_activation.html'
+    template_name = 'registration_activation.jinja'
 
     def __init__(self):
         self.is_activate = False
