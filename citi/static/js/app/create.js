@@ -170,7 +170,7 @@ require(['jquery', 'app/form', 'imageUpload', 'jquery.json'], function ($, _, Im
                 variable = /\{\{\s*(\w+)\s*\}\}/g,
                 feedbackListTemplate = '<li class="mr-12 left"><input name="feedback" value="{{ counter }}" type="checkbox">回报{{ counter }}</li>',
                 feedbackTemplate = '<div class="panel"><div class="panel-header relative"><div class="close absolute" data-dismiss="panel">×</div><h4>回报{{ feedbackCount }}</h4></div><div class="panel-body"><div><label class="mr-12 green left" for="content">回报描述:</label><input type="text" name="content" class="input"></div><div class="clear"><label class="mr-12 green left" for="reward-pic">回报图片:</label><input type="file" id="reward-pic" name="reward-pic" class="input"><div class="left"><div class="imagePreview"></div><button type="button" class="btn bg-green-light white readTrigger">上传</button><input type="text" class="imageId" name="image"></div></div><div class="clear"><button type="button" class="saveFeedback btn right bg-green-light white">保存</button></div></div></div>',
-                packagesTemplate = '<div class="panel"><div class="panel-header relative"><div class="close absolute" data-dismiss="panel">×</div><h4>回馈方案{{ packagesCount }}</h4></div><div class="panel-body"><div><label class="mr-12 green left" for="reward-money">支持金额:</label><input type="text" id="reward-money" name="money" class="input"></div><div><label class="mr-12 green left" for="reward-restrict">名额限制:</label><input type="text" id="reward-restrict" name="limit" class="input"></div><div class="clear"><label class="mr-12 green left" for="reward-payback">对应回报</label><ul class="reward-payback-list clear"><li class="mr-12 left"><input name="feedback" value="1" type="checkbox">回报1</li></ul></div><div><label class="mr-12 green left" for="type">投资类型</label><div class="clear"><div class="left mr-12"><input name="type" value="0" type="radio">普通赞助者</div><div class="left"><input name="type" value="1" type="radio">合伙人</div></div></div><div><label class="mr-12 green left" for="reward-time">回报时间:</label><input type="text" id="reward-time" name="reward-time" class="input"></div><div class="clear"><button type="button" class="savePackages btn right bg-green-light white">保存</button></div></div></div>';
+                packagesTemplate = '<div class="panel"><div class="panel-header relative"><div class="close absolute" data-dismiss="panel">×</div><h4>回馈方案{{ packagesCount }}</h4></div><div class="panel-body"><div><label class="mr-12 green left" for="reward-money">支持金额:</label><input type="text" id="reward-money" name="money" class="input"></div><div><label class="mr-12 green left" for="reward-restrict">名额限制:</label><input type="text" id="reward-restrict" name="limit" class="input"></div><div class="clear"><label class="mr-12 green left" for="reward-payback">对应回报</label><ul class="reward-payback-list clear"></ul></div><div><label class="mr-12 green left" for="type">投资类型</label><div class="clear"><div class="left mr-12"><input name="type" value="0" type="radio">普通赞助者</div><div class="left"><input name="type" value="1" type="radio">合伙人</div></div></div><div class="clear"><button type="button" class="savePackages btn right bg-green-light white">保存</button></div></div></div>';
 
             addFeedback.on('click', function () {
                 var newFeedback = $(feedbackTemplate.replace(variable, feedbackCount))
@@ -207,7 +207,7 @@ require(['jquery', 'app/form', 'imageUpload', 'jquery.json'], function ($, _, Im
                 var newPackages = $(packagesTemplate.replace(variable, packagesCount))
                     .insertBefore(addPackages)
                     .slideDown();
-                newPackages.find('.reward-payback-list')
+                packagesCount !== 1 && newPackages.find('.reward-payback-list')
                     .html(function () {
                         var str = '',
                             i;
@@ -216,8 +216,6 @@ require(['jquery', 'app/form', 'imageUpload', 'jquery.json'], function ($, _, Im
                         }
                         return str;
                     })
-                newPackages.find('.project')
-                    .val(id);
                 packagesCount = packagesCount + 1;
             })
 
@@ -308,8 +306,13 @@ require(['jquery', 'app/form', 'imageUpload', 'jquery.json'], function ($, _, Im
                         }
                     } else {
                         if (isFeedback) {
-                            url = url + id;
-                            type = 'delete';
+                            if (id) {
+                                url = url + id;
+                                type = 'delete';
+                            } else {
+                                $this.trigger('close');
+                                return;
+                            }
                         } else {
                         }
                     }
@@ -334,6 +337,19 @@ require(['jquery', 'app/form', 'imageUpload', 'jquery.json'], function ($, _, Im
                         function (data) {
                             if (!isClose) {
                                 parent.data('id', data.id);
+                                if (isFeedback) {
+                                    $('.reward-scheme').find('.reward-payback-list').each(function () {
+                                        $(this).html(function() {
+                                            var str = '',
+                                                i;
+                                            for (i = 1; i < feedbackCount; i = i + 1) {
+                                                str = str + '<li class="mr-12 left"><input name="feedback" value="' + i + '" type="checkbox">回报' + i + '</li>'
+                                            }
+                                            return str;
+                                        })
+                                    })
+                                }
+
                             } else {
                                 $this.trigger('close');
                             }
