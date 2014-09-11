@@ -9,6 +9,7 @@ require(['jquery'], function ($) {
 			first = pageList.filter('.the-first-page'),
 			last = pageList.filter('.the-last-page'),
 			pages = pageList.not('.the-first-page, .prev, .next, .the-last-page'),
+			lastPage,
 			index = 1,
 			all = 10,
 			commentWrap = $('.forum-main-comment > .comment'),
@@ -41,7 +42,7 @@ require(['jquery'], function ($) {
 			} else if (isNext) {
 				index = (index < all) ? index + 1 : index;
 			} else if (isLast) {
-				index = parseInt($this.text().slice(3));
+				index = lastPage;
 			} else {
 				index = parseInt($this.text());
 			}
@@ -54,6 +55,7 @@ require(['jquery'], function ($) {
 				},
 			}).then(function (data) {
 				var len = data.count,
+					lastPage = parseInt(data.count) / 10,
 					prevUrl = data.previous,
 					nextUrl = data.next,
 					result = data.results,

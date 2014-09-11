@@ -4,6 +4,10 @@
 .forum-aside {
     width: 260px;
 }
+.forum-title li.active a {
+    color: #7abe9f;
+    font-weight: 900;
+}
 .forum-title > ul a {
     line-height: 70px;
     width: 70px;
@@ -52,4 +56,20 @@
 }
 .forum-tag ul > li {
     margin-right: 20px;
+}
+#ask .modal-dialog {
+    width: 600px;
+}
+#ask .btn {
+    background-color: #7abe9f;
+}
+#ask label {
+    font-size: 18px;
+    line-height: 40px;
+    width: 50px;
+    text-align: right;
+}
+#content {
+    width: 80%;
+    height: 80px;
 }
