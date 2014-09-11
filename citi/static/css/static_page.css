@@ -1,5 +1,6 @@
 /* staticpage */
 
+/* activate success */
 .activatemiddle {
     width: 500px;
     background-color: #7abe9f;
@@ -10,8 +11,42 @@
     padding-left: 80px;	
    
 }
-.staticfont {
-    font-size: 20px;
-    padding-top: 20px;
-    padding-left: 20px;
+
+/* static page */
+
+.pageposition{
+    width: 980px;
+    background-color: white;
+    list-style:none;
+    padding-bottom: 100px;
+    padding-top: 40px;
+    font-size: 36px;
+       
 }
+.staticfont {
+    font-size: 24px;
+    padding-top: 20px;
+    padding-left: 80px;
+    padding-right: 80px;
+    color:#7abe9f;
+}
+
+.static-panel-wrap {
+}
+.static-pannel-active {
+    background-color:#7abe9f;
+}
+
+						<div >
+							<div class="pageposition">
+						            <div class="staticfont">
+								<div>您好，如果您有什么意见和建议，请联系我们</div>
+                                                                <form action="http://citi.oott.me/ ">
+                                                                     <textarea name="content" cols=50 rows=10 style="border-style:dashed; border-width:2px;"></textarea>
+                                                                         </br>
+                                                                     <input type="submit" name= value="提交">
+
+                                                                </form>
+						            </div>
+							</div>
+						</div>
