@@ -19,7 +19,6 @@ class ProjectAdmin(admin.ModelAdmin):
     list_filter = ('status', )
     search_fields = ('name', 'user__email')
     ordering = ('-post_datetime', )
-    readonly_fields = ('user', 'now_money', 'attention_count')
 
     def has_add_permission(self, request):
         return False
@@ -30,7 +29,6 @@ class ProjectFeedbackAdmin(admin.ModelAdmin):
     search_fields = ('content', 'project__name')
     ordering = ('-id', )
     exclude = ('order', )
-    readonly_fields = ('project', )
 
     def has_add_permission(self, request):
         return False
@@ -41,7 +39,6 @@ class ProjectPackageAdmin(admin.ModelAdmin):
     list_filter = ('type', )
     search_fields = ('name', 'project')
     ordering = ('-id', )
-    readonly_fields = ('project', )
 
     def has_add_permission(self, request):
         return False
@@ -63,7 +60,6 @@ class ProjectCommentAdmin(admin.ModelAdmin):
     list_display = ('content', 'project', 'user', 'datetime')
     ordering = ('-datetime', )
     search_fields = ('content', 'project__name', 'user__email')
-    readonly_fields = ('user', 'parent', 'project')
 
     def has_add_permission(self, request):
         return False
