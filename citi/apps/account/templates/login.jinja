@@ -29,6 +29,7 @@
                 </div>
                 <div class="login_top_main">
                     <form action="?next=/accounts/profile/" method="post">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                         <div class="email">
                             <div id="ico_email" class="login_ico"></div>
                             <input maxlength="255" name="email" type="text" placeholder="请输入邮箱" value="">
