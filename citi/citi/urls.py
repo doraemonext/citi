@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^captcha/', include('captcha.urls')),
     url(r'^ueditor/', include('DjangoUeditor.urls')),
     url(r'^crowdfunding/', include('apps.crowdfunding.urls.web')),
+    url(r'^page/', include('apps.page.urls')),
 
     url(r'^api/', include([
         url(r'^token/', include('system.authtoken.urls')),

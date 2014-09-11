@@ -220,6 +220,7 @@ DJANGO_APPS = (
     'apps.fund',
     'apps.crowdfunding',
     'apps.question',
+    'apps.page',
 )
 
 # Apps specific for this project go here.

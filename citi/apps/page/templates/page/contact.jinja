@@ -1,0 +1,73 @@
+{% extends 'base.jinja' %}
+
+{% block head %}
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <title>好味道众筹</title>
+    <link rel="stylesheet" href="{{ 'css/base.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/module.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/animate.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/slider.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/create.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/cmxform.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/static_page.css'|static }}">
+    <script src="/static/js/lib/require.js"></script><style type="text/css"></style>
+    <script>
+        require(['/static/js/common.js'], function (common) {
+            require(['app/create']);
+        })
+    </script>
+{% endblock %}
+
+{% block content %}
+
+<div class="wrap pt-40 bg-grey">
+    <div class="wrap-inner auto">
+        <div class="main pt-40">
+            <div class="sign-panel bg-white">
+                <div class="static-panel-wrap">
+                    <div class="sign-panel-header">
+                        <ul class="medium js-sign-header clear center">
+                            <li class="static-pannel-active sign-panel-title left"><h3><a
+                                    href="http://citi.oott.me/static_page/agreement/" class="block white">用户协议</a></h3>
+                            </li>
+                            <li class="sign-panel-title left"><h3><a href="http://citi.oott.me/static_page/disclaimer/"
+                                                                     class="block white">免责声明</a></h3></li>
+                            <li class="static-pannel-active sign-panel-title left"><h3><a
+                                    href="http://citi.oott.me/static_page/copyright/" class="block white">隐私版权声明</a>
+                            </h3></li>
+                            <li class="static-pannel-active sign-panel-title left"><h3><a
+                                    href="http://citi.oott.me/static_page/contact/" class="block white">联系我们</a></h3>
+                            </li>
+                            <li class="static-pannel-active sign-panel-title left"><h3><a
+                                    href="http://citi.oott.me/static_page/feedback/" class="block white">建议反馈</a></h3>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="pageposition">
+                            <div class="staticfont">
+                                <p>如果您想与我们合作，或者加入我们</p>
+
+                                <p>请联系我们</p>
+                                <br/>
+
+                                <p>联系方式：</p>
+
+                                <p>电话：13986149099</p>
+
+                                <p>邮箱：FanXiang@hiwedo.com</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ super() }}
+</div>
+
+{% endblock %}
