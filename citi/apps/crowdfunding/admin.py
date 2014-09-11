@@ -20,8 +20,8 @@ class ProjectAdmin(admin.ModelAdmin):
     search_fields = ('name', 'user__email')
     ordering = ('-post_datetime', )
 
-    def has_add_permission(self, request):
-        return False
+#    def has_add_permission(self, request):
+#        return False
 
 
 class ProjectFeedbackAdmin(admin.ModelAdmin):
@@ -30,8 +30,8 @@ class ProjectFeedbackAdmin(admin.ModelAdmin):
     ordering = ('-id', )
     exclude = ('order', )
 
-    def has_add_permission(self, request):
-        return False
+    # def has_add_permission(self, request):
+    #     return False
 
 
 class ProjectPackageAdmin(admin.ModelAdmin):
@@ -40,8 +40,8 @@ class ProjectPackageAdmin(admin.ModelAdmin):
     search_fields = ('name', 'project')
     ordering = ('-id', )
 
-    def has_add_permission(self, request):
-        return False
+    # def has_add_permission(self, request):
+    #     return False
 
 
 class ProjectAttentionAdmin(admin.ModelAdmin):
@@ -49,11 +49,11 @@ class ProjectAttentionAdmin(admin.ModelAdmin):
     ordering = ('-id', )
     search_fields = ('project__name', 'user__email')
 
-    def has_add_permission(self, request):
-        return False
-
-    def has_delete_permission(self, request, obj=None):
-        return False
+    # def has_add_permission(self, request):
+    #     return False
+    #
+    # def has_delete_permission(self, request, obj=None):
+    #     return False
 
 
 class ProjectCommentAdmin(admin.ModelAdmin):
@@ -61,8 +61,8 @@ class ProjectCommentAdmin(admin.ModelAdmin):
     ordering = ('-datetime', )
     search_fields = ('content', 'project__name', 'user__email')
 
-    def has_add_permission(self, request):
-        return False
+    # def has_add_permission(self, request):
+    #     return False
 
 
 admin.site.register(ProjectCategory, ProjectCategoryAdmin)
