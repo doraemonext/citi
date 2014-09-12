@@ -2,7 +2,7 @@
 
 import logging
 
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
@@ -32,12 +32,23 @@ class QuestionListView(FilterView):
     filterset_class = QuestionFilter
     template_name = 'question/question_list.jinja'
     context_object_name = 'questions'
-    paginate_by = 16
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super(QuestionListView, self).get_context_data(**kwargs)
         context['config'] = Settings.manager.get_setting_dict()
         return context
+
+
+def question_create(request):
+    title = request.POST.get('title', '')
+    content = request.POST.get('content', '')
+    question = Question.objects.create(
+        user=request.user,
+        title=title,
+        content=content
+    )
+    return HttpResponseRedirect(reverse('question.detail', kwargs={'pk': question.pk}))
 
 
 class QuestionDetailView(DetailView):
@@ -51,4 +62,15 @@ class QuestionDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(QuestionDetailView, self).get_context_data(**kwargs)
         context['config'] = Settings.manager.get_setting_dict()
+        context['answers'] = QuestionAnswer.objects.filter(question=self.object)
         return context
+
+
+def question_answer_create(request, pk):
+    content = request.POST.get('content', '')
+    answer = QuestionAnswer.objects.create(
+        question=Question.objects.get(pk=pk),
+        user=request.user,
+        content=content
+    )
+    return HttpResponseRedirect(reverse('question.detail', kwargs={'pk': answer.question.pk}))
