@@ -555,7 +555,7 @@ input[type=checkbox]:checked::after {
 }
 
 .js-sign-content > div {
-    display: none;
+    /*display: none;*/
 }
 .js-sign-content .active {
     display: block;
@@ -577,4 +577,15 @@ input[type=checkbox]:checked::after {
     font-size: 30px;
     font-weight: 900;
     margin-right: 12px;
+}
+
+.tooltip {
+    position: absolute;
+    width: 100px;
+    left: 50%;
+    text-align: center;
+    margin-left: -50px;
+    border-radius: 4px;
+    line-height: 32px;
+    color: white;
 }

@@ -1,7 +1,7 @@
 'use strict';
 require(['jquery', 'jquery.cropbox', 'app/form', 'imageUpload'], function ($, _, __, ImageUpload) {
 	$(document).ready(function () {
-		
+
 		// sign content
 		var form = $(sign),
 			submit = $('#submit'),
@@ -60,7 +60,7 @@ require(['jquery', 'jquery.cropbox', 'app/form', 'imageUpload'], function ($, _,
 				uploadTrigger: first.find('#imageUpload'),
 				imagePreview: first.find('.imagePreview'),
 				cancelTrigger: first.find('#imageCancel'),
-				url: 'http://citi.oott.me/api/image/',
+				url: '/api/image/',
 				data: {
 					'type': 0,
 					'image': function () {
@@ -90,7 +90,7 @@ require(['jquery', 'jquery.cropbox', 'app/form', 'imageUpload'], function ($, _,
 					201: function (response) {
 						this.imagePreview.find('img').attr({
 							width: 200,
-							height: 300, 
+							height: 300,
 							src: response.url
 						}).data('cropbox').remove();
 						$('#imageId').val(response.id);

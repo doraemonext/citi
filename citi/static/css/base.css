@@ -221,7 +221,7 @@ svg {
 }
 
 /* panel */
-.panel {   
+.panel {
     position: relative;
     background-color: #fbfbfb;
     border-radius: 6px;
@@ -229,7 +229,7 @@ svg {
 }
 .panel-header {
     font-size: 24px;
-    text-align: center; 
+    text-align: center;
     padding: 10px 15px;
 }
 .panel-body {

@@ -43,6 +43,9 @@ define(['jquery'], function() {
 				return false;
 			},
 			imageUpload = function(file) {
+                if (data.imageUpload) {
+                    data.imageUpload.call(that);
+                }
 				that.upload(data.data, data.callbacks, url, file);
 				return false;
 			},
