@@ -555,7 +555,7 @@ input[type=checkbox]:checked::after {
 }
 
 .js-sign-content > div {
-    /*display: none;*/
+    display: none;
 }
 .js-sign-content .active {
     display: block;

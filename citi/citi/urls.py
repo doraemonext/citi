@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^ueditor/', include('DjangoUeditor.urls')),
     url(r'^crowdfunding/', include('apps.crowdfunding.urls.web')),
     url(r'^static_page/', include('apps.page.urls')),
+    url(r'^question/', include('apps.question.urls')),
 
     url(r'^api/', include([
         url(r'^token/', include('system.authtoken.urls')),

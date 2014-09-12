@@ -51,7 +51,9 @@ define(['jquery'], function() {
 			},
 			imageCancel = function() {
 				data.cancel.call(that);
-				that.input.replaceWith(that.input.clone());
+				var temp = that.input.clone();
+				that.input.replaceWith(temp);
+				that.input = temp;
 				that.input.on('change', imageRead);
 				that.imagePreview.empty();
 				return false;

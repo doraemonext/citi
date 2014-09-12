@@ -49,7 +49,7 @@ require(['jquery'], function ($) {
 
 			$.ajax({
 				url: '/api/crowdfunding/project/' + index + '/comment/',
-				type: 'post',
+				type: 'get',
 				beforeSend: function () {
 					$('.comment-backdrop').show();
 				},

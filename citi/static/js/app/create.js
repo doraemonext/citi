@@ -104,6 +104,15 @@ require(['jquery', 'app/form', 'imageUpload', 'jquery.json'], function($, _, Ima
                 )
             }
         })
+        submit.on('click', function () {
+            $.ajax({
+                type: 'put',
+                url: '/api/crowdfunding/project/' + forum.data('id') + '/save/'
+            }).then(function () {
+                window.location.href = '/';
+            })
+            return false;
+        })
         var first = $('.imageWrap'),
             imageUpload = new ImageUpload.ImageUpload({
                 input: first.find('input[type=file]'),
@@ -294,6 +303,7 @@ require(['jquery', 'app/form', 'imageUpload', 'jquery.json'], function($, _, Ima
             }
             if (isModify) {
                 type = 'patch';
+                url = url + id;
             }
 
             $.ajax({

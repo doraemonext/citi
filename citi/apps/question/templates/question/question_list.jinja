@@ -1,0 +1,259 @@
+{% extends 'base.jinja' %}
+
+{% block head %}
+        <meta charset="UTF-8">
+        <title>明食馆</title>
+        <link rel="stylesheet" href="{{ 'css/base.css'|static }}">
+        <link rel="stylesheet" href="{{ 'css/module.css'|static }}">
+        <link rel="stylesheet" href="{{ 'css/animate.css'|static }}">
+        <link rel="stylesheet" href="{{ 'css/index.css'|static }}">
+        <link rel="stylesheet" href="{{ 'css/forum.css'|static }}">
+        <script src="{{ 'js/lib/require.js'|static }}"></script>
+        <script>
+            require(['/static/js/common.js'], function (common) {
+                require(['app/forum']);
+            })
+        </script>
+{% endblock %}
+
+{% block content %}
+    <div class="wrap pt-40 bg-grey">
+        <div class="wrap-inner auto">
+            <div class="main clear">
+                <div class="forum-aside bg-white right">
+                    <div class="text">
+                        <div class="forum-info mb-10">
+                            <div class="section-title mb-26">
+                                <div class="section-title-wrap relative title-large">
+                                    <h2 class="relative">版块信息</h2>
+                                </div>
+                            </div>
+                            <p class="mb-10">管理员：</p>
+                            <ul class="clear mb-10">
+                                <li class="left mr-12">
+                                    <a href="#" class="block">
+                                        <div class="round-icon">
+                                            <div class="round-icon-wrap">
+                                                <div class="round"></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="left mr-12">
+                                    <a href="#" class="block">
+                                        <div class="round-icon">
+                                            <div class="round-icon-wrap">
+                                                <div class="round"></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="left mr-12">
+                                    <a href="#" class="block">
+                                        <div class="round-icon">
+                                            <div class="round-icon-wrap">
+                                                <div class="round"></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="forum-info-list mb-10">
+                                <ul>
+                                    <li><a href="#">这里是版块信息这里是版块信息</a></li>
+                                    <li><a href="#">这里是版块信息这里是版块信息</a></li>
+                                    <li><a href="#">这里是版块信息这里是版块信息</a></li>
+                                    <li><a href="#">这里是版块信息这里是版块信息</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <a href="#" class="block green">【用户讨论版规】</a>
+                                <a href="#" class="block green">【用户须知】</a>
+                                <a href="#" class="block green">【巴拉巴拉】</a>
+                            </div>
+                        </div>
+                        <div class="forum-recom mb-10">
+                            <div class="section-title mb-26">
+                                <div class="section-title-wrap relative title-large">
+                                    <h2 class="relative">热门标签</h2>
+                                </div>
+                            </div>
+                            <div class="forum-info-list mb-10">
+                                <ul>
+                                    <li><a href="#">这里是版块信息这里是版块信息</a></li>
+                                    <li><a href="#">这里是版块信息这里是版块信息</a></li>
+                                    <li><a href="#">这里是版块信息这里是版块信息</a></li>
+                                    <li><a href="#">这里是版块信息这里是版块信息</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <a href="#" class="block green">【用户讨论版规】</a>
+                                <a href="#" class="block green">【用户须知】</a>
+                                <a href="#" class="block green">【巴拉巴拉】</a>
+                            </div>
+                        </div>
+                        <div class="forum-tag mb-10">
+                            <div class="section-title mb-26">
+                                <div class="section-title-wrap relative title-large">
+                                    <h2 class="relative">热门标签</h2>
+                                </div>
+                            </div>
+                            <ul class="clear">
+                                <li class="left"><a href="#" class="tag block">正宗碳锅鱼</a></li>
+                                <li class="left"><a href="#" class="tag block">川菜正宗</a></li>
+                                <li class="left"><a href="#" class="tag block">宫保鸡丁</a></li>
+                                <li class="left"><a href="#" class="tag block">正宗碳锅鱼</a></li>
+                                <li class="left"><a href="#" class="tag block">宫保鸡丁</a></li>
+                                <li class="left"><a href="#" class="tag block">川菜正宗</a></li>
+                                <li class="left"><a href="#" class="tag block">正宗碳锅鱼</a></li>
+                                <li class="left"><a href="#" class="tag block">川菜正宗</a></li>
+                                <li class="left"><a href="#" class="tag block">宫保鸡丁</a></li>
+                            </ul>
+                        </div>
+                        <div class="forum-stat mb-10">
+                            <div class="section-title mb-26">
+                                <div class="section-title-wrap relative title-large">
+                                    <h2 class="relative">版块统计</h2>
+                                </div>
+                            </div>
+                            <dl>
+                                <dt>今日发帖:</dt>
+                                <dd>2333</dd>
+                                <dt>历史最高:</dt>
+                                <dd>23333</dd>
+                                <dt>发帖总计:</dt>
+                                <dd>2333333333333</dd>
+                                <dt>在线会员:</dt>
+                                <dd>23</dd>
+                                <dt>认证会员:</dt>
+                                <dd>233</dd>
+                                <dt>注册会员:</dt>
+                                <dd>23333</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="forum-main bg-white text">
+                    <div class="forum-title clear">
+                        <ul class="normal left center">
+                            <li class="left active"><a class="block" href="#">全部</a></li>
+                            <li class="left"><a class="block" href="#">最新</a></li>
+                            <li class="left"><a class="block" href="#">最热</a></li>
+                            <li class="left"><a class="block" href="#">推荐</a></li>
+                        </ul>
+                        <button type="button" class="btn bg-green-light right white" class="publish" data-toggle="modal" data-target="#ask">提问</button>
+                    </div>
+                    <div class="forum-hot">
+                        <ul>
+                            <li class="list clear">
+                                <div class="left">
+                                    <div class="left round-icon">
+                                        <div class="round-icon-wrap">
+                                            <div class="round"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="right list-info title-small">
+                                    <p>FF团团长<br>7-7 15:08</p>
+                                </div>
+                                <div class="list-main">
+                                    <p class="normal">这是众筹啊众筹的问答讨论话题</p>
+                                </div>
+                            </li>
+                            <li class="list clear">
+                                <div class="left">
+                                    <div class="left round-icon">
+                                        <div class="round-icon-wrap">
+                                            <div class="round"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="right list-info title-small">
+                                    <p>FF团团长<br>7-7 15:08</p>
+                                </div>
+                                <div class="list-main">
+                                    <p class="normal">这是众筹啊众筹的问答讨论话题</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="break">
+                        <p class="green">版块主题</p>
+                    </div>
+                    <div class="forum-list">
+                        <ul>
+                            <li class="list clear">
+                                <div class="left">
+                                    <div class="left round-icon">
+                                        <div class="round-icon-wrap">
+                                            <div class="round"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="right list-info title-small">
+                                    <p>FF团团长<br>7-7 15:08</p>
+                                </div>
+                                <div class="list-main">
+                                    <p class="normal">这是众筹啊众筹的问答讨论话题</p>
+                                </div>
+                            </li>
+                            <li class="list clear">
+                                <div class="left">
+                                    <div class="left round-icon">
+                                        <div class="round-icon-wrap">
+                                            <div class="round"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="right list-info title-small">
+                                    <p>FF团团长<br>7-7 15:08</p>
+                                </div>
+                                <div class="list-main">
+                                    <p class="normal">这是众筹啊众筹的问答讨论话题</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="page clear">
+                        <button type="button" class="btn bg-green-light right white" data-toggle="modal" data-target="#ask">提问</button>
+                        <div class="page-wrap">
+                            <ul class="clear medium title-large">
+                                <li class="last-page left round-icon"><div class="round-icon-wrap"><a class="title-large round" href="#">&lt;</a></div></li>
+                                <li class="left round-icon"><div class="round-icon-wrap"><a class="title-large round" href="#">1</a></div></li>
+                                <li class="current-page left round-icon"><div class="round-icon-wrap"><a class="title-large round" href="#">2</a></div></li>
+                                <li class="left round-icon"><div class="round-icon-wrap"><a class="title-large round" href="#">3</a></div></li>
+                                <li class="left round-icon"><div class="round-icon-wrap"><a class="title-large round" href="#">4</a></div></li>
+                                <li class="the-last-page left round-icon"><div class="round-icon-wrap"><a class="title-large round" href="#">...233</a></div></li>
+                                <li class="next-page left round-icon"><div class="round-icon-wrap"><a class="title-large round" href="#">&gt;</a></div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{ super() }}
+        <div class="modal" id="ask">
+            <div class="modal-dialog">
+                <div class="modal-header center clear bg-green-light relative">
+                    <div class="close absolute" data-dismiss="modal">×</div>
+                    <h4 class="modal-title white">提问</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body-wrap auto">
+                        <form action="" method="post" id="askquestion">
+                            <div class="clear mb-20">
+                                <label class="green mr-12 left" for="question">描述:</label>
+                                <input class="input left" type="text" id="question" name="question">
+                            </div>
+                            <div class="clear mb-20">
+                                <label class="green mr-12 left" for="content">内容:</label>
+                                <textarea name="content" id="content" class="text bg-grey"></textarea>
+                            </div>
+                            <div class="clear"><button type="submit" form="askquestion" class="white right btn normal">提&nbsp;&nbsp;交</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
