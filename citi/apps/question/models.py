@@ -19,6 +19,9 @@ class Question(models.Model):
     post_datetime = models.DateTimeField(u'发布日期', auto_now_add=True)
     modify_datetime = models.DateTimeField(u'最后修改日期', auto_now=True)
 
+    def __unicode__(self):
+        return self.title
+
     class Meta:
         verbose_name = u'问题表'
         verbose_name_plural = u'问题表'
@@ -39,6 +42,9 @@ class QuestionAnswer(models.Model):
     comment_count = models.IntegerField(u'评论数目', default=0)
     post_datetime = models.DateTimeField(u'发布日期', auto_now_add=True)
     modify_datetime = models.DateTimeField(u'最后修改日期', auto_now=True)
+
+    def __unicode__(self):
+        return self.content
 
     class Meta:
         verbose_name = u'问题回答表'
