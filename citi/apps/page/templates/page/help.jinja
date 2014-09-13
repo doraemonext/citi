@@ -5,14 +5,19 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="UTF-8">
     <title>好味道众筹</title>
-    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+
     <link rel="stylesheet" href="{{ 'css/base.css'|static }}">
     <link rel="stylesheet" href="{{ 'css/module.css'|static }}">
     <link rel="stylesheet" href="{{ 'css/animate.css'|static }}">
     <link rel="stylesheet" href="{{ 'css/slider.css'|static }}">
     <link rel="stylesheet" href="{{ 'css/create.css'|static }}">
     <link rel="stylesheet" href="{{ 'css/cmxform.css'|static }}">
-    <link rel="stylesheet" href="{{ 'css/static_page.css'|static }}">
+    <script src="/static/js/lib/require.js"></script><style type="text/css"></style>
+    <script>
+        require(['/static/js/common.js'], function (common) {
+
+        })
+    </script>
     <script type="text/javascript">
         $(function() {
             $("#help_middle_nav1").click(function(){
@@ -85,7 +90,7 @@
             height: 140px;
             background: #7abe9f;
             margin: 160px auto 0 auto;
-            background: url("/static/img/logo.svg");
+            background: url("logo.svg");
         }
         .help_top_title{
             width: 100%;
@@ -402,7 +407,6 @@
         <div class="img" style="background: url('/static/img/fabu4.png') no-repeat; width:800px; margin-top:50px"></div>
         <div class="img" style="background: url('/static/img/fabu5.png') no-repeat; width:800px; margin-top:50px;margin-bottom:50px"></div>
     </div>
-    <div class="bottom"></div>
     {{ super() }}
 
 {% endblock %}
