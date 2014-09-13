@@ -21,3 +21,7 @@ class DisclaimerView(TemplateView):
 
 class FeedbackView(TemplateView):
     template_name = 'page/feedback.jinja'
+
+
+class HelpView(TemplateView):
+    template_name = 'page/help.jinja'

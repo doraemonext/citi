@@ -3,7 +3,7 @@
 from django.conf.urls import patterns, url, include
 from django.views.generic.base import TemplateView
 
-from .views import AgreementView, ContactView, CopyrightView, DisclaimerView, FeedbackView
+from .views import AgreementView, ContactView, CopyrightView, DisclaimerView, FeedbackView, HelpView
 
 
 urlpatterns = patterns('',
@@ -12,4 +12,5 @@ urlpatterns = patterns('',
     url(r'^copyright/$', CopyrightView.as_view(), name='page.copyright'),
     url(r'^disclaimer/$', DisclaimerView.as_view(), name='page.disclaimer'),
     url(r'^feedback/$', FeedbackView.as_view(), name='page.feedback'),
+    url(r'^help/$', HelpView.as_view(), name='page.help'),
 )

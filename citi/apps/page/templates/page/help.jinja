@@ -1,0 +1,409 @@
+{% extends 'base.jinja' %}
+
+{% block head %}
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <title>好味道众筹</title>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <link rel="stylesheet" href="{{ 'css/base.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/module.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/animate.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/slider.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/create.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/cmxform.css'|static }}">
+    <link rel="stylesheet" href="{{ 'css/static_page.css'|static }}">
+    <script type="text/javascript">
+        $(function() {
+            $("#help_middle_nav1").click(function(){
+                $("#help_middle").css({"background":"#7abe9f"});
+                $("#help_middle_text2").css({"opacity":0});
+                $("#help_middle_text3").css({"opacity":0});
+                $("#help_middle_text4").css({"opacity":0});
+                $("#help_middle_text1").css({"opacity":1});
+                $("#help_main1").show(0);
+                $("#help_main2").hide(0);
+                $("#help_main3").hide(0);
+                $("#help_main4").hide(0);
+            })
+            $("#help_middle_nav2").click(function(){
+                $("#help_middle").css({"background":"#FF7A4D"});
+                $("#help_middle_text1").css({"opacity":0});
+                $("#help_middle_text3").css({"opacity":0});
+                $("#help_middle_text4").css({"opacity":0});
+                $("#help_middle_text2").css({"opacity":1});
+                $("#help_main1").hide(0);
+                $("#help_main2").show(0);
+                $("#help_main3").hide(0);
+                $("#help_main4").hide(0);
+            })
+            $("#help_middle_nav3").click(function(){
+                $("#help_middle").css({"background":"#99CA6E"});
+                $("#help_middle_text1").css({"opacity":0});
+                $("#help_middle_text2").css({"opacity":0});
+                $("#help_middle_text4").css({"opacity":0});
+                $("#help_middle_text3").css({"opacity":1});
+                $("#help_main1").hide(0);
+                $("#help_main2").hide(0);
+                $("#help_main3").show(0);
+                $("#help_main4").hide(0);
+            })
+            $("#help_middle_nav4").click(function(){
+                $("#help_middle").css({"background":"#00A3D9"});
+                $("#help_middle_text1").css({"opacity":0});
+                $("#help_middle_text2").css({"opacity":0});
+                $("#help_middle_text3").css({"opacity":0});
+                $("#help_middle_text4").css({"opacity":1});
+                $("#help_main1").hide(0);
+                $("#help_main2").hide(0);
+                $("#help_main3").hide(0);
+                $("#help_main4").show(0);
+            })
+        })
+    </script>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background: #f4f4f4;
+        }
+        .nav{
+            height: 78px;
+            width: 100%;
+            background: #7abe9f;
+        }
+        .help_top{
+            margin: 0 auto;
+            height: 480px;
+            width: 980px;
+            display: table;
+        }
+        .help_top_logo{
+            width: 140px;
+            height: 140px;
+            background: #7abe9f;
+            margin: 160px auto 0 auto;
+            background: url("/static/img/logo.svg");
+        }
+        .help_top_title{
+            width: 100%;
+            text-align: center;
+            color: #6e6e6e;
+        }
+        .help_top_title>.text1{
+            margin-top: 50px;
+            font-family: "微软雅黑","黑体";
+            font-size: 26px;
+        }
+        .help_top_title>.text2{
+            font-family: "微软雅黑","黑体";
+            font-size: 16px;
+        }
+        .help_middle{
+            width: 100%;
+            height: 340px;
+            background: #7abe9f;
+            margin-top: 49px;
+            display: table;
+            transition:background 1s;
+        }
+        .help_middle_inner{
+            position: relative;
+            width: 620px;
+            height: 340px;
+            margin: 0 auto;
+        }
+        .help_middle_nav{
+            margin: -49px auto 0 auto;
+            width: 444px;
+            height: 98px;
+        }
+        .help_middle_nav>.navs{
+            width: 98px;
+            height: 98px;
+            margin: 0 25px;
+            background: #f4f4f4;
+            float: left;
+            border-radius: 50%;
+        }
+        .help_middle_nav>.navs>div{
+            margin: 4px;
+            width: 90px;
+            height: 67px;
+            border-radius: 50%;
+            background:#7abe9f;
+            font-family: "微软雅黑","黑体";
+            color: #fff;
+            text-align: center;
+            line-height: 22px;
+            padding-top: 23px;
+            cursor: pointer;
+        }
+        .help_middle_nav>.navs>div:hover{
+            width: 94px;
+            height: 69px;
+            margin: 2px;
+            padding-top: 25px;
+        }
+        .help_middle_text{
+            position: absolute;
+            top: 60px;
+            width: 620px;
+            line-height: 22px;
+            font-family: "微软雅黑","黑体";
+            color: #fff;
+            font-size: 16px;
+        }
+        .help_main{
+            width:100%;
+        }
+        .help_main>.title{
+            font-family: "微软雅黑","黑体";
+            font-size: 22px;
+            height: 250px;
+            line-height: 300px;
+            color: #6e6e6e;
+            text-align: center;
+        }
+        .help_main>.line{
+            margin: 50px 0;
+            width: 100%;
+            height:4px;
+            background: #ccc;
+            position: relative;
+        }
+        .help_main>.line>.line_inner{
+            width: 600px;
+            height: 4px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .help_main>.line>.line_inner>.points{
+            position: absolute;
+            top: -8px;
+            width: 600px;
+            height: 20px;
+        }
+        .help_main>.line>.line_inner>.points>.point{
+            width: 16px;
+            height: 16px;
+            border: 2px solid #C9E4D8;
+            margin: 0 50px;
+            background: #7abe9f;
+            border-radius: 50%;
+            float: left;
+            position: relative;
+        }
+        .help_main>.line>.line_inner>.points>.point>div{
+            font-family: "微软雅黑","黑体";
+            text-align: center;
+            left: -90px;
+            top: -50px;
+            position: absolute;
+            width: 200px;
+            color: #6e6e6e;
+            font-size: 16px;
+        }
+        .help_main>.line>.line_inner>.points>.point>dd{
+            font-family: "微软雅黑","黑体";
+            text-align: center;
+            top: 50px;
+            left: -90px;
+            position: absolute;
+            width: 200px;
+            color: #6e6e6e;
+            font-size: 16px;
+        }
+        .help_main>.img{
+            width: 872px;
+            height: 590px;
+            margin: 0 auto;
+        }
+        .bottom{
+            width: 100%;
+            height: 433px;
+            background: #7abe9f;
+        }
+        #help_middle_text2{
+            opacity: 0;
+            line-height: 30px;
+        }
+        #help_middle_text3{
+            opacity: 0;
+            line-height: 30px;
+        }
+        #help_middle_text4{
+            opacity: 0;
+            line-height: 30px;
+        }
+        #help_main1{
+            display: block;
+        }
+        #help_main2{
+            display: none;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="nav"></div>
+    <div class="help_top">
+        <div class="help_top_logo"></div>
+        <div class="help_top_title">
+            <p class="text1">好味道众筹</p>
+            <p class="text2">筹集最具特色的正宗好味道...</p>
+        </div>
+    </div>
+    <div id="help_middle" class="help_middle" >
+        <div class="help_middle_nav">
+            <div class="navs">
+                <div id="help_middle_nav1" style="background:#88C5A9">
+                    <p style="font-size:22px">众筹</p>
+                    <p style="font-size:22px">介绍</p>
+                </div>
+            </div>
+            <div class="navs">
+                <div id="help_middle_nav2" style="background:#FF7A4D">
+                    <p style="font-size:16px">支持者</p>
+                    <p style="font-size:22px">帮助</p>
+                </div>
+            </div>
+            <div class="navs">
+                <div id="help_middle_nav3" style="background:#99CA6E">
+                    <p style="font-size:16px">发起者</p>
+                    <p style="font-size:22px">帮助</p>
+                </div>
+            </div>
+        </div>
+        <div class="help_middle_inner">
+            <div id="help_middle_text1" class="help_middle_text">
+                <p>
+                    众筹
+                    <br/>
+                    即大众筹资或群众筹资。
+                    <br/>
+                    在中国大陆，众筹是指个人或小企业通过互联网向大众筹集资金的一种项目融资方式。
+                    <br/>
+                    <br/>
+                    好味道众筹
+                    <br/>
+                    是专注于餐饮业的新型众筹平台。
+                    <br/>
+                    在提供众筹机会的同时，继承并引导中国饮食文化的发展。
+                </p>
+            </div>
+            <div id="help_middle_text2" class="help_middle_text">
+                <p>
+                    <font size="5">支持的回报</font>
+                    <br/>
+                    筹款<font size="4">成功</font>后，项目发起这者将给予项目支持者<font size="4">回报</font>。
+                    <br/>
+                    <font size="4">股权众筹</font>将回报给支持者以<font size="4">股权</font>，<font size="4">预售众筹</font>将回报给支持者<font size="4">实物</font>或<font size="4">服务</font>。
+                    <br/>
+                    筹资项目必须在发起者预设时间内达到或超过目标金额才算成功。
+                    <br/>
+                    没有达到目标的项目，支持款项将全部退回给所有支持者。
+                </p>
+            </div>
+            <div id="help_middle_text3" class="help_middle_text">
+                <p>
+                    <br/>
+                    筹款前：项目需求分析，项目包装<br/>
+                    筹款中：营销推广策划执行，资金获取<br/>
+                    筹款后：撰写商业计划书及创业经营的辅导管理软件制定进度反馈支持者<br/>
+                    运营中：好味道众筹周边产品帮助推广<br/>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id="help_main1" class="help_main">
+        <div class="title">好味道业务板块</div>
+        <div class="line">
+            <div class="line_inner">
+                <div class="points">
+                    <div class="point" style="border-color:#c9e4d8;background:#7abe9f">
+                        <div>好味道众筹</div>
+                    </div>
+                    <div class="point" style="border-color:#FF9F80;background:#F55A5E">
+                        <dd>好味道APP</dd>
+                    </div>
+                    <div class="point" style="border-color:#B3ECFF;background:#7DD9F7">
+                        <div>玩转周边APP</div>
+                    </div>
+                    <div class="point" style="border-color:#B3DD0B;background:#99CA6E">
+                        <dd>问答版块</dd>
+                    </div>
+                    <div class="point" style="border-color:#BFA8C1;background:#AB8EAD">
+                        <div>美食百科</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="title">众筹流程示意图</div>
+        <div class="img" style="background: url('/static/img/zhongchouliucheng.png') no-repeat;"></div>
+    </div>
+    <div id="help_main2" class="help_main">
+        <div class="title">支持者众筹流程</div>
+        <div class="line">
+            <div class="line_inner">
+                <div class="points">
+                    <div class="point" style="border-color:#c9e4d8;background:#7abe9f">
+                        <div>1.登录网站</div>
+                    </div>
+                    <div class="point" style="border-color:#FF9F80;background:#F55A5E">
+                        <dd>2.项目浏览与支持</dd>
+                    </div>
+                    <div class="point" style="border-color:#B3ECFF;background:#7DD9F7">
+                        <div>3.完成支持</div>
+                    </div>
+                    <div class="point" style="border-color:#B3DD0B;background:#99CA6E">
+                        <dd>4.线上支付</dd>
+                    </div>
+                    <div class="point" style="border-color:#BFA8C1;background:#AB8EAD">
+                        <div>5.跟踪监督项目</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="img" style="background: url('/static/img/zhichi1.png') no-repeat; width:800px; margin-top:200px"></div>
+        <div class="img" style="background: url('/static/img/zhichi2.png') no-repeat; width:800px; margin-top:50px"></div>
+        <div class="img" style="background: url('/static/img/zhichi3.png') no-repeat; width:800px; margin-top:50px"></div>
+        <div class="img" style="background: url('/static/img/zhichi4.png') no-repeat; width:800px; margin-top:50px"></div>
+        <div class="img" style="background: url('/static/img/zhichi5.png') no-repeat; width:800px; margin-top:50px;margin-bottom:50px"></div>
+    </div>
+    <div id="help_main3" class="help_main">
+        <div class="title">支持者众筹流程</div>
+        <div class="line">
+            <div class="line_inner">
+                <div class="points">
+                    <div class="point" style="border-color:#c9e4d8;background:#7abe9f">
+                        <div>1.登录网站</div>
+                    </div>
+                    <div class="point" style="border-color:#FF9F80;background:#F55A5E">
+                        <dd>2.构思项目</dd>
+                    </div>
+                    <div class="point" style="border-color:#B3ECFF;background:#7DD9F7">
+                        <div>3.发起项目</div>
+                    </div>
+                    <div class="point" style="border-color:#B3DD0B;background:#99CA6E">
+                        <dd>4.填写信息</dd>
+                    </div>
+                    <div class="point" style="border-color:#BFA8C1;background:#AB8EAD">
+                        <div>5.进行审核</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="img" style="background: url('/static/img/fabu1.png') no-repeat; width:800px; margin-top:200px"></div>
+        <div class="img" style="background: url('/static/img/fabu2.png') no-repeat; width:800px; margin-top:50px"></div>
+        <div class="img" style="background: url('/static/img/fabu3.png') no-repeat; width:800px; margin-top:50px"></div>
+        <div class="img" style="background: url('/static/img/fabu4.png') no-repeat; width:800px; margin-top:50px"></div>
+        <div class="img" style="background: url('/static/img/fabu5.png') no-repeat; width:800px; margin-top:50px;margin-bottom:50px"></div>
+    </div>
+    <div class="bottom"></div>
+    {{ super() }}
+
+{% endblock %}
+
