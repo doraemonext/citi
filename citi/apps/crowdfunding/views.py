@@ -35,6 +35,11 @@ class ProjectListView(FilterView):
     context_object_name = 'projects'
     paginate_by = 16
 
+    def get_queryset(self):
+        queryset = super(ProjectListView, self).get_queryset()
+        queryset = queryset.filter(status__gt=3)
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super(ProjectListView, self).get_context_data(**kwargs)
         context['config'] = Settings.manager.get_setting_dict()
