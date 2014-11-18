@@ -23,7 +23,7 @@ class ImageSerializer(serializers.ModelSerializer):
     url = SerializerMethodField('get_absolute_url')
 
     def get_absolute_url(self, obj):
-        return obj.image.url
+        return 'http://citi.oott.me' + obj.image.url
 
     def validate_type(self, attrs, source):
         data = attrs[source]
