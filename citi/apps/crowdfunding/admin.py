@@ -4,7 +4,7 @@ from django.contrib import admin
 from suit.admin import SortableModelAdmin
 from mptt.admin import MPTTModelAdmin
 
-from .models import ProjectCategory, Project, ProjectFeedback, ProjectPackage, ProjectAttention, ProjectComment
+from .models import ProjectCategory, Project, ProjectFeedback, ProjectPackage, ProjectAttention, ProjectComment, ProjectSupport
 
 
 class ProjectCategoryAdmin(MPTTModelAdmin, SortableModelAdmin):
@@ -65,9 +65,15 @@ class ProjectCommentAdmin(admin.ModelAdmin):
     #     return False
 
 
+class ProjectSupportAdmin(admin.ModelAdmin):
+    list_display = ('project', 'user', 'package', 'money', 'status', 'datetime')
+    ordering = ('-datetime', )
+
+
 admin.site.register(ProjectCategory, ProjectCategoryAdmin)
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(ProjectFeedback, ProjectFeedbackAdmin)
 admin.site.register(ProjectPackage, ProjectPackageAdmin)
 admin.site.register(ProjectAttention, ProjectAttentionAdmin)
 admin.site.register(ProjectComment, ProjectCommentAdmin)
+admin.site.register(ProjectSupport, ProjectSupportAdmin)
